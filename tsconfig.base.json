@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "allowJs": false,
+    "alwaysStrict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "jsxFactory": "htsx.createElement",
+    "jsxFragmentFactory": "htsx.Fragment",
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"]
+  }
+}
