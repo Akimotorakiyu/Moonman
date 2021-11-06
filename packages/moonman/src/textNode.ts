@@ -57,8 +57,8 @@ export class Fragmant {
           const isBeforeSlice = item.id === textNode.beforeId
           if (isBeforeSlice) {
             const isInRange =
-              item.start < textNode.indexInBerfore &&
-              textNode.indexInBerfore <= item.start + item.content.length
+              item.start <= textNode.indexInBerfore &&
+              textNode.indexInBerfore < item.start + item.content.length
 
             if (isInRange) {
               return true
@@ -73,13 +73,13 @@ export class Fragmant {
 
         const newBefore = {
           ...before,
-          content: before.content.slice(0, textNode.indexInBerfore),
+          content: before.content.slice(0, textNode.indexInBerfore + 1),
           start: before.start,
         }
         const newAfter = {
           ...before,
-          content: before.content.slice(textNode.indexInBerfore),
-          start: before.start + textNode.indexInBerfore,
+          content: before.content.slice(textNode.indexInBerfore + 1),
+          start: before.start + textNode.indexInBerfore + 1,
         }
 
         const middle = {
