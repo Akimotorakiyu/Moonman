@@ -69,16 +69,22 @@ export class Fragmant {
             return false
           }
         })
+
         const before = this.listing[beforeIndex]
 
         const newBefore = {
           ...before,
-          content: before.content.slice(0, textNode.indexInBerfore + 1),
           start: before.start,
+          content: before.content.slice(
+            0,
+            textNode.indexInBerfore + 1 - before.start,
+          ),
         }
         const newAfter = {
           ...before,
-          content: before.content.slice(textNode.indexInBerfore + 1),
+          content: before.content.slice(
+            textNode.indexInBerfore + 1 - before.start,
+          ),
           start: before.start + textNode.indexInBerfore + 1,
         }
 
@@ -105,7 +111,6 @@ export class Fragmant {
         })
       }
     })
-    console.log(this.listing)
   }
 
   view() {
