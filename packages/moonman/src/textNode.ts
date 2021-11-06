@@ -22,8 +22,18 @@ export class MarkNode<T = any> {
   ) {}
 }
 
+export class DeleteMark {
+  constructor(
+    public timestamp: number,
+    public id: number,
+    public deleteId: number,
+
+    public range: [number, number],
+  ) {}
+}
+
 export class Fragmant {
-  constructor(public content: TextNode[]) {
+  constructor(public content: TextNode[], public deleteMark: DeleteMark[]) {
     // sort
     content.sort((a, b) => {
       return a.timestamp - b.timestamp || a.id - b.id
@@ -31,6 +41,7 @@ export class Fragmant {
 
     this.initMapping()
     this.initListing()
+    this.dealDeleteMark()
   }
 
   mapping = new Map<number, Map<number, string>>()
@@ -47,8 +58,13 @@ export class Fragmant {
     console.log(this.mapping)
   }
 
-  listing: { id: number; start: number; content: string; timestamp: number }[] =
-    []
+  listing: {
+    id: number
+    start: number
+    content: string
+    timestamp: number
+    deleted: boolean
+  }[] = []
 
   initListing() {
     this.content.forEach((textNode, index) => {
@@ -93,6 +109,7 @@ export class Fragmant {
           start: 0,
           content: textNode.content,
           timestamp: textNode.timestamp,
+          deleted: false,
         }
 
         const newSlice = [newBefore, middle, newAfter]
@@ -108,24 +125,120 @@ export class Fragmant {
           start: 0,
           content: textNode.content,
           timestamp: textNode.timestamp,
+          deleted: false,
         })
       }
     })
   }
 
+  dealDeleteMark() {
+    this.deleteMark.forEach((mark) => {
+      this.listing.some((item, index) => {
+        if (item.id === mark.deleteId) {
+          const startInItem =
+            item.start <= mark.range[0] &&
+            mark.range[0] < item.start + item.content.length
+          const endInItem =
+            item.start <= mark.range[1] &&
+            mark.range[1] < item.start + item.content.length
+
+          const hasIntersection = startInItem || endInItem
+
+          if (startInItem && endInItem) {
+            const pos1 = mark.range[0] - item.start
+            const pos2 = mark.range[1] - item.start
+            const newBefore = {
+              ...item,
+              start: item.start,
+              content: item.content.slice(0, pos1),
+            }
+            const newMiddle = {
+              ...item,
+              start: pos1,
+              content: item.content.slice(pos1, pos2),
+              deleted: true,
+            }
+            const newAfter = {
+              ...item,
+              start: pos2,
+              content: item.content.slice(pos2),
+            }
+
+            const newSlice = [newBefore, newMiddle, newAfter]
+
+            newSlice.filter((item) => {
+              return Boolean(item.content)
+            })
+
+            this.listing[index] = newSlice as any
+          } else if (!startInItem && endInItem) {
+            const pos1 = mark.range[0] - item.start
+            const pos2 = mark.range[1] - item.start
+            const newBefore = {
+              ...item,
+              start: item.start,
+              content: item.content.slice(0, pos2),
+              deleted: true,
+            }
+
+            const newAfter = {
+              ...item,
+              start: pos2,
+              content: item.content.slice(pos2),
+            }
+
+            const newSlice = [newBefore, newAfter]
+
+            newSlice.filter((item) => {
+              return Boolean(item.content)
+            })
+
+            this.listing[index] = newSlice as any
+          } else if (startInItem && !endInItem) {
+            const pos1 = mark.range[0] - item.start
+            const pos2 = mark.range[1] - item.start
+            const newBefore = {
+              ...item,
+              start: item.start,
+              content: item.content.slice(0, pos1),
+            }
+
+            const newAfter = {
+              ...item,
+              start: pos1,
+              content: item.content.slice(pos1),
+              deleted: true,
+            }
+
+            const newSlice = [newBefore, newAfter]
+
+            newSlice.filter((item) => {
+              return Boolean(item.content)
+            })
+
+            this.listing[index] = newSlice as any
+          }
+        } else {
+        }
+        return false
+      })
+
+      this.listing = this.listing.flat()
+    })
+  }
+
+  dealMark() {}
+
   view() {
     const content = this.listing
+      .filter((item) => {
+        return !item.deleted
+      })
       .map((item) => {
         return item.content
       })
       .join('')
     return content
-  }
-
-  add(textNode: TextNode) {
-    const content = this.content.concat(textNode)
-
-    return new Fragmant(content)
   }
 
   map(pos: number) {

@@ -1,1 +1,2 @@
 import './basicMerge'
+import './basicDelete'
