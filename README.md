@@ -1,3 +1,9 @@
 # moonman
 
-moonman is a implement of conflict free concept.
+moonman is an implement of conflict free concept.
+
+## Features
+
+- TextAdd
+- TextDelete
+- TextData
