@@ -1,48 +1,40 @@
+import { IPiece, IPosition, IIdentity } from './basic'
+
 export interface ITextNode {
+  identity: IIdentity
   content: string
-  timestamp: number
-  id: number
-  beforeId: number
-  indexInBefore: number
+  position: IPosition
 }
 
 export interface ITextMapping {
-  timestamp: number
-  id: number
-  srcId: number
-  srcRange: [number, number]
-  aimId: number
-  aimIndex: number
+  identity: IIdentity
+  srcPiece: IPiece
+  aimPiece: IPiece
 }
 
 export interface IRangeMark {
-  timestamp: number
-  id: number
-  range: [
-    {
-      id: number
-      index: number
-    },
-    {
-      id: number
-      index: number
-    },
-  ]
+  identity: IIdentity
+  range: [IPosition, IPosition]
   data: Record<string, any>
 }
 
 export interface IPieceMark {
-  timestamp: number
-  id: number
-  aimId: number
-  range: [number, number]
+  identity: IIdentity
+  piece: IPiece
   data: Record<string, any>
 }
 
-export const createTextNode = (textNode: ITextNode) => {
+export const createTextNode = (
+  textNode: ITextNode,
+  preTextNode?: ITextNode,
+) => {
   return textNode
 }
-export const createRangeMark = (rangeMark: IRangeMark) => {
+export const createRangeMark = (
+  rangeMark: IRangeMark,
+  preTextNode: ITextNode,
+  nextTextNode: ITextNode,
+) => {
   return rangeMark
 }
 export const createPieceMark = (pieceMark: IPieceMark) => {

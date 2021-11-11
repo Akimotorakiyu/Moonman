@@ -1,11 +1,11 @@
 import 'virtual:windi.css'
 import './basicMerge'
 import './basicDelete'
-import './basicColor'
+// import './basicColor'
 
-import { createApp } from 'vue'
-import { App } from './App'
+// import { createApp } from 'vue'
+// import { App } from './App'
 
-const app = createApp(App)
+// const app = createApp(App)
 
-app.mount('#app')
+// app.mount('#app')

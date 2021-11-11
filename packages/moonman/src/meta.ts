@@ -1,41 +1,40 @@
-import { IPosition, TRelativePos } from './basic'
+import { IIdentity, IPosition, TRelativePos } from './basic'
 import { ITextNode } from './textNode'
 export interface IMetaView {
-  id: number
+  identity: IIdentity
   start: number
   content: string
-  timestamp: number
   data: Record<string, any>
 }
 
 export class MetaView implements IMetaView {
   constructor(
     public start: number,
-    public length: number,
+    public end: number,
     public data: Record<string, any>,
     public srcTextNode: ITextNode,
   ) {
-    if (start < 0 || length < 0) {
-      throw new Error('start 或 length 不能小于 0')
+    if (start < 0 || this.length < 0) {
+      throw new Error('start 和 length 不能小于 0')
     }
   }
 
   get content() {
-    return this.srcTextNode.content.slice(this.start, this.start + this.length)
+    return this.srcTextNode.content.slice(this.start, this.end)
   }
 
-  get timestamp() {
-    return this.srcTextNode.timestamp
+  get identity() {
+    return this.srcTextNode.identity
   }
 
-  get id() {
-    return this.srcTextNode.id
+  get length() {
+    return this.end - this.start
   }
 
   isInRange(position: IPosition) {
     if (this.isInThisTextNode(position)) {
       const isAfterStart = this.start <= position.index
-      const isBeforeEnd = position.index < this.start + this.content.length
+      const isBeforeEnd = position.index < this.end
 
       return isAfterStart && isBeforeEnd
     } else {
@@ -43,15 +42,13 @@ export class MetaView implements IMetaView {
     }
   }
 
-  mappingIndexToThisRange(index: number, relativePos: TRelativePos) {
-    const pos = index - this.start
-    let gap = -1
+  mappingIndexToRelativeIndex(index: number, relativePos: TRelativePos) {
     switch (relativePos) {
       case 'before':
-        gap = pos
+        return index
         break
       case 'after':
-        gap = pos + 1
+        return index + 1
         break
       case 'inner-before':
       case 'inner-after':
@@ -62,82 +59,70 @@ export class MetaView implements IMetaView {
         let never: never = relativePos
         return never
     }
-    return gap
   }
 
   splitByPosition(position: IPosition) {
     this.checkIsInThisTextNode(position)
 
-    const index = this.mappingIndexToThisRange(
+    const index = this.mappingIndexToRelativeIndex(
       position.index,
       position.relativePos,
     )
 
-    const beforeLength = index
-    const afterLength = this.length - index
-
-    if (beforeLength < 0 || afterLength < 0) {
-      throw new Error('length 不能小于 0')
-    }
-
     const beforeMetaView = new MetaView(
       this.start,
-      beforeLength,
+      index,
       { ...this.data },
       this.srcTextNode,
     )
 
     const afterMetaView = new MetaView(
       index,
-      afterLength,
+      this.end,
       { ...this.data },
       this.srcTextNode,
     )
 
-    return [beforeMetaView, afterMetaView] as const
+    return [beforeMetaView, afterMetaView] as [MetaView, MetaView]
   }
 
   splitByTwoPosition(startPosition: IPosition, endPosition: IPosition) {
     this.checkIsInThisTextNode(startPosition)
     this.checkIsInThisTextNode(endPosition)
-    const indexA = this.mappingIndexToThisRange(
+    const indexA = this.mappingIndexToRelativeIndex(
       startPosition.index,
       startPosition.relativePos,
     )
-    const indexB = this.mappingIndexToThisRange(
+    const indexB = this.mappingIndexToRelativeIndex(
       endPosition.index,
       endPosition.relativePos,
     )
 
-    const beforeLength = indexA
-    const middleLength = indexB - indexA
-    const afterLength = this.length - indexB
-
-    if (beforeLength < 0 || middleLength < 0 || afterLength < 0) {
-      throw new Error('length 不能小于 0')
-    }
-
     const beforeMetaView = new MetaView(
       this.start,
-      beforeLength,
+      indexA,
       { ...this.data },
       this.srcTextNode,
     )
 
     const middleMetaView = new MetaView(
-      this.start,
-      middleLength,
+      indexA,
+      indexB,
       { ...this.data },
       this.srcTextNode,
     )
     const afterMetaView = new MetaView(
-      this.start,
-      afterLength,
+      indexB,
+      this.end,
       { ...this.data },
       this.srcTextNode,
     )
 
-    return [beforeMetaView, middleMetaView, afterMetaView] as const
+    return [beforeMetaView, middleMetaView, afterMetaView] as [
+      MetaView,
+      MetaView,
+      MetaView,
+    ]
   }
 
   private checkIsInThisTextNode(position: IPosition) {
@@ -148,14 +133,16 @@ export class MetaView implements IMetaView {
 
   isInThisTextNode(position: IPosition) {
     const isInThisTextNode =
-      position.timestamp == this.timestamp && this.id === position.id
+      position.identity.timestamp == this.identity.timestamp &&
+      this.identity.id === position.identity.id
+
     return isInThisTextNode
   }
 
   configData(data: Record<string, any>) {
     return new MetaView(
       this.start,
-      this.length,
+      this.end,
       { ...this.data, ...data },
       this.srcTextNode,
     )

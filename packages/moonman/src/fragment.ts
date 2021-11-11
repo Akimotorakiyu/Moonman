@@ -1,4 +1,5 @@
-import { IMetaView, MetaView } from './meta'
+import { computedPositionFromPiece, identitySortMethod } from './basic'
+import { MetaView } from './meta'
 import { IPieceMark, IRangeMark, ITextNode } from './textNode'
 
 export class Fragment {
@@ -8,19 +9,13 @@ export class Fragment {
     public rangeMark: IRangeMark[] = [],
   ) {
     // sort
-    content.sort((a, b) => {
-      return a.timestamp - b.timestamp || a.id - b.id
-    })
-    pieceMark.sort((a, b) => {
-      return a.timestamp - b.timestamp || a.id - b.id
-    })
-    rangeMark.sort((a, b) => {
-      return a.timestamp - b.timestamp || a.id - b.id
-    })
+    content.sort(identitySortMethod)
+    // pieceMark.sort(identitySortMethod)
+    // rangeMark.sort(identitySortMethod)
 
     this.initListing()
     this.dealPieceMark()
-    this.dealRangeMark()
+    // this.dealRangeMark()
   }
 
   listing: MetaView[] = []
@@ -29,22 +24,12 @@ export class Fragment {
     this.content.forEach((textNode, index) => {
       if (index > 0) {
         const beforeIndex = this.listing.findIndex((item) => {
-          return item.isInRange({
-            timestamp: item.timestamp,
-            id: textNode.beforeId,
-            index: textNode.indexInBefore,
-            relativePos: 'after',
-          })
+          return item.isInRange(textNode.position)
         })
 
         const before = this.listing[beforeIndex]
 
-        const part = before.splitByPosition({
-          timestamp: before.timestamp,
-          id: before.id,
-          index: textNode.indexInBefore,
-          relativePos: 'after',
-        })
+        const part = before.splitByPosition(textNode.position)
 
         const newSlice = [
           part[0],
@@ -67,105 +52,51 @@ export class Fragment {
 
   dealPieceMark() {
     this.pieceMark.forEach((mark) => {
+      const pieceRange = computedPositionFromPiece(mark.piece)
       this.listing.some((item, index) => {
-        if (item.id === mark.aimId) {
-          const startInItem =
-            item.start <= mark.range[0] &&
-            mark.range[0] < item.start + item.content.length
-          const endInItem =
-            item.start <= mark.range[1] &&
-            mark.range[1] < item.start + item.content.length
+        const startInItem = item.isInRange(pieceRange[0])
+        const endInItem = item.isInRange(pieceRange[1])
 
-          const hasIntersection = startInItem || endInItem
+        if (startInItem && endInItem) {
+          const newSlice = item.splitByTwoPosition(pieceRange[0], pieceRange[1])
+          newSlice[1] = newSlice[1].configData(mark.data)
+          newSlice.filter((item) => {
+            return Boolean(item.content)
+          })
 
-          if (startInItem && endInItem) {
-            const pos1 = mark.range[0] - item.start
-            const pos2 = mark.range[1] - item.start
-            const newBefore = {
-              ...item,
-              start: item.start,
-              content: item.content.slice(0, pos1),
-            }
-            const newMiddle = {
-              ...item,
-              start: pos1,
-              content: item.content.slice(pos1, pos2),
-              data: {
-                ...item.data,
-                ...mark.data,
-              },
-            }
-            const newAfter = {
-              ...item,
-              start: pos2,
-              content: item.content.slice(pos2),
-            }
+          this.listing[index] = newSlice as any
 
-            const newSlice = [newBefore, newMiddle, newAfter]
+          return true
+        } else if (!startInItem && endInItem) {
+          const newSlice = item.splitByPosition(pieceRange[1])
+          newSlice[0] = newSlice[0].configData(mark.data)
+          newSlice.filter((item) => {
+            return Boolean(item.content)
+          })
 
-            newSlice.filter((item) => {
-              return Boolean(item.content)
-            })
+          this.listing[index] = newSlice as any
 
-            this.listing[index] = newSlice as any
-          } else if (!startInItem && endInItem) {
-            const pos1 = mark.range[0] - item.start
-            const pos2 = mark.range[1] - item.start
-            const newBefore = {
-              ...item,
-              start: item.start,
-              content: item.content.slice(0, pos2),
-              data: {
-                ...item.data,
-                ...mark.data,
-              },
-            }
+          return true
+        } else if (startInItem && !endInItem) {
+          const newSlice = item.splitByPosition(pieceRange[0])
+          newSlice[1] = newSlice[1].configData(mark.data)
+          newSlice.filter((item) => {
+            return Boolean(item.content)
+          })
 
-            const newAfter = {
-              ...item,
-              start: pos2,
-              content: item.content.slice(pos2),
-            }
+          this.listing[index] = newSlice as any
 
-            const newSlice = [newBefore, newAfter]
+          newSlice.filter((item) => {
+            return Boolean(item.content)
+          })
 
-            newSlice.filter((item) => {
-              return Boolean(item.content)
-            })
+          this.listing[index] = newSlice as any
 
-            this.listing[index] = newSlice as any
-          } else if (startInItem && !endInItem) {
-            const pos1 = mark.range[0] - item.start
-            const pos2 = mark.range[1] - item.start
-            const newBefore = {
-              ...item,
-              start: item.start,
-              content: item.content.slice(0, pos1),
-            }
-
-            const newAfter = {
-              ...item,
-              start: pos1,
-              content: item.content.slice(pos1),
-              data: {
-                ...item.data,
-                ...mark.data,
-              },
-            }
-
-            const newSlice = [newBefore, newAfter]
-
-            newSlice.filter((item) => {
-              return Boolean(item.content)
-            })
-
-            this.listing[index] = newSlice as any
-          }
+          return false
         } else {
+          return false
         }
-        return false
       })
-
       this.listing = this.listing.flat()
     })
   }
@@ -292,6 +223,8 @@ export class Fragment {
     const content = this.listing.filter((item) => {
       return !item.data.deleted
     })
+
+    console.log('contentView', this.listing, content)
 
     return content
   }
