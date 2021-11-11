@@ -1,11 +1,9 @@
-export class BasicNode {}
-
 export interface ITextNode {
   content: string
   timestamp: number
   id: number
   beforeId: number
-  indexInBerfore: number
+  indexInBefore: number
 }
 
 export interface ITextMapping {

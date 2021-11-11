@@ -1,7 +1,7 @@
-import { IMetaView } from './meta'
+import { IMetaView, MetaView } from './meta'
 import { IPieceMark, IRangeMark, ITextNode } from './textNode'
 
-export class Fragmant {
+export class Fragment {
   constructor(
     public content: ITextNode[] = [],
     public pieceMark: IPieceMark[] = [],
@@ -23,55 +23,34 @@ export class Fragmant {
     this.dealRangeMark()
   }
 
-  listing: IMetaView[] = []
+  listing: MetaView[] = []
 
   initListing() {
     this.content.forEach((textNode, index) => {
       if (index > 0) {
         const beforeIndex = this.listing.findIndex((item) => {
-          const isBeforeSlice = item.id === textNode.beforeId
-          if (isBeforeSlice) {
-            const isInRange =
-              item.start <= textNode.indexInBerfore &&
-              textNode.indexInBerfore < item.start + item.content.length
-
-            if (isInRange) {
-              return true
-            } else {
-              return false
-            }
-          } else {
-            return false
-          }
+          return item.isInRange({
+            timestamp: item.timestamp,
+            id: textNode.beforeId,
+            index: textNode.indexInBefore,
+            relativePos: 'after',
+          })
         })
 
         const before = this.listing[beforeIndex]
 
-        const newBefore = {
-          ...before,
-          start: before.start,
-          content: before.content.slice(
-            0,
-            textNode.indexInBerfore + 1 - before.start,
-          ),
-        }
-        const newAfter = {
-          ...before,
-          content: before.content.slice(
-            textNode.indexInBerfore + 1 - before.start,
-          ),
-          start: before.start + textNode.indexInBerfore + 1,
-        }
+        const part = before.splitByPosition({
+          timestamp: before.timestamp,
+          id: before.id,
+          index: textNode.indexInBefore,
+          relativePos: 'after',
+        })
 
-        const middle: IMetaView = {
-          id: textNode.id,
-          start: 0,
-          content: textNode.content,
-          timestamp: textNode.timestamp,
-          data: {},
-        }
-
-        const newSlice = [newBefore, middle, newAfter]
+        const newSlice = [
+          part[0],
+          new MetaView(0, textNode.content.length, {}, textNode),
+          part[1],
+        ]
 
         newSlice.filter((item) => {
           return Boolean(item.content)
@@ -79,13 +58,9 @@ export class Fragmant {
 
         this.listing.splice(beforeIndex, 1, ...newSlice)
       } else {
-        this.listing.push(<IMetaView>{
-          id: textNode.id,
-          start: 0,
-          content: textNode.content,
-          timestamp: textNode.timestamp,
-          data: {},
-        })
+        this.listing.push(
+          new MetaView(0, textNode.content.length, {}, textNode),
+        )
       }
     })
   }

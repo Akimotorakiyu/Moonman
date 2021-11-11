@@ -1,6 +1,6 @@
 import {
   createTextNode,
-  Fragmant,
+  Fragment,
   createPieceMark,
   createRangeMark,
 } from '@moonman/moonman'
@@ -11,35 +11,35 @@ const text1 = createTextNode({
   timestamp: 1,
   id: 100,
   beforeId: 0,
-  indexInBerfore: 0,
+  indexInBefore: 0,
 })
 const text2 = createTextNode({
   content: '456',
   timestamp: 2,
   id: 101,
   beforeId: 100,
-  indexInBerfore: 0,
+  indexInBefore: 0,
 })
 const text3 = createTextNode({
   content: '789',
   timestamp: 3,
   id: 102,
   beforeId: 100,
-  indexInBerfore: 0,
+  indexInBefore: 0,
 })
 const text4 = createTextNode({
   content: '0ab',
   timestamp: 4,
   id: 103,
   beforeId: 101,
-  indexInBerfore: 1,
+  indexInBefore: 1,
 })
 const text5 = createTextNode({
   content: 'def',
   timestamp: 5,
   id: 103,
   beforeId: 102,
-  indexInBerfore: 1,
+  indexInBefore: 1,
 })
 const delete1 = createPieceMark({
   timestamp: 6,
@@ -72,7 +72,7 @@ const colorMark2 = createRangeMark({
   data: { color: 'blue', fontStyle: 'italic' },
 })
 
-const f = new Fragmant(
+const f = new Fragment(
   [text1, text2, text3, text4, text5],
   [delete1],
   [colorMark1, colorMark2],
