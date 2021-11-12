@@ -10,12 +10,12 @@ export class Fragment {
   ) {
     // sort
     content.sort(identitySortMethod)
-    // pieceMark.sort(identitySortMethod)
-    // rangeMark.sort(identitySortMethod)
+    pieceMark.sort(identitySortMethod)
+    rangeMark.sort(identitySortMethod)
 
     this.initListing()
     this.dealPieceMark()
-    // this.dealRangeMark()
+    this.dealRangeMark()
   }
 
   listing: MetaView[] = []
@@ -54,10 +54,10 @@ export class Fragment {
     this.pieceMark.forEach((mark) => {
       const pieceRange = computedPositionFromPiece(mark.piece)
       this.listing.some((item, index) => {
-        const startInItem = item.isInRange(pieceRange[0])
-        const endInItem = item.isInRange(pieceRange[1])
+        const isStartInItem = item.isInRange(pieceRange[0])
+        const isEndInItem = item.isInRange(pieceRange[1])
 
-        if (startInItem && endInItem) {
+        if (isStartInItem && isEndInItem) {
           const newSlice = item.splitByTwoPosition(pieceRange[0], pieceRange[1])
           newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
@@ -67,7 +67,7 @@ export class Fragment {
           this.listing[index] = newSlice as any
 
           return true
-        } else if (!startInItem && endInItem) {
+        } else if (!isStartInItem && isEndInItem) {
           const newSlice = item.splitByPosition(pieceRange[1])
           newSlice[0] = newSlice[0].configData(mark.data)
           newSlice.filter((item) => {
@@ -77,7 +77,7 @@ export class Fragment {
           this.listing[index] = newSlice as any
 
           return true
-        } else if (startInItem && !endInItem) {
+        } else if (isStartInItem && !isEndInItem) {
           const newSlice = item.splitByPosition(pieceRange[0])
           newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
@@ -85,13 +85,6 @@ export class Fragment {
           })
 
           this.listing[index] = newSlice as any
-
-          newSlice.filter((item) => {
-            return Boolean(item.content)
-          })
-
-          this.listing[index] = newSlice as any
-
           return false
         } else {
           return false
@@ -105,37 +98,12 @@ export class Fragment {
     this.rangeMark.forEach((mark) => {
       let isInRange = false
       this.listing.some((item, index) => {
-        const isStartItem =
-          item.id === mark.range[0].id &&
-          item.start <= mark.range[0].index &&
-          mark.range[0].index < item.start + item.content.length
-
-        const isEndItem =
-          item.id === mark.range[1].id &&
-          item.start <= mark.range[1].index &&
-          mark.range[1].index < item.start + item.content.length
+        const isStartItem = item.isInRange(mark.range[0])
+        const isEndItem = item.isInRange(mark.range[1])
 
         if (isStartItem && isEndItem) {
-          const pos1 = mark.range[0].index - item.start
-          const pos2 = mark.range[1].index - item.start
-          const newBefore = {
-            ...item,
-            start: item.start,
-            content: item.content.slice(0, pos1),
-          }
-          const newMiddle = {
-            ...item,
-            start: pos1,
-            content: item.content.slice(pos1, pos2),
-            data: mark.data,
-          }
-          const newAfter = {
-            ...item,
-            start: pos2,
-            content: item.content.slice(pos2),
-          }
-
-          const newSlice = [newBefore, newMiddle, newAfter]
+          const newSlice = item.splitByTwoPosition(mark.range[0], mark.range[1])
+          newSlice[1] = newSlice[1].configData(mark.data)
 
           newSlice.filter((item) => {
             return Boolean(item.content)
@@ -144,63 +112,24 @@ export class Fragment {
           this.listing[index] = newSlice as any
         } else if (!isStartItem && isEndItem) {
           isInRange = false
-          const pos1 = mark.range[0].index - item.start
-          const pos2 = mark.range[1].index - item.start
-          const newBefore = {
-            ...item,
-            start: item.start,
-            content: item.content.slice(0, pos2),
-            data: {
-              ...item.data,
-              ...mark.data,
-            },
-          }
 
-          const newAfter = {
-            ...item,
-            start: pos2,
-            content: item.content.slice(pos2),
-          }
-
-          const newSlice = [newBefore, newAfter]
-
+          const newSlice = item.splitByPosition(mark.range[1])
+          newSlice[0] = newSlice[0].configData(mark.data)
           newSlice.filter((item) => {
             return Boolean(item.content)
           })
-
           this.listing[index] = newSlice as any
         } else if (isStartItem && !isEndItem) {
           isInRange = true
-          const pos1 = mark.range[0].index - item.start
-          const pos2 = mark.range[1].index - item.start
-          const newBefore = {
-            ...item,
-            start: item.start,
-            content: item.content.slice(0, pos1),
-          }
-
-          const newAfter = {
-            ...item,
-            start: pos1,
-            content: item.content.slice(pos1),
-            data: {
-              ...item.data,
-              ...mark.data,
-            },
-          }
-
-          const newSlice = [newBefore, newAfter]
-
+          const newSlice = item.splitByPosition(mark.range[0])
+          newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
             return Boolean(item.content)
           })
 
           this.listing[index] = newSlice as any
         } else if (isInRange) {
-          item.data = {
-            ...item.data,
-            ...mark.data,
-          }
+          this.listing[index] = item.configData(mark.data)
         } else {
         }
 

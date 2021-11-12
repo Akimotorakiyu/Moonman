@@ -30,11 +30,7 @@ export const createTextNode = (
 ) => {
   return textNode
 }
-export const createRangeMark = (
-  rangeMark: IRangeMark,
-  preTextNode: ITextNode,
-  nextTextNode: ITextNode,
-) => {
+export const createRangeMark = (rangeMark: IRangeMark) => {
   return rangeMark
 }
 export const createPieceMark = (pieceMark: IPieceMark) => {

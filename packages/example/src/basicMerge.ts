@@ -1,5 +1,5 @@
 import { Fragment } from '@moonman/moonman'
-import { textOT } from './basicAddOTData'
+import { textOT } from './basicOTData'
 
 const f = new Fragment(textOT)
 const res = f.textContentView()
