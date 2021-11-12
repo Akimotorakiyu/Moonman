@@ -12,12 +12,14 @@ export const text123 = createTextNode({
     id: 100,
   },
   position: {
-    identity: {
-      timestamp: 0,
-      id: 0,
+    anchor: {
+      identity: {
+        timestamp: 0,
+        id: 0,
+      },
+      index: 0,
     },
-    index: 0,
-    relativePos: 'inner-after',
+    relation: 'inner-after',
   },
 })
 
@@ -28,9 +30,11 @@ export const text456 = createTextNode({
     id: 101,
   },
   position: {
-    identity: text123.identity,
-    index: 0,
-    relativePos: 'after',
+    anchor: {
+      identity: text123.identity,
+      index: 0,
+    },
+    relation: 'after',
   },
 })
 export const text789 = createTextNode({
@@ -40,9 +44,11 @@ export const text789 = createTextNode({
     id: 102,
   },
   position: {
-    identity: text123.identity,
-    index: 0,
-    relativePos: 'after',
+    anchor: {
+      identity: text123.identity,
+      index: 0,
+    },
+    relation: 'after',
   },
 })
 export const text0ab = createTextNode({
@@ -53,9 +59,11 @@ export const text0ab = createTextNode({
   },
 
   position: {
-    identity: text456.identity,
-    index: 1,
-    relativePos: 'after',
+    anchor: {
+      identity: text456.identity,
+      index: 1,
+    },
+    relation: 'after',
   },
 })
 export const textDef = createTextNode({
@@ -65,9 +73,11 @@ export const textDef = createTextNode({
     id: 104,
   },
   position: {
-    identity: text789.identity,
-    index: 1,
-    relativePos: 'after',
+    anchor: {
+      identity: text789.identity,
+      index: 1,
+    },
+    relation: 'after',
   },
 })
 
@@ -93,14 +103,18 @@ export const colorMark7To9 = createRangeMark({
   identity: { timestamp: 7, id: 300 },
   range: [
     {
-      identity: text789.identity,
-      index: 0,
-      relativePos: 'before',
+      anchor: {
+        identity: text789.identity,
+        index: 0,
+      },
+      relation: 'before',
     },
     {
-      identity: text789.identity,
-      index: 2,
-      relativePos: 'after',
+      anchor: {
+        identity: text789.identity,
+        index: 2,
+      },
+      relation: 'after',
     },
   ],
   data: {
@@ -117,14 +131,18 @@ export const colorMark7To2 = createRangeMark({
   },
   range: [
     {
-      identity: text789.identity,
-      index: 1,
-      relativePos: 'before',
+      anchor: {
+        identity: text789.identity,
+        index: 1,
+      },
+      relation: 'before',
     },
     {
-      identity: text123.identity,
-      index: 1,
-      relativePos: 'after',
+      anchor: {
+        identity: text123.identity,
+        index: 1,
+      },
+      relation: 'after',
     },
   ],
   data: { color: 'blue', fontStyle: 'italic' },

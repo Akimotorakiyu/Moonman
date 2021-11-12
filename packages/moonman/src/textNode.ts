@@ -1,33 +1,34 @@
-import { IPiece, IPosition, IIdentity } from './basic'
+import { IPiece, IRelativePosition, IIdentity } from './basic'
 
-export interface ITextNode {
+// 文本OT
+export interface IPieceText {
   identity: IIdentity
   content: string
-  position: IPosition
+  position: IRelativePosition
 }
 
-export interface ITextMapping {
+// 移动OT
+export interface IPieceMove {
   identity: IIdentity
   srcPiece: IPiece
   aimPiece: IPiece
 }
 
+// 选区OT
 export interface IRangeMark {
   identity: IIdentity
-  range: [IPosition, IPosition]
+  range: [IRelativePosition, IRelativePosition]
   data: Record<string, any>
 }
 
+// 小段OT
 export interface IPieceMark {
   identity: IIdentity
   piece: IPiece
   data: Record<string, any>
 }
 
-export const createTextNode = (
-  textNode: ITextNode,
-  preTextNode?: ITextNode,
-) => {
+export const createTextNode = (textNode: IPieceText) => {
   return textNode
 }
 export const createRangeMark = (rangeMark: IRangeMark) => {

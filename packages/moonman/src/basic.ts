@@ -1,4 +1,4 @@
-export type TRelativePos = 'after' | 'before' | 'inner-after' | 'inner-before'
+export type TRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
 
 export interface IIdentity {
   timestamp: number
@@ -8,7 +8,11 @@ export interface IIdentity {
 export interface IPosition {
   identity: IIdentity
   index: number
-  relativePos: TRelativePos
+}
+
+export interface IRelativePosition {
+  anchor: IPosition
+  relation: TRelation
 }
 
 export interface IPiece {
@@ -33,16 +37,41 @@ export const identitySortMethod = (a: IIdentifiable, b: IIdentifiable) => {
 console.log('hello world')
 
 export const computedPositionFromPiece = (piece: IPiece) => {
-  const startPosition: IPosition = {
-    identity: piece.identity,
-    index: piece.start,
-    relativePos: 'before',
+  const startPosition: IRelativePosition = {
+    anchor: {
+      identity: piece.identity,
+      index: piece.start,
+    },
+    relation: 'before',
   }
-  const endPosition: IPosition = {
-    identity: piece.identity,
-    index: piece.end,
-    relativePos: 'before',
+  const endPosition: IRelativePosition = {
+    anchor: {
+      identity: piece.identity,
+      index: piece.end,
+    },
+    relation: 'before',
   }
 
   return [startPosition, endPosition] as const
+}
+
+export const isTheSameIdentity = (
+  identityA: IIdentity,
+  identityB: IIdentity,
+) => {
+  const isTheSame =
+    identityA.timestamp == identityB.timestamp && identityA.id === identityB.id
+
+  return isTheSame
+}
+
+export const positionInPiece = (position: IPosition, piece: IPiece) => {
+  if (isTheSameIdentity(position.identity, piece.identity)) {
+    const isAfterStart = piece.start <= position.index
+    const isBeforeEnd = position.index < piece.end
+
+    return isAfterStart && isBeforeEnd
+  } else {
+    return false
+  }
 }

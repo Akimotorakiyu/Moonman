@@ -1,15 +1,21 @@
 import { computedPositionFromPiece, identitySortMethod } from './basic'
 import { MetaView } from './meta'
-import { IPieceMark, IRangeMark, ITextNode } from './textNode'
+import { IPieceMark, IRangeMark, IPieceText, IPieceMove } from './textNode'
 
 export class Fragment {
   constructor(
-    public content: ITextNode[] = [],
-    public pieceMark: IPieceMark[] = [],
-    public rangeMark: IRangeMark[] = [],
+    pieceText: IPieceText[] = [],
+    pieceMark: IPieceMark[] = [],
+    rangeMark: IRangeMark[] = [],
+    pieceMove: IPieceMove[] = [],
   ) {
+    this.pieceText = [...pieceText]
+    this.pieceMark = [...pieceMark]
+    this.rangeMark = [...rangeMark]
+    this.pieceMove = [...pieceMove]
+
     // sort
-    content.sort(identitySortMethod)
+    pieceText.sort(identitySortMethod)
     pieceMark.sort(identitySortMethod)
     rangeMark.sort(identitySortMethod)
 
@@ -18,13 +24,18 @@ export class Fragment {
     this.dealRangeMark()
   }
 
+  pieceText: IPieceText[]
+  pieceMark: IPieceMark[]
+  rangeMark: IRangeMark[]
+  pieceMove: IPieceMove[]
+
   listing: MetaView[] = []
 
   initListing() {
-    this.content.forEach((textNode, index) => {
+    this.pieceText.forEach((textNode, index) => {
       if (index > 0) {
         const beforeIndex = this.listing.findIndex((item) => {
-          return item.isInRange(textNode.position)
+          return item.isInRange(textNode.position.anchor)
         })
 
         const before = this.listing[beforeIndex]
@@ -50,12 +61,18 @@ export class Fragment {
     })
   }
 
+  dealMove() {
+    this.pieceMove.forEach((move) => {
+      this.pieceText.forEach((text) => {})
+    })
+  }
+
   dealPieceMark() {
     this.pieceMark.forEach((mark) => {
       const pieceRange = computedPositionFromPiece(mark.piece)
       this.listing.some((item, index) => {
-        const isStartInItem = item.isInRange(pieceRange[0])
-        const isEndInItem = item.isInRange(pieceRange[1])
+        const isStartInItem = item.isInRange(pieceRange[0].anchor)
+        const isEndInItem = item.isInRange(pieceRange[1].anchor)
 
         if (isStartInItem && isEndInItem) {
           const newSlice = item.splitByTwoPosition(pieceRange[0], pieceRange[1])
@@ -98,8 +115,8 @@ export class Fragment {
     this.rangeMark.forEach((mark) => {
       let isInRange = false
       this.listing.some((item, index) => {
-        const isStartItem = item.isInRange(mark.range[0])
-        const isEndItem = item.isInRange(mark.range[1])
+        const isStartItem = item.isInRange(mark.range[0].anchor)
+        const isEndItem = item.isInRange(mark.range[1].anchor)
 
         if (isStartItem && isEndItem) {
           const newSlice = item.splitByTwoPosition(mark.range[0], mark.range[1])

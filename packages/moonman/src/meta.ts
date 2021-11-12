@@ -1,10 +1,17 @@
-import { IIdentity, IPosition, TRelativePos } from './basic'
-import { ITextNode } from './textNode'
-export interface IMetaView {
-  identity: IIdentity
-  start: number
+import {
+  IIdentity,
+  IRelativePosition,
+  isTheSameIdentity,
+  TRelation,
+  IPosition,
+  positionInPiece,
+  IPiece,
+} from './basic'
+import { IPieceText } from './textNode'
+export interface IMetaView extends IPiece {
   content: string
   data: Record<string, any>
+  srcTextNode: IPieceText
 }
 
 export class MetaView implements IMetaView {
@@ -12,7 +19,7 @@ export class MetaView implements IMetaView {
     public start: number,
     public end: number,
     public data: Record<string, any>,
-    public srcTextNode: ITextNode,
+    public srcTextNode: IPieceText,
   ) {
     if (start < 0 || this.length < 0) {
       throw new Error('start 和 length 不能小于 0')
@@ -32,17 +39,10 @@ export class MetaView implements IMetaView {
   }
 
   isInRange(position: IPosition) {
-    if (this.isInThisTextNode(position)) {
-      const isAfterStart = this.start <= position.index
-      const isBeforeEnd = position.index < this.end
-
-      return isAfterStart && isBeforeEnd
-    } else {
-      return false
-    }
+    return positionInPiece(position, this)
   }
 
-  mappingIndexToRelativeIndex(index: number, relativePos: TRelativePos) {
+  mappingIndexToRelativeIndex(index: number, relativePos: TRelation) {
     switch (relativePos) {
       case 'before':
         return index
@@ -61,12 +61,12 @@ export class MetaView implements IMetaView {
     }
   }
 
-  splitByPosition(position: IPosition) {
+  splitByPosition(position: IRelativePosition) {
     this.checkIsInThisTextNode(position)
 
     const index = this.mappingIndexToRelativeIndex(
-      position.index,
-      position.relativePos,
+      position.anchor.index,
+      position.relation,
     )
 
     const beforeMetaView = new MetaView(
@@ -86,16 +86,19 @@ export class MetaView implements IMetaView {
     return [beforeMetaView, afterMetaView] as [MetaView, MetaView]
   }
 
-  splitByTwoPosition(startPosition: IPosition, endPosition: IPosition) {
+  splitByTwoPosition(
+    startPosition: IRelativePosition,
+    endPosition: IRelativePosition,
+  ) {
     this.checkIsInThisTextNode(startPosition)
     this.checkIsInThisTextNode(endPosition)
     const indexA = this.mappingIndexToRelativeIndex(
-      startPosition.index,
-      startPosition.relativePos,
+      startPosition.anchor.index,
+      startPosition.relation,
     )
     const indexB = this.mappingIndexToRelativeIndex(
-      endPosition.index,
-      endPosition.relativePos,
+      endPosition.anchor.index,
+      endPosition.relation,
     )
 
     const beforeMetaView = new MetaView(
@@ -125,18 +128,14 @@ export class MetaView implements IMetaView {
     ]
   }
 
-  private checkIsInThisTextNode(position: IPosition) {
-    if (!this.isInThisTextNode(position)) {
+  private checkIsInThisTextNode(position: IRelativePosition) {
+    if (!this.isInThisTextPiece(position.anchor.identity)) {
       throw new Error('不在当前节点')
     }
   }
 
-  isInThisTextNode(position: IPosition) {
-    const isInThisTextNode =
-      position.identity.timestamp == this.identity.timestamp &&
-      this.identity.id === position.identity.id
-
-    return isInThisTextNode
+  isInThisTextPiece(identity: IIdentity) {
+    return isTheSameIdentity(this.identity, identity)
   }
 
   configData(data: Record<string, any>) {
