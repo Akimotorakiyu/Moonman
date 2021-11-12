@@ -2,6 +2,7 @@ import {
   createPieceMark,
   createRangeMark,
   createTextNode,
+  createPieceMove,
 } from '@moonman/moonman'
 
 // start
@@ -146,4 +147,37 @@ export const colorMark7To2 = createRangeMark({
     },
   ],
   data: { color: 'blue', fontStyle: 'italic' },
+})
+
+export const pieceMove = createPieceMove({
+  identity: {
+    id: 400,
+    timestamp: 8,
+  },
+  srcPiece: {
+    identity: text456.identity,
+    start: 1,
+    end: 2,
+  },
+  aimPiece: {
+    identity: textDef.identity,
+    start: 1,
+    end: 2,
+  },
+})
+
+export const textGHi = createTextNode({
+  content: 'ghi',
+  identity: {
+    timestamp: 9,
+    id: 105,
+  },
+
+  position: {
+    anchor: {
+      identity: text456.identity,
+      index: 1,
+    },
+    relation: 'after',
+  },
 })

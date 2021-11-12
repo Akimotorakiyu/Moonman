@@ -37,3 +37,6 @@ export const createRangeMark = (rangeMark: IRangeMark) => {
 export const createPieceMark = (pieceMark: IPieceMark) => {
   return pieceMark
 }
+export const createPieceMove = (pieceMove: IPieceMove) => {
+  return pieceMove
+}

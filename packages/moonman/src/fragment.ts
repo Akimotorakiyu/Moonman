@@ -1,4 +1,9 @@
-import { computedPositionFromPiece, identitySortMethod } from './basic'
+import { createTextNode } from '.'
+import {
+  computedPositionFromPiece,
+  identitySortMethod,
+  positionInPiece,
+} from './basic'
 import { MetaView } from './meta'
 import { IPieceMark, IRangeMark, IPieceText, IPieceMove } from './textNode'
 
@@ -19,7 +24,8 @@ export class Fragment {
     pieceMark.sort(identitySortMethod)
     rangeMark.sort(identitySortMethod)
 
-    this.initListing()
+    this.dealMove()
+    this.dealPieceText()
     this.dealPieceMark()
     this.dealRangeMark()
   }
@@ -31,7 +37,7 @@ export class Fragment {
 
   listing: MetaView[] = []
 
-  initListing() {
+  dealPieceText() {
     this.pieceText.forEach((textNode, index) => {
       if (index > 0) {
         const beforeIndex = this.listing.findIndex((item) => {
@@ -63,7 +69,32 @@ export class Fragment {
 
   dealMove() {
     this.pieceMove.forEach((move) => {
-      this.pieceText.forEach((text) => {})
+      this.pieceText.forEach((text, index, arr) => {
+        const isInMovePiece = positionInPiece(
+          text.position.anchor,
+          move.srcPiece,
+        )
+        const isAfterMoveOT = text.identity.timestamp > move.identity.timestamp
+
+        if (isInMovePiece && isAfterMoveOT) {
+          const newTextPiece = createTextNode({
+            identity: text.identity,
+            content: text.content,
+            position: {
+              anchor: {
+                identity: move.aimPiece.identity,
+                index:
+                  text.position.anchor.index -
+                  move.srcPiece.start +
+                  move.aimPiece.start,
+              },
+              relation: text.position.relation,
+            },
+          })
+
+          arr[index] = newTextPiece
+        }
+      })
     })
   }
 
