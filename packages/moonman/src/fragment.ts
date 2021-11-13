@@ -3,9 +3,10 @@ import {
   computedPositionFromPiece,
   identitySortMethod,
   positionInPiece,
-} from './basic'
+} from './operation/basic/index'
 import { MetaView } from './meta'
-import { IPieceMark, IRangeMark, IPieceText, IPieceMove } from './textNode'
+import { IPieceMark, IPieceText, IPieceMove } from './operation/piece'
+import { IRangeMark } from './operation/range'
 
 export class Fragment {
   constructor(

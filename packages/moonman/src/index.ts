@@ -1,2 +1,2 @@
-export * from './textNode'
+export * from './operation'
 export * from './fragment'

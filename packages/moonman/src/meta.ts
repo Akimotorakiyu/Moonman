@@ -6,15 +6,15 @@ import {
   IPosition,
   positionInPiece,
   IPiece,
-} from './basic'
-import { IPieceText } from './textNode'
-export interface IMetaView extends IPiece {
+} from './operation/basic/index'
+import { IPieceText } from './operation/piece'
+export interface IPieceView extends IPiece {
   content: string
   data: Record<string, any>
   srcTextNode: IPieceText
 }
 
-export class MetaView implements IMetaView {
+export class MetaView implements IPieceView {
   constructor(
     public start: number,
     public end: number,

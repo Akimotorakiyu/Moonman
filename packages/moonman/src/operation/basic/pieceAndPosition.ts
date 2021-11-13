@@ -1,9 +1,6 @@
-export type TRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
+import { IIdentity, isTheSameIdentity } from './identity'
 
-export interface IIdentity {
-  timestamp: number
-  id: number
-}
+export type TRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
 
 export interface IPosition {
   identity: IIdentity
@@ -25,17 +22,6 @@ export interface MoonmanData {
   deleted: boolean
 }
 
-export interface IIdentifiable {
-  identity: IIdentity
-}
-
-export const identitySortMethod = (a: IIdentifiable, b: IIdentifiable) => {
-  const delta =
-    a.identity.timestamp - b.identity.timestamp || a.identity.id - b.identity.id
-  return delta
-}
-console.log('hello world')
-
 export const computedPositionFromPiece = (piece: IPiece) => {
   const startPosition: IRelativePosition = {
     anchor: {
@@ -53,16 +39,6 @@ export const computedPositionFromPiece = (piece: IPiece) => {
   }
 
   return [startPosition, endPosition] as const
-}
-
-export const isTheSameIdentity = (
-  identityA: IIdentity,
-  identityB: IIdentity,
-) => {
-  const isTheSame =
-    identityA.timestamp == identityB.timestamp && identityA.id === identityB.id
-
-  return isTheSame
 }
 
 export const positionInPiece = (position: IPosition, piece: IPiece) => {
