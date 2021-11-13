@@ -74,6 +74,8 @@ export class Fragment {
           text.position.anchor,
           move.srcPiece,
         )
+
+        // todo need ensure time
         const isAfterMoveOT = text.identity.timestamp > move.identity.timestamp
 
         if (isInMovePiece && isAfterMoveOT) {
@@ -95,6 +97,116 @@ export class Fragment {
           arr[index] = newTextPiece
         }
       })
+
+      this.pieceMark.forEach((mark, index, arr) => {
+        const pieceRange = computedPositionFromPiece(mark.piece)
+        const isStartInItem = positionInPiece(
+          pieceRange[0].anchor,
+          move.srcPiece,
+        )
+        const isEndInItem = positionInPiece(pieceRange[1].anchor, move.srcPiece)
+
+        // todo need ensure time
+        const isAfterMoveOT = mark.identity.timestamp > move.identity.timestamp
+
+        if (isAfterMoveOT) {
+          if (isStartInItem && isEndInItem) {
+            const newBefore: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: mark.piece.identity,
+                start: mark.piece.start,
+                end: move.srcPiece.start,
+              },
+            }
+            const newMiddle: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: move.aimPiece.identity,
+                start: move.aimPiece.start,
+                end: move.aimPiece.end,
+              },
+            }
+            const newEnd: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: mark.piece.identity,
+                start: move.srcPiece.end,
+                end: mark.piece.end,
+              },
+            }
+
+            const newSlice = [newBefore, newMiddle, newEnd]
+
+            newSlice.filter((item) => {
+              return Boolean(item.piece.start - item.piece.end)
+            })
+
+            arr[index] = newSlice as any
+          } else if (!isStartInItem && isEndInItem) {
+            const newBefore: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: move.aimPiece.identity,
+                start:
+                  mark.piece.start - move.srcPiece.start + move.aimPiece.start,
+                end: mark.piece.end - move.srcPiece.end + move.aimPiece.end,
+              },
+            }
+            const newEnd: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: mark.piece.identity,
+                start: move.srcPiece.end,
+                end: mark.piece.end,
+              },
+            }
+
+            const newSlice = [newBefore, newEnd]
+
+            newSlice.filter((item) => {
+              return Boolean(item.piece.start - item.piece.end)
+            })
+
+            arr[index] = newSlice as any
+          } else if (isStartInItem && !isEndInItem) {
+            const newBefore: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: mark.piece.identity,
+                start: mark.piece.start,
+                end: move.srcPiece.start,
+              },
+            }
+            const newEnd: IPieceMark = {
+              identity: mark.identity,
+              data: mark.data,
+              piece: {
+                identity: move.aimPiece.identity,
+                start:
+                  mark.piece.start - move.srcPiece.start + move.aimPiece.start,
+                end: mark.piece.end - move.srcPiece.end + move.aimPiece.end,
+              },
+            }
+
+            const newSlice = [newBefore, newEnd]
+
+            newSlice.filter((item) => {
+              return Boolean(item.piece.start - item.piece.end)
+            })
+
+            arr[index] = newSlice as any
+          }
+        }
+      })
+
+      this.pieceMark = this.pieceMark.flat()
     })
   }
 

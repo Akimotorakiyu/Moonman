@@ -127,8 +127,8 @@ export const colorMark7To9 = createRangeMark({
 // 7-2之间 蓝色斜体
 export const colorMark7To2 = createRangeMark({
   identity: {
-    timestamp: 7,
-    id: 300,
+    timestamp: 8,
+    id: 301,
   },
   range: [
     {
@@ -179,5 +179,21 @@ export const textGHi = createTextNode({
       index: 1,
     },
     relation: 'after',
+  },
+})
+
+// 7-2之间 蓝色斜体
+export const delete2 = createPieceMark({
+  identity: {
+    timestamp: 10,
+    id: 201,
+  },
+  piece: {
+    identity: text456.identity,
+    start: 1,
+    end: 2,
+  },
+  data: {
+    deleted: true,
   },
 })
