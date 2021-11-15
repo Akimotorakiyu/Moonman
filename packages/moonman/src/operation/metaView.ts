@@ -6,28 +6,22 @@ import {
   IPosition,
   positionInPiece,
   IPiece,
-} from './operation/basic/index'
-import { IPieceText } from './operation/piece'
-export interface IPieceView extends IPiece {
-  content: string
-  data: Record<string, any>
-  srcTextNode: IPieceText
-}
+} from './basic/index'
+import { IPieceText } from './piece'
 
-export class MetaView implements IPieceView {
+export class MetaView {
   constructor(
-    public start: number,
-    public end: number,
+    public piece: IPiece,
     public data: Record<string, any>,
     public srcTextNode: IPieceText,
   ) {
-    if (start < 0 || this.length < 0) {
+    if (piece.start < 0 || this.length < 0) {
       throw new Error('start 和 length 不能小于 0')
     }
   }
 
   get content() {
-    return this.srcTextNode.content.slice(this.start, this.end)
+    return this.srcTextNode.content.slice(this.piece.start, this.piece.end)
   }
 
   get identity() {
@@ -35,11 +29,11 @@ export class MetaView implements IPieceView {
   }
 
   get length() {
-    return this.end - this.start
+    return this.piece.end - this.piece.start
   }
 
   isInRange(position: IPosition) {
-    return positionInPiece(position, this)
+    return positionInPiece(position, this.piece)
   }
 
   mappingIndexToRelativeIndex(index: number, relativePos: TRelation) {
@@ -70,15 +64,21 @@ export class MetaView implements IPieceView {
     )
 
     const beforeMetaView = new MetaView(
-      this.start,
-      index,
+      {
+        identity: this.piece.identity,
+        start: this.piece.start,
+        end: index,
+      },
       { ...this.data },
       this.srcTextNode,
     )
 
     const afterMetaView = new MetaView(
-      index,
-      this.end,
+      {
+        identity: this.piece.identity,
+        start: index,
+        end: this.piece.end,
+      },
       { ...this.data },
       this.srcTextNode,
     )
@@ -102,21 +102,31 @@ export class MetaView implements IPieceView {
     )
 
     const beforeMetaView = new MetaView(
-      this.start,
-      indexA,
+      {
+        identity: this.piece.identity,
+        start: this.piece.start,
+        end: indexA,
+      },
       { ...this.data },
       this.srcTextNode,
     )
 
     const middleMetaView = new MetaView(
-      indexA,
-      indexB,
+      {
+        identity: this.piece.identity,
+        start: indexA,
+        end: indexB,
+      },
+
       { ...this.data },
       this.srcTextNode,
     )
     const afterMetaView = new MetaView(
-      indexB,
-      this.end,
+      {
+        identity: this.piece.identity,
+        start: indexB,
+        end: this.piece.end,
+      },
       { ...this.data },
       this.srcTextNode,
     )
@@ -140,8 +150,9 @@ export class MetaView implements IPieceView {
 
   configData(data: Record<string, any>) {
     return new MetaView(
-      this.start,
-      this.end,
+      {
+        ...this.piece,
+      },
       { ...this.data, ...data },
       this.srcTextNode,
     )

@@ -4,7 +4,7 @@ import {
   identitySortMethod,
   positionInPiece,
 } from './operation/basic/index'
-import { MetaView } from './meta'
+import { MetaView } from './operation/metaView'
 import { IPieceMark, IPieceText, IPieceMove } from './operation/piece'
 import { IRangeMark } from './operation/range'
 
@@ -51,7 +51,15 @@ export class Fragment {
 
         const newSlice = [
           part[0],
-          new MetaView(0, textNode.content.length, {}, textNode),
+          new MetaView(
+            {
+              identity: textNode.identity,
+              start: 0,
+              end: textNode.content.length,
+            },
+            {},
+            textNode,
+          ),
           part[1],
         ]
 
@@ -62,7 +70,15 @@ export class Fragment {
         this.listing.splice(beforeIndex, 1, ...newSlice)
       } else {
         this.listing.push(
-          new MetaView(0, textNode.content.length, {}, textNode),
+          new MetaView(
+            {
+              identity: textNode.identity,
+              start: 0,
+              end: textNode.content.length,
+            },
+            {},
+            textNode,
+          ),
         )
       }
     })
