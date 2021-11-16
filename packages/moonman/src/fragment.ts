@@ -330,8 +330,6 @@ export class Fragment {
       return !item.data.deleted
     })
 
-    console.log('contentView', this.listing, content)
-
     return content
   }
 }

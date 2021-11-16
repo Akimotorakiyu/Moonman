@@ -20,7 +20,7 @@ const f = new Fragment(
 const res = f.textContentView()
 const resWithColor = f.contentView()
 
-console.log(res, '178def940ab623', res == '178def940ab623')
+console.log(res, '178dghif940ab623', res == '178dghif940ab623')
 console.log(resWithColor)
 
 import { defineFunctionComponent } from './defineFunctionComponent'
