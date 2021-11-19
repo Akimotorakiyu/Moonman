@@ -4,7 +4,7 @@
 
 ## Features
 
-- IPieceText
+- IMetaInfo
 - IPieceMark
 - IPieceMove
 - IRangeMark

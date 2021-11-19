@@ -1,2 +1,2 @@
 export * from './operation'
-export * from './fragment'
+export * from './view/fragment'

@@ -1,9 +1,10 @@
 import { IIdentity, IPiece, IRelativePosition } from './basic/index'
 
-export interface IPieceText {
-  identity: IIdentity
-  content: string
+export interface IMetaInfo {
+  type: string
+  piece: IPiece
   position: IRelativePosition
+  data: Record<string, any>
 }
 
 export interface IPieceMove {
@@ -18,8 +19,8 @@ export interface IPieceMark {
   data: Record<string, any>
 }
 
-export const createTextNode = (textNode: IPieceText) => {
-  return textNode
+export const createMetaInfo = (metaInfo: IMetaInfo) => {
+  return metaInfo
 }
 
 export const createPieceMark = (pieceMark: IPieceMark) => {

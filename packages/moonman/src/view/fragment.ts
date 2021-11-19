@@ -1,16 +1,21 @@
-import { createTextNode } from '.'
+import { createMetaInfo } from '../operation/'
 import {
   computedPositionFromPiece,
   identitySortMethod,
   positionInPiece,
-} from './operation/basic/index'
-import { MetaView } from './operation/metaView'
-import { IPieceMark, IPieceText, IPieceMove } from './operation/piece'
-import { IRangeMark } from './operation/range'
+} from '../operation/basic/index'
+import { MetaView } from './metaView'
+import { IPieceMark, IMetaInfo, IPieceMove } from '../operation/piece'
+import { IRangeMark } from '../operation/range'
+
+export interface ISchema {
+  toTextContent(info: MetaView): string
+}
 
 export class Fragment {
   constructor(
-    pieceText: IPieceText[] = [],
+    public schemaMap: Map<string, ISchema>,
+    pieceText: IMetaInfo[] = [],
     pieceMark: IPieceMark[] = [],
     rangeMark: IRangeMark[] = [],
     pieceMove: IPieceMove[] = [],
@@ -21,7 +26,9 @@ export class Fragment {
     this.pieceMove = [...pieceMove]
 
     // sort
-    pieceText.sort(identitySortMethod)
+    pieceText.sort((itemA, itemB) => {
+      return identitySortMethod(itemA.piece, itemB.piece)
+    })
     pieceMark.sort(identitySortMethod)
     rangeMark.sort(identitySortMethod)
 
@@ -31,7 +38,7 @@ export class Fragment {
     this.dealRangeMark()
   }
 
-  pieceText: IPieceText[]
+  pieceText: IMetaInfo[]
   pieceMark: IPieceMark[]
   rangeMark: IRangeMark[]
   pieceMove: IPieceMove[]
@@ -53,9 +60,7 @@ export class Fragment {
           part[0],
           new MetaView(
             {
-              identity: textNode.identity,
-              start: 0,
-              end: textNode.content.length,
+              ...textNode.piece,
             },
             {},
             textNode,
@@ -64,7 +69,7 @@ export class Fragment {
         ]
 
         newSlice.filter((item) => {
-          return Boolean(item.content)
+          return Boolean(item.length)
         })
 
         this.listing.splice(beforeIndex, 1, ...newSlice)
@@ -72,9 +77,7 @@ export class Fragment {
         this.listing.push(
           new MetaView(
             {
-              identity: textNode.identity,
-              start: 0,
-              end: textNode.content.length,
+              ...textNode.piece,
             },
             {},
             textNode,
@@ -93,12 +96,16 @@ export class Fragment {
         )
 
         // todo need ensure time
-        const isAfterMoveOT = text.identity.timestamp > move.identity.timestamp
+        const isAfterMoveOT =
+          text.piece.identity.timestamp > move.identity.timestamp
 
         if (isInMovePiece && isAfterMoveOT) {
-          const newTextPiece = createTextNode({
-            identity: text.identity,
-            content: text.content,
+          const newTextPiece = createMetaInfo({
+            type: 'text',
+            data: {
+              ...text.data,
+            },
+            piece: { ...text.piece },
             position: {
               anchor: {
                 identity: move.aimPiece.identity,
@@ -238,7 +245,7 @@ export class Fragment {
           const newSlice = item.splitByTwoPosition(pieceRange[0], pieceRange[1])
           newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
 
           this.listing[index] = newSlice as any
@@ -248,7 +255,7 @@ export class Fragment {
           const newSlice = item.splitByPosition(pieceRange[1])
           newSlice[0] = newSlice[0].configData(mark.data)
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
 
           this.listing[index] = newSlice as any
@@ -258,7 +265,7 @@ export class Fragment {
           const newSlice = item.splitByPosition(pieceRange[0])
           newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
 
           this.listing[index] = newSlice as any
@@ -283,7 +290,7 @@ export class Fragment {
           newSlice[1] = newSlice[1].configData(mark.data)
 
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
 
           this.listing[index] = newSlice as any
@@ -293,7 +300,7 @@ export class Fragment {
           const newSlice = item.splitByPosition(mark.range[1])
           newSlice[0] = newSlice[0].configData(mark.data)
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
           this.listing[index] = newSlice as any
         } else if (isStartItem && !isEndItem) {
@@ -301,7 +308,7 @@ export class Fragment {
           const newSlice = item.splitByPosition(mark.range[0])
           newSlice[1] = newSlice[1].configData(mark.data)
           newSlice.filter((item) => {
-            return Boolean(item.content)
+            return Boolean(item.length)
           })
 
           this.listing[index] = newSlice as any
@@ -319,7 +326,7 @@ export class Fragment {
   textContentView() {
     const content = this.contentView()
       .map((item) => {
-        return item.content
+        return this.schemaMap.get(item.srcMetaInfo.type)?.toTextContent?.(item)
       })
       .join('')
     return content

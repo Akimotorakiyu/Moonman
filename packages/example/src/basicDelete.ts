@@ -1,8 +1,8 @@
 import { Fragment } from '@moonman/moonman'
 
-import { textOT, delete1 } from './basicOTData'
+import { textOT, delete1, schemaMap } from './basicOTData'
 
-const f = new Fragment(textOT, [delete1])
+const f = new Fragment(schemaMap, textOT, [delete1])
 
 const res = f.textContentView()
 

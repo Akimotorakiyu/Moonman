@@ -8,9 +8,11 @@ import {
   textGHi,
   delete2,
   pieceMove,
+  schemaMap,
 } from './basicOTData'
 
 const f = new Fragment(
+  schemaMap,
   textOT.concat(textGHi),
   [delete1, delete2],
   [colorMark7To9, colorMark7To2],
@@ -26,12 +28,17 @@ console.log(resWithColor)
 import { defineFunctionComponent } from './defineFunctionComponent'
 
 export const MarkRender = defineFunctionComponent(() => {
+  console.log('xxxx')
   return {
     render() {
       return (
         <div>
           {resWithColor.map((item) => {
-            return <span style={item.data}>{item.content}</span>
+            return (
+              <span style={item.data}>
+                {schemaMap.get(item.srcMetaInfo.type)?.toTextContent?.(item)}
+              </span>
+            )
           })}
         </div>
       )

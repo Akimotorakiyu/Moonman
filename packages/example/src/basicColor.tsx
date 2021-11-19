@@ -1,8 +1,19 @@
 import { Fragment } from '@moonman/moonman'
 
-import { textOT, delete1, colorMark7To9, colorMark7To2 } from './basicOTData'
+import {
+  textOT,
+  delete1,
+  colorMark7To9,
+  colorMark7To2,
+  schemaMap,
+} from './basicOTData'
 
-const f = new Fragment(textOT, [delete1], [colorMark7To9, colorMark7To2])
+const f = new Fragment(
+  schemaMap,
+  textOT,
+  [delete1],
+  [colorMark7To9, colorMark7To2],
+)
 
 const res = f.textContentView()
 const resWithColor = f.contentView()
@@ -18,7 +29,11 @@ export const MarkRender = defineFunctionComponent(() => {
       return (
         <div>
           {resWithColor.map((item) => {
-            return <span style={item.data}>{item.content}</span>
+            return (
+              <span style={item.data}>
+                {schemaMap.get(item.srcMetaInfo.type)?.toTextContent?.(item)}
+              </span>
+            )
           })}
         </div>
       )

@@ -1,17 +1,23 @@
 import {
   createPieceMark,
   createRangeMark,
-  createTextNode,
+  createMetaInfo,
   createPieceMove,
+  ISchema,
 } from '@moonman/moonman'
 
 // start
-export const text123 = createTextNode({
-  content: '123',
-  identity: {
-    timestamp: 1,
-    id: 100,
+export const text123 = createMetaInfo({
+  data: { content: '123' },
+  piece: {
+    identity: {
+      timestamp: 1,
+      id: 100,
+    },
+    start: 0,
+    end: 3,
   },
+  type: 'text',
   position: {
     anchor: {
       identity: {
@@ -24,58 +30,80 @@ export const text123 = createTextNode({
   },
 })
 
-export const text456 = createTextNode({
-  content: '456',
-  identity: {
-    timestamp: 2,
-    id: 101,
+export const text456 = createMetaInfo({
+  data: { content: '456' },
+  piece: {
+    identity: {
+      timestamp: 2,
+      id: 101,
+    },
+    start: 0,
+    end: 3,
   },
+  type: 'text',
   position: {
     anchor: {
-      identity: text123.identity,
+      identity: text123.piece.identity,
       index: 0,
     },
     relation: 'after',
   },
 })
-export const text789 = createTextNode({
-  content: '789',
-  identity: {
-    timestamp: 3,
-    id: 102,
-  },
-  position: {
-    anchor: {
-      identity: text123.identity,
-      index: 0,
+export const text789 = createMetaInfo({
+  data: { content: '789' },
+  piece: {
+    identity: {
+      timestamp: 3,
+      id: 102,
     },
-    relation: 'after',
-  },
-})
-export const text0ab = createTextNode({
-  content: '0ab',
-  identity: {
-    timestamp: 4,
-    id: 103,
+    start: 0,
+    end: 3,
   },
 
+  type: 'text',
   position: {
     anchor: {
-      identity: text456.identity,
+      identity: text123.piece.identity,
+      index: 0,
+    },
+    relation: 'after',
+  },
+})
+export const text0ab = createMetaInfo({
+  data: { content: '0ab' },
+  piece: {
+    identity: {
+      timestamp: 4,
+      id: 103,
+    },
+    start: 0,
+    end: 3,
+  },
+
+  type: 'text',
+  position: {
+    anchor: {
+      identity: text456.piece.identity,
       index: 1,
     },
     relation: 'after',
   },
 })
-export const textDef = createTextNode({
-  content: 'def',
-  identity: {
-    timestamp: 5,
-    id: 104,
+export const textDef = createMetaInfo({
+  data: { content: 'def' },
+  piece: {
+    identity: {
+      timestamp: 5,
+      id: 104,
+    },
+    start: 0,
+    end: 3,
   },
+
+  type: 'text',
   position: {
     anchor: {
-      identity: text789.identity,
+      identity: text789.piece.identity,
       index: 1,
     },
     relation: 'after',
@@ -90,7 +118,7 @@ export const delete1 = createPieceMark({
     id: 200,
   },
   piece: {
-    identity: text456.identity,
+    identity: text456.piece.identity,
     start: 1,
     end: 2,
   },
@@ -105,14 +133,14 @@ export const colorMark7To9 = createRangeMark({
   range: [
     {
       anchor: {
-        identity: text789.identity,
+        identity: text789.piece.identity,
         index: 0,
       },
       relation: 'before',
     },
     {
       anchor: {
-        identity: text789.identity,
+        identity: text789.piece.identity,
         index: 2,
       },
       relation: 'after',
@@ -133,14 +161,14 @@ export const colorMark7To2 = createRangeMark({
   range: [
     {
       anchor: {
-        identity: text789.identity,
+        identity: text789.piece.identity,
         index: 1,
       },
       relation: 'before',
     },
     {
       anchor: {
-        identity: text123.identity,
+        identity: text123.piece.identity,
         index: 1,
       },
       relation: 'after',
@@ -155,27 +183,35 @@ export const pieceMove = createPieceMove({
     timestamp: 8,
   },
   srcPiece: {
-    identity: text456.identity,
+    identity: text456.piece.identity,
     start: 1,
     end: 2,
   },
   aimPiece: {
-    identity: textDef.identity,
+    identity: textDef.piece.identity,
     start: 1,
     end: 2,
   },
 })
 
-export const textGHi = createTextNode({
-  content: 'ghi',
-  identity: {
-    timestamp: 9,
-    id: 105,
+export const textGHi = createMetaInfo({
+  data: { content: 'ghi' },
+
+  piece: {
+    identity: {
+      timestamp: 9,
+      id: 105,
+    },
+
+    start: 0,
+    end: 3,
   },
+
+  type: 'text',
 
   position: {
     anchor: {
-      identity: text456.identity,
+      identity: text456.piece.identity,
       index: 1,
     },
     relation: 'after',
@@ -189,11 +225,23 @@ export const delete2 = createPieceMark({
     id: 201,
   },
   piece: {
-    identity: text456.identity,
+    identity: text456.piece.identity,
     start: 1,
     end: 2,
   },
   data: {
     deleted: true,
+  },
+})
+
+export const schemaMap = new Map<string, ISchema>()
+
+schemaMap.set('text', {
+  toTextContent(info) {
+    const content = info.srcMetaInfo.data.content.slice(
+      info.piece.start,
+      info.piece.end,
+    )
+    return content
   },
 })

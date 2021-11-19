@@ -6,26 +6,18 @@ import {
   IPosition,
   positionInPiece,
   IPiece,
-} from './basic/index'
-import { IPieceText } from './piece'
+} from '../operation/basic/index'
+import { IMetaInfo } from '../operation/piece'
 
 export class MetaView {
   constructor(
     public piece: IPiece,
     public data: Record<string, any>,
-    public srcTextNode: IPieceText,
+    public srcMetaInfo: IMetaInfo,
   ) {
     if (piece.start < 0 || this.length < 0) {
       throw new Error('start 和 length 不能小于 0')
     }
-  }
-
-  get content() {
-    return this.srcTextNode.content.slice(this.piece.start, this.piece.end)
-  }
-
-  get identity() {
-    return this.srcTextNode.identity
   }
 
   get length() {
@@ -70,7 +62,7 @@ export class MetaView {
         end: index,
       },
       { ...this.data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
 
     const afterMetaView = new MetaView(
@@ -80,7 +72,7 @@ export class MetaView {
         end: this.piece.end,
       },
       { ...this.data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
 
     return [beforeMetaView, afterMetaView] as [MetaView, MetaView]
@@ -108,7 +100,7 @@ export class MetaView {
         end: indexA,
       },
       { ...this.data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
 
     const middleMetaView = new MetaView(
@@ -119,7 +111,7 @@ export class MetaView {
       },
 
       { ...this.data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
     const afterMetaView = new MetaView(
       {
@@ -128,7 +120,7 @@ export class MetaView {
         end: this.piece.end,
       },
       { ...this.data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
 
     return [beforeMetaView, middleMetaView, afterMetaView] as [
@@ -145,7 +137,7 @@ export class MetaView {
   }
 
   isInThisTextPiece(identity: IIdentity) {
-    return isTheSameIdentity(this.identity, identity)
+    return isTheSameIdentity(this.piece.identity, identity)
   }
 
   configData(data: Record<string, any>) {
@@ -154,7 +146,7 @@ export class MetaView {
         ...this.piece,
       },
       { ...this.data, ...data },
-      this.srcTextNode,
+      this.srcMetaInfo,
     )
   }
 }
