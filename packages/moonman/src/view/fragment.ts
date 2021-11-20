@@ -3,7 +3,7 @@ import {
   computedPositionFromPiece,
   identitySortMethod,
   positionInPiece,
-} from '../operation/basic/index'
+} from '../operation'
 import { MetaView } from './metaView'
 import { IPieceMark, IMetaInfo, IPieceMove } from '../operation/piece'
 import { IRangeMark } from '../operation/range'

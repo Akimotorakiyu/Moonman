@@ -1,4 +1,4 @@
-import { IIdentity, isTheSameIdentity } from './identity'
+import { IIdentity, isTheSameIdentity } from '../basic/identity'
 
 export type TRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
 

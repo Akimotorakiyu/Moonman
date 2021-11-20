@@ -6,7 +6,7 @@ import {
   IPosition,
   positionInPiece,
   IPiece,
-} from '../operation/basic/index'
+} from '../operation'
 import { IMetaInfo } from '../operation/piece'
 
 export class MetaView {

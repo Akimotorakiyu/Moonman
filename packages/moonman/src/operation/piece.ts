@@ -1,4 +1,5 @@
-import { IIdentity, IPiece, IRelativePosition } from './basic/index'
+import { IPiece, IRelativePosition } from './1d'
+import { IIdentity } from './basic/index'
 
 export interface IMetaInfo {
   type: string

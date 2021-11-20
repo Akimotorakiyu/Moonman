@@ -1,4 +1,5 @@
-import { IIdentity, IRelativePosition } from './basic/index'
+import { IRelativePosition } from './1d'
+import { IIdentity } from './basic/index'
 
 export interface IRangeMark {
   identity: IIdentity
