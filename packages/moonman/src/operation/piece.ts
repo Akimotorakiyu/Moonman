@@ -27,6 +27,7 @@ export const createMetaInfo = (metaInfo: IMetaInfo) => {
 export const createPieceMark = (pieceMark: IPieceMark) => {
   return pieceMark
 }
+
 export const createPieceMove = (pieceMove: IPieceMove) => {
   return pieceMove
 }

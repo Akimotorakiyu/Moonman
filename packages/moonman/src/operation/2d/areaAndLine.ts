@@ -5,6 +5,7 @@ export interface IRowLine {
   type: 'row'
   identity: IIdentity
   relation: IRowRelativeLinePosition
+  data: Record<string, any>
 }
 
 type TRowRelation = 'up' | 'down'
@@ -29,15 +30,21 @@ export interface IColumnRelativeLinePosition {
 }
 
 // position
-export interface I2DRelativePosition {
-  rowRelation: IRowRelativeLinePosition
-  columRelation: IRowRelativeLinePosition
+export interface I2DPosition {
+  row: IIdentity
+  colum: IIdentity
 }
 
-// area
-export interface IArea {
-  position: I2DRelativePosition
+// area view
+export interface IAreaView {
+  range: [I2DPosition, I2DPosition]
   width: number
   height: number
+  data: Record<string, any>
+}
+
+// cell
+export interface ICellInfo {
+  position: I2DPosition
   data: Record<string, any>
 }
