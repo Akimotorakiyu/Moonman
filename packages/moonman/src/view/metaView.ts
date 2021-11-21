@@ -7,13 +7,13 @@ import {
   is1DPositionInPiece,
   IPiece,
 } from '../operation'
-import { IMetaInfo } from '../operation/piece'
+import { IPieceInfo } from '../operation/piece'
 
 export class MetaView {
   constructor(
     public piece: IPiece,
     public data: Record<string, any>,
-    public srcMetaInfo: IMetaInfo,
+    public srcMetaInfo: IPieceInfo,
   ) {
     if (piece.start < 0 || this.length < 0) {
       throw new Error('start 和 length 不能小于 0')

@@ -5,7 +5,7 @@ import {
   is1DPositionInPiece,
 } from '../operation'
 import { MetaView } from './metaView'
-import { IPieceMark, IMetaInfo, IPieceMove } from '../operation/piece'
+import { IPieceMark, IPieceInfo, IPieceMove } from '../operation/piece'
 import { IRangeMark } from '../operation/range'
 
 export interface ISchema {
@@ -15,7 +15,7 @@ export interface ISchema {
 export class Fragment {
   constructor(
     public schemaMap: Map<string, ISchema>,
-    pieceText: IMetaInfo[] = [],
+    pieceText: IPieceInfo[] = [],
     pieceMark: IPieceMark[] = [],
     rangeMark: IRangeMark[] = [],
     pieceMove: IPieceMove[] = [],
@@ -38,7 +38,7 @@ export class Fragment {
     this.dealRangeMark()
   }
 
-  pieceText: IMetaInfo[]
+  pieceText: IPieceInfo[]
   pieceMark: IPieceMark[]
   rangeMark: IRangeMark[]
   pieceMove: IPieceMove[]

@@ -2,7 +2,7 @@ import { IPiece, I1DRelativePosition } from './1d'
 import { I2DPosition } from './2d'
 import { IIdentity } from './basic/index'
 
-export interface IMetaInfo {
+export interface IPieceInfo {
   type: string
   piece: IPiece
   position: I1DRelativePosition
@@ -21,7 +21,7 @@ export interface IPieceMark {
   data: Record<string, any>
 }
 
-export const createMetaInfo = (metaInfo: IMetaInfo) => {
+export const createMetaInfo = (metaInfo: IPieceInfo) => {
   return metaInfo
 }
 
