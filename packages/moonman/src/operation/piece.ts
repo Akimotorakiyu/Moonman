@@ -1,10 +1,11 @@
-import { IPiece, IRelativePosition } from './1d'
+import { IPiece, I1DRelativePosition } from './1d'
+import { I2DPosition } from './2d'
 import { IIdentity } from './basic/index'
 
 export interface IMetaInfo {
   type: string
   piece: IPiece
-  position: IRelativePosition
+  position: I1DRelativePosition
   data: Record<string, any>
 }
 

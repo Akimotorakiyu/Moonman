@@ -31,8 +31,7 @@ export interface IColumnRelativeLinePosition {
 
 // position
 export interface I2DPosition {
-  row: IIdentity
-  colum: IIdentity
+  anchor: [IIdentity, IIdentity]
 }
 
 // area view

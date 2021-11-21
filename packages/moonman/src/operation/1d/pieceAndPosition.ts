@@ -1,15 +1,15 @@
 import { IIdentity, isTheSameIdentity } from '../basic/identity'
 
-export type TRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
+export type T1DRelation = 'after' | 'before' | 'inner-after' | 'inner-before'
 
-export interface IPosition {
+export interface I1DPosition {
   identity: IIdentity
   index: number
 }
 
-export interface IRelativePosition {
-  anchor: IPosition
-  relation: TRelation
+export interface I1DRelativePosition {
+  anchor: I1DPosition
+  relation: T1DRelation
 }
 
 export interface IPiece {
@@ -22,15 +22,15 @@ export interface MoonmanData {
   deleted: boolean
 }
 
-export const computedPositionFromPiece = (piece: IPiece) => {
-  const startPosition: IRelativePosition = {
+export const computed1DPositionFromPiece = (piece: IPiece) => {
+  const startPosition: I1DRelativePosition = {
     anchor: {
       identity: piece.identity,
       index: piece.start,
     },
     relation: 'before',
   }
-  const endPosition: IRelativePosition = {
+  const endPosition: I1DRelativePosition = {
     anchor: {
       identity: piece.identity,
       index: piece.end,
@@ -41,7 +41,7 @@ export const computedPositionFromPiece = (piece: IPiece) => {
   return [startPosition, endPosition] as const
 }
 
-export const positionInPiece = (position: IPosition, piece: IPiece) => {
+export const is1DPositionInPiece = (position: I1DPosition, piece: IPiece) => {
   if (isTheSameIdentity(position.identity, piece.identity)) {
     const isAfterStart = piece.start <= position.index
     const isBeforeEnd = position.index < piece.end

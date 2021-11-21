@@ -28,7 +28,6 @@ console.log(resWithColor)
 import { defineFunctionComponent } from './defineFunctionComponent'
 
 export const MarkRender = defineFunctionComponent(() => {
-  console.log('xxxx')
   return {
     render() {
       return (

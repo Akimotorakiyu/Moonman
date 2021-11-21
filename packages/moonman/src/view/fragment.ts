@@ -1,8 +1,8 @@
 import { createMetaInfo } from '../operation/'
 import {
-  computedPositionFromPiece,
+  computed1DPositionFromPiece,
   identitySortMethod,
-  positionInPiece,
+  is1DPositionInPiece,
 } from '../operation'
 import { MetaView } from './metaView'
 import { IPieceMark, IMetaInfo, IPieceMove } from '../operation/piece'
@@ -90,7 +90,7 @@ export class Fragment {
   dealMove() {
     this.pieceMove.forEach((move) => {
       this.pieceText.forEach((text, index, arr) => {
-        const isInMovePiece = positionInPiece(
+        const isInMovePiece = is1DPositionInPiece(
           text.position.anchor,
           move.srcPiece,
         )
@@ -123,12 +123,15 @@ export class Fragment {
       })
 
       this.pieceMark.forEach((mark, index, arr) => {
-        const pieceRange = computedPositionFromPiece(mark.piece)
-        const isStartInItem = positionInPiece(
+        const pieceRange = computed1DPositionFromPiece(mark.piece)
+        const isStartInItem = is1DPositionInPiece(
           pieceRange[0].anchor,
           move.srcPiece,
         )
-        const isEndInItem = positionInPiece(pieceRange[1].anchor, move.srcPiece)
+        const isEndInItem = is1DPositionInPiece(
+          pieceRange[1].anchor,
+          move.srcPiece,
+        )
 
         // todo need ensure time
         const isAfterMoveOT = mark.identity.timestamp > move.identity.timestamp
@@ -236,7 +239,7 @@ export class Fragment {
 
   dealPieceMark() {
     this.pieceMark.forEach((mark) => {
-      const pieceRange = computedPositionFromPiece(mark.piece)
+      const pieceRange = computed1DPositionFromPiece(mark.piece)
       this.listing.some((item, index) => {
         const isStartInItem = item.isInRange(pieceRange[0].anchor)
         const isEndInItem = item.isInRange(pieceRange[1].anchor)
