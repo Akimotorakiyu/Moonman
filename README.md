@@ -18,3 +18,7 @@
 - and move all the OT after replace to the new piece
 
 ### 2D
+
+## Philosophy
+
+🧣 Keep the relationship not change!
