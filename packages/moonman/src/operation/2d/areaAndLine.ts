@@ -1,27 +1,43 @@
 import { IIdentity, isTheSameIdentity } from '../basic/identity'
 
-export type TQuadrant = '1' | '2' | '3' | '4'
-
-export type T2DRelation = 'up' | 'down' | 'left' | 'right'
-
-export interface ILine {
+// row
+export interface IRowLine {
+  type: 'row'
   identity: IIdentity
-  relation: T2DRelation
+  relation: IRowRelativeLinePosition
 }
 
-export interface I2DPosition {
-  identity: IIdentity
-  xIndex: number
-  yIndex: number
+type TRowRelation = 'up' | 'down'
+
+export interface IRowRelativeLinePosition {
+  anchor: IIdentity
+  relation: TRowRelation
 }
 
+// column
+export interface IColumnLine {
+  type: 'row'
+  identity: IIdentity
+  relation: IRowRelativeLinePosition
+}
+
+type TColumnRelation = 'left' | 'right'
+
+export interface IColumnRelativeLinePosition {
+  anchor: IIdentity
+  relation: TColumnRelation
+}
+
+// position
 export interface I2DRelativePosition {
-  anchor: I2DPosition
-  quadrant: TQuadrant
+  rowRelation: IRowRelativeLinePosition
+  columRelation: IRowRelativeLinePosition
 }
 
-export interface I2DArea {
-  identity: IIdentity
-  start: number
-  end: number
+// area
+export interface IArea {
+  position: I2DRelativePosition
+  width: number
+  height: number
+  data: Record<string, any>
 }
