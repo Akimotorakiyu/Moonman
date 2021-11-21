@@ -24,7 +24,6 @@ export interface IRowLine {
   type: 'row'
   identity: IIdentity
   relation: IRowRelativeLinePosition
-  data: Record<string, any>
 }
 
 type TRowRelation = 'up' | 'down'
@@ -52,6 +51,7 @@ export interface IColumnRelativeLinePosition {
 export interface I2DPosition {
   row: IIdentity
   column: IIdentity
+  index: number
 }
 
 /**
