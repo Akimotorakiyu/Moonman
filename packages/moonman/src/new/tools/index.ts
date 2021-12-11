@@ -1,4 +1,4 @@
-import { createPieceViewAndPieceData } from './define'
+import { createPieceViewAndPieceData, insertToAdress } from './define'
 
 export function genTextView(text: string) {
   return createPieceViewAndPieceData(text)
@@ -44,6 +44,7 @@ export function genTableColumLine(props: Record<string, unknown>) {
 
   return createPieceViewAndPieceData([paragraph])
 }
+
 export function genTableRowLine(props: Record<string, unknown>) {
   const paragraph: ITableRowLine = {
     type: 'ITableRowLine',
@@ -52,11 +53,38 @@ export function genTableRowLine(props: Record<string, unknown>) {
 
   return createPieceViewAndPieceData([paragraph])
 }
+
 export function genTable(props: Record<string, unknown>) {
   const paragraph: ITable = {
     type: 'ITable',
     props: {},
   }
 
-  return createPieceViewAndPieceData([paragraph])
+  const table = createPieceViewAndPieceData([paragraph])
+
+  const row = genTableRowLine({})
+  const col = genTableColumLine({})
+
+  const insertRow = insertToAdress(row.pieceView.identity, {
+    relation: {
+      isInner: true,
+      isForward: true,
+    },
+    anchor: {
+      coordinate: [table.pieceView.identity],
+      index: 0,
+    },
+  })
+  const insertCol = insertToAdress(col.pieceView.identity, {
+    relation: {
+      isInner: true,
+      isForward: true,
+    },
+    anchor: {
+      coordinate: [table.pieceView.identity],
+      index: 0,
+    },
+  })
+
+  return table
 }

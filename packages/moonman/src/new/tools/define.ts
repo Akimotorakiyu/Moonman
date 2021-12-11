@@ -1,4 +1,10 @@
-import type { IPieceView, IIdentity, IPieceData } from '../operation/index'
+import type {
+  IPieceView,
+  IIdentity,
+  IPieceData,
+  IRelationAdress,
+  IInsertMark,
+} from '../operation/index'
 
 // 生产环境中应使用随机数
 let id = 0
@@ -56,4 +62,17 @@ export function createPieceViewAndPieceData<T extends ArrayLike<unknown>>(
     pieceView,
     pieceData,
   }
+}
+
+export function insertToAdress(
+  pieceViewIdentity: IIdentity,
+  relationAdress: IRelationAdress,
+) {
+  const moveMark: IInsertMark = {
+    identity: genIdentity(),
+    relationAdress: relationAdress,
+    pieceView: pieceViewIdentity,
+  }
+
+  return moveMark
 }
