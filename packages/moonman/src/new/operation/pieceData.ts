@@ -1,8 +1,9 @@
-import { TCoordinate } from './coordinate'
 import { IIdentifiable, IIdentity } from './identity'
 
 /**
  * 数据真正存储的地方
+ * 一条或多条数据存储在一起
+ * one or more meta info ziped in a piece
  */
 export interface IPieceData<T extends ArrayLike<unknown> = string>
   extends IIdentifiable {
@@ -19,8 +20,8 @@ export interface IPieceRange {
 }
 
 /**
- * IPieceView is one or more meta info ziped in a piece
- * withe the same identity
+ * IPieceView
+ * 数据视图
  */
 export interface IPieceView extends IIdentifiable {
   piece: IPieceRange // 在 IPieceData 中的区间

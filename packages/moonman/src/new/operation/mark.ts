@@ -1,6 +1,14 @@
 import { IRelationAdress } from './adress'
-import { IIdentifiable } from './identity'
+import { IIdentifiable, IIdentity } from './identity'
 import { IPieceAdress } from './adress'
+
+/**
+ * 表示插入数据
+ */
+export interface IInsertMark extends IIdentifiable {
+  relationAdress: IRelationAdress
+  pieceView: IIdentity //指向 IPieceView
+}
 
 /**
  * 区间标记
