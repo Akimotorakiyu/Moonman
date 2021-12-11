@@ -1,4 +1,5 @@
 import { TCoordinate } from './coordinate'
+import { IPieceRange } from './pieceData'
 
 /**
  * 表示一个 meta 元素的位置
@@ -23,4 +24,13 @@ export interface IAdressRelation {
 export interface IRelationAdress {
   anchor: IAdress
   relation: IAdressRelation
+}
+
+/**
+ * 表示一个片段，一般指向一个 IPieceView 的一部分
+ * 用于 mark 等只表示数据的
+ */
+export interface IPieceAdress {
+  coordinate: TCoordinate
+  piece: IPieceRange
 }

@@ -1,6 +1,6 @@
 import { IRelationAdress } from './adress'
 import { IIdentifiable } from './identity'
-import { IPiece } from './pieceData'
+import { IPieceAdress } from './adress'
 
 /**
  * 区间标记
@@ -20,7 +20,7 @@ export interface IRangeMark extends IIdentifiable {
  * 比如说删除、移动、替换等操作
  */
 export interface IPieceMark extends IIdentifiable {
-  piece: IPiece
+  piece: IPieceAdress
   data: Record<string, any>
 }
 
@@ -29,6 +29,6 @@ export interface IPieceMark extends IIdentifiable {
  * 移动
  */
 export interface IMoveMark extends IIdentifiable {
-  srcPiece: IPiece
-  aimPiece: IPiece
+  srcPiece: IPieceAdress
+  aimPiece: IPieceAdress
 }

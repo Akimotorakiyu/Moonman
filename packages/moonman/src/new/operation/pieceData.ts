@@ -1,7 +1,19 @@
 import { TCoordinate } from './coordinate'
-import { IIdentifiable } from './identity'
+import { IIdentifiable, IIdentity } from './identity'
 
-interface IPieceRange {
+/**
+ * 数据真正存储的地方
+ */
+export interface IPieceData<T extends ArrayLike<unknown> = string>
+  extends IIdentifiable {
+  data: T
+}
+
+/**
+ * Range 即区间
+ * 左开右闭
+ */
+export interface IPieceRange {
   start: number
   end: number
 }
@@ -10,16 +22,7 @@ interface IPieceRange {
  * IPieceView is one or more meta info ziped in a piece
  * withe the same identity
  */
-export interface IPieceView<T extends ArrayLike<unknown> = string>
-  extends IIdentifiable {
-  meta: T // T may char array or Some Array
-  piece: IPieceRange
-}
-
-/**
- * 表示一个片段
- */
-export interface IPiece {
-  coordinate: TCoordinate
-  piece: IPieceRange
+export interface IPieceView extends IIdentifiable {
+  piece: IPieceRange // 在 IPieceData 中的区间
+  data: IIdentity //指向 IPieceData
 }
