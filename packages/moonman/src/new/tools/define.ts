@@ -70,6 +70,7 @@ export function insertToAdress(
   container: IIdentity,
 ) {
   const moveMark: IInsertMark = {
+    type: 'IInsertMark',
     identity: genIdentity(),
     relationAdress: relationAdress,
     pieceView: pieceViewIdentity,
