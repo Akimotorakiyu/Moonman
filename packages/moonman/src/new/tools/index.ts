@@ -1,66 +1,134 @@
 import { createPieceViewAndPieceData, insertToAdress } from './define'
 
-export function genTextView(text: string) {
+export interface ITitleModel {
+  type: 'ITitle'
+  props: Record<string, unknown>
+}
+
+export function genTitle(props: Record<string, unknown>) {
+  const data = createPieceViewAndPieceData([
+    <ITitleModel>{
+      type: 'ITitle',
+      props: {
+        color: 'black',
+        fontSize: '14px',
+      },
+    },
+  ])
+
+  return data
+}
+
+export function genText(text: string) {
   return createPieceViewAndPieceData(text)
 }
 
-export interface IParagraph {
+export interface IDocumentModel {
+  type: 'IDocument'
+  props: Record<string, unknown>
+}
+
+export function genDocument(props: Record<string, unknown>) {
+  const doc = createPieceViewAndPieceData([
+    <IDocumentModel>{
+      type: 'IDocument',
+      props: {
+        color: 'black',
+        fontSize: '14px',
+      },
+    },
+  ])
+
+  const title = genTitle({})
+  const paragraph = genParagraph({})
+
+  const insertRow = insertToAdress(title.pieceView.identity, {
+    relation: {
+      isInner: true,
+      isForward: true,
+    },
+    anchor: {
+      coordinate: [title.pieceView.identity],
+      index: 0,
+    },
+  })
+  const insertCol = insertToAdress(paragraph.pieceView.identity, {
+    relation: {
+      isInner: true,
+      isForward: true,
+    },
+    anchor: {
+      coordinate: [paragraph.pieceView.identity],
+      index: 0,
+    },
+  })
+
+  return doc
+}
+
+export interface IParagraphModel {
   type: 'IParagraph'
   props: Record<string, unknown>
 }
 
 export function genParagraph(props: Record<string, unknown>) {
-  const paragraph: IParagraph = {
-    type: 'IParagraph',
-    props: {
-      color: 'blue',
-      fontSize: '16px',
+  const data = createPieceViewAndPieceData([
+    <IParagraphModel>{
+      type: 'IParagraph',
+      props: {
+        color: 'black',
+        fontSize: '14px',
+      },
     },
-  }
+  ])
 
-  return createPieceViewAndPieceData([paragraph])
+  return data
 }
 
-export interface ITable {
+export interface ITableModel {
   type: 'ITable'
   props: Record<string, unknown>
 }
 
-export interface ITableColumLine {
+export interface ITableColumLineModel {
   type: 'ITableColumLine'
   props: Record<string, unknown>
 }
 
-export interface ITableRowLine {
+export interface ITableRowLineModel {
   type: 'ITableRowLine'
   props: Record<string, unknown>
 }
 
 export function genTableColumLine(props: Record<string, unknown>) {
-  const paragraph: ITableColumLine = {
-    type: 'ITableColumLine',
-    props: {},
-  }
+  const data = createPieceViewAndPieceData([
+    <ITableColumLineModel>{
+      type: 'ITableColumLine',
+      props: {},
+    },
+  ])
 
-  return createPieceViewAndPieceData([paragraph])
+  return data
 }
 
 export function genTableRowLine(props: Record<string, unknown>) {
-  const paragraph: ITableRowLine = {
-    type: 'ITableRowLine',
-    props: {},
-  }
+  const data = createPieceViewAndPieceData([
+    <ITableRowLineModel>{
+      type: 'ITableRowLine',
+      props: {},
+    },
+  ])
 
-  return createPieceViewAndPieceData([paragraph])
+  return data
 }
 
 export function genTable(props: Record<string, unknown>) {
-  const paragraph: ITable = {
-    type: 'ITable',
-    props: {},
-  }
-
-  const table = createPieceViewAndPieceData([paragraph])
+  const table = createPieceViewAndPieceData([
+    <ITableModel>{
+      type: 'ITable',
+      props: {},
+    },
+  ])
 
   const row = genTableRowLine({})
   const col = genTableColumLine({})
