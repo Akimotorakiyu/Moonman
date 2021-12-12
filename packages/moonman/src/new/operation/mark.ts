@@ -6,6 +6,7 @@ import { IPieceAdress } from './adress'
  * 表示插入数据
  */
 export interface IInsertMark extends IIdentifiable {
+  type: 'IInsertMark'
   relationAdress: IRelationAdress
   container: IIdentity
   pieceView: IIdentity //指向 IPieceView
@@ -19,6 +20,7 @@ export interface IInsertMark extends IIdentifiable {
  * 所以不建议在此操作上应用 move 操作
  */
 export interface IRangeMark extends IIdentifiable {
+  type: 'IRangeMark'
   from: IRelationAdress
   to: IRelationAdress
   data: Record<string, any>
@@ -29,6 +31,7 @@ export interface IRangeMark extends IIdentifiable {
  * 比如说删除、移动、替换等操作
  */
 export interface IPieceMark extends IIdentifiable {
+  type: 'IPieceMark'
   piece: IPieceAdress
   data: Record<string, any>
 }
@@ -38,6 +41,9 @@ export interface IPieceMark extends IIdentifiable {
  * 移动
  */
 export interface IMoveMark extends IIdentifiable {
+  type: 'IMoveMark'
   srcPiece: IPieceAdress
   aimPiece: IPieceAdress
 }
+
+export type TMark = IInsertMark | IRangeMark | IPieceMark | IMoveMark
