@@ -42,26 +42,34 @@ export function genDocument(props: Record<string, unknown>) {
   const title = genTitle({})
   const paragraph = genParagraph({})
 
-  const insertRow = insertToAdress(title.pieceView.identity, {
-    relation: {
-      isInner: true,
-      isForward: true,
+  const insertTitle = insertToAdress(
+    {
+      relation: {
+        isInner: true,
+        isForward: true,
+      },
+      anchor: {
+        coordinate: [title.pieceView.identity],
+        index: 0,
+      },
     },
-    anchor: {
-      coordinate: [title.pieceView.identity],
-      index: 0,
+    doc.pieceView.identity,
+    doc.pieceView.identity,
+  )
+  const insertParagraph = insertToAdress(
+    {
+      relation: {
+        isInner: true,
+        isForward: true,
+      },
+      anchor: {
+        coordinate: [paragraph.pieceView.identity],
+        index: 0,
+      },
     },
-  })
-  const insertCol = insertToAdress(paragraph.pieceView.identity, {
-    relation: {
-      isInner: true,
-      isForward: true,
-    },
-    anchor: {
-      coordinate: [paragraph.pieceView.identity],
-      index: 0,
-    },
-  })
+    title.pieceView.identity,
+    doc.pieceView.identity,
+  )
 
   return doc
 }
@@ -133,26 +141,34 @@ export function genTable(props: Record<string, unknown>) {
   const row = genTableRowLine({})
   const col = genTableColumLine({})
 
-  const insertRow = insertToAdress(row.pieceView.identity, {
-    relation: {
-      isInner: true,
-      isForward: true,
+  const insertRow = insertToAdress(
+    {
+      relation: {
+        isInner: true,
+        isForward: true,
+      },
+      anchor: {
+        coordinate: [table.pieceView.identity],
+        index: 0,
+      },
     },
-    anchor: {
-      coordinate: [table.pieceView.identity],
-      index: 0,
+    row.pieceView.identity,
+    table.pieceView.identity,
+  )
+  const insertCol = insertToAdress(
+    {
+      relation: {
+        isInner: true,
+        isForward: true,
+      },
+      anchor: {
+        coordinate: [table.pieceView.identity],
+        index: 0,
+      },
     },
-  })
-  const insertCol = insertToAdress(col.pieceView.identity, {
-    relation: {
-      isInner: true,
-      isForward: true,
-    },
-    anchor: {
-      coordinate: [table.pieceView.identity],
-      index: 0,
-    },
-  })
+    col.pieceView.identity,
+    col.pieceView.identity,
+  )
 
   return table
 }

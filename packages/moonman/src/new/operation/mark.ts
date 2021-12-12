@@ -7,6 +7,7 @@ import { IPieceAdress } from './adress'
  */
 export interface IInsertMark extends IIdentifiable {
   relationAdress: IRelationAdress
+  container: IIdentity
   pieceView: IIdentity //指向 IPieceView
 }
 

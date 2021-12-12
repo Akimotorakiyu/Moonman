@@ -65,13 +65,15 @@ export function createPieceViewAndPieceData<T extends ArrayLike<unknown>>(
 }
 
 export function insertToAdress(
-  pieceViewIdentity: IIdentity,
   relationAdress: IRelationAdress,
+  pieceViewIdentity: IIdentity,
+  container: IIdentity,
 ) {
   const moveMark: IInsertMark = {
     identity: genIdentity(),
     relationAdress: relationAdress,
     pieceView: pieceViewIdentity,
+    container,
   }
 
   return moveMark
