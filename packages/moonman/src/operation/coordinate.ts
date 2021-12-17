@@ -2,6 +2,7 @@ import { isTheSameIdentity } from './identity'
 import { TPieceViewIdentity } from './pieceView'
 /**
  * TCoordinate is the coordinate on the n dimension
+ * aim to PieceView
  */
 export type TCoordinate = TPieceViewIdentity[]
 

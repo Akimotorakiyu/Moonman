@@ -32,6 +32,7 @@ export interface IRangeMark extends IIdentifiable {
   from: IRelationAdress
   to: IRelationAdress
   data: Record<string, any>
+  container: TPieceDataIdentity
 }
 
 export type TPieceMarkIdentity = IIdentity
@@ -44,6 +45,7 @@ export interface IPieceMark extends IIdentifiable {
   type: 'IPieceMark'
   piece: IPieceAdress
   data: Record<string, any>
+  container: TPieceDataIdentity
 }
 
 export type TMoveMarkIdentity = IIdentity
@@ -57,6 +59,14 @@ export interface IMoveMark extends IIdentifiable {
   srcPiece: IPieceAdress
   aimPiece: IPieceAdress
   container: TPieceDataIdentity
+}
+
+/**
+ * 对数据 或者节点 本身的Mark
+ */
+export interface IPropsMark extends IIdentifiable {
+  type: 'IPropsMark'
+  data: Record<string, any>
 }
 
 export type TMark = IInsertMark | IRangeMark | IPieceMark | IMoveMark

@@ -1,220 +1,154 @@
-import {
-  createPieceViewAndPieceData,
-  insertToAdress,
-} from '../../repo/bussiness/define'
-import { StateSpace } from '../stateSpace'
+// import {
+//   createPieceViewAndPieceData,
+//   insertToAdress,
+// } from '../../repo/bussiness/define'
+// import { BlockSpace } from '../stateSpace'
 
-export interface ITitleModel {
-  type: 'ITitle'
-  props: Record<string, unknown>
-}
+// export function genTitle(
+//   props: Record<string, unknown>,
+//   parentStateSpace: BlockSpace,
+// ) {
+//   return createPieceViewAndPieceData(
+//     [
+//       <ITitleModel>{
+//         type: 'ITitle',
+//         props: {
+//           color: 'black',
+//           fontSize: '14px',
+//           ...props,
+//         },
+//       },
+//     ],
+//     parentStateSpace,
+//   )
+// }
 
-export function genTitle(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const data = createPieceViewAndPieceData(
-    [
-      <ITitleModel>{
-        type: 'ITitle',
-        props: {
-          color: 'black',
-          fontSize: '14px',
-          ...props,
-        },
-      },
-    ],
-    stateSpace,
-  )
+// export function genText(text: string, parentStateSpace: BlockSpace) {
+//   return createPieceViewAndPieceData(text, parentStateSpace)
+// }
 
-  return data
-}
+// export function genDocument(
+//   props: Record<string, unknown>,
+//   stateSpace: BlockSpace,
+// ) {
+//   const doc = createPieceViewAndPieceData(
+//     [
+//       <IDocumentModel>{
+//         type: 'IDocument',
+//         props: {
+//           color: 'black',
+//           fontSize: '14px',
+//           ...props,
+//         },
+//       },
+//     ],
+//     stateSpace,
+//   )
 
-export function genText(text: string, stateSpace: StateSpace) {
-  return createPieceViewAndPieceData(text, stateSpace)
-}
+//   return doc
+// }
 
-export interface IDocumentModel {
-  type: 'IDocument'
-  props: Record<string, unknown>
-}
+// export function genParagraph(
+//   props: Record<string, unknown>,
+//   parentStateSpace: BlockSpace,
+// ) {
+//   const data = createPieceViewAndPieceData(
+//     [
+//       <IParagraphModel>{
+//         type: 'IParagraph',
+//         props: {
+//           color: 'black',
+//           fontSize: '14px',
+//         },
+//       },
+//     ],
+//     parentStateSpace,
+//   )
 
-export function genDocument(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const doc = createPieceViewAndPieceData(
-    [
-      <IDocumentModel>{
-        type: 'IDocument',
-        props: {
-          color: 'black',
-          fontSize: '14px',
-          ...props,
-        },
-      },
-    ],
-    stateSpace,
-  )
+//   return data
+// }
 
-  const title = genTitle({}, stateSpace)
-  const paragraph = genParagraph({}, stateSpace)
+// export function genTableColumLine(
+//   props: Record<string, unknown>,
+//   parentStateSpace: BlockSpace,
+// ) {
+//   const data = createPieceViewAndPieceData(
+//     [
+//       <ITableColumLineModel>{
+//         type: 'ITableColumLine',
+//         props: {},
+//       },
+//     ],
+//     parentStateSpace,
+//   )
 
-  const insertTitle = insertToAdress(
-    {
-      relation: {
-        isInner: true,
-        isForward: true,
-      },
-      anchor: {
-        coordinate: [title.pieceView.identity],
-        index: 0,
-      },
-    },
-    title.pieceView.identity,
-    doc.pieceView.identity,
-    stateSpace,
-  )
-  const insertParagraph = insertToAdress(
-    {
-      relation: {
-        isInner: true,
-        isForward: true,
-      },
-      anchor: {
-        coordinate: [paragraph.pieceView.identity],
-        index: 0,
-      },
-    },
-    paragraph.pieceView.identity,
-    doc.pieceView.identity,
-    stateSpace,
-  )
+//   return data
+// }
 
-  return doc
-}
+// export function genTableRowLine(
+//   props: Record<string, unknown>,
+//   parentStateSpace: BlockSpace,
+// ) {
+//   const data = createPieceViewAndPieceData(
+//     [
+//       <ITableRowLineModel>{
+//         type: 'ITableRowLine',
+//         props: {},
+//       },
+//     ],
+//     parentStateSpace,
+//   )
 
-export interface IParagraphModel {
-  type: 'IParagraph'
-  props: Record<string, unknown>
-}
+//   return data
+// }
 
-export function genParagraph(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const data = createPieceViewAndPieceData(
-    [
-      <IParagraphModel>{
-        type: 'IParagraph',
-        props: {
-          color: 'black',
-          fontSize: '14px',
-        },
-      },
-    ],
-    stateSpace,
-  )
+// export function genTable(
+//   props: Record<string, unknown>,
+//   parentStateSpace: BlockSpace,
+// ) {
+//   const table = createPieceViewAndPieceData(
+//     [
+//       <ITableModel>{
+//         type: 'ITable',
+//         props: {},
+//       },
+//     ],
+//     parentStateSpace,
+//   )
 
-  return data
-}
+//   const row = genTableRowLine({}, parentStateSpace)
+//   const col = genTableColumLine({}, parentStateSpace)
 
-export interface ITableModel {
-  type: 'ITable'
-  props: Record<string, unknown>
-}
+//   const insertRow = insertToAdress(
+//     {
+//       relation: {
+//         isInner: true,
+//         isForward: true,
+//       },
+//       anchor: {
+//         coordinate: [table.pieceView.identity],
+//         index: 0,
+//       },
+//     },
+//     row.pieceView.identity,
+//     table.pieceView.identity,
+//     parentStateSpace,
+//   )
+//   const insertCol = insertToAdress(
+//     {
+//       relation: {
+//         isInner: true,
+//         isForward: true,
+//       },
+//       anchor: {
+//         coordinate: [table.pieceView.identity],
+//         index: 0,
+//       },
+//     },
+//     col.pieceView.identity,
+//     col.pieceView.identity,
+//     parentStateSpace,
+//   )
 
-export interface ITableColumLineModel {
-  type: 'ITableColumLine'
-  props: Record<string, unknown>
-}
-
-export interface ITableRowLineModel {
-  type: 'ITableRowLine'
-  props: Record<string, unknown>
-}
-
-export function genTableColumLine(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const data = createPieceViewAndPieceData(
-    [
-      <ITableColumLineModel>{
-        type: 'ITableColumLine',
-        props: {},
-      },
-    ],
-    stateSpace,
-  )
-
-  return data
-}
-
-export function genTableRowLine(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const data = createPieceViewAndPieceData(
-    [
-      <ITableRowLineModel>{
-        type: 'ITableRowLine',
-        props: {},
-      },
-    ],
-    stateSpace,
-  )
-
-  return data
-}
-
-export function genTable(
-  props: Record<string, unknown>,
-  stateSpace: StateSpace,
-) {
-  const table = createPieceViewAndPieceData(
-    [
-      <ITableModel>{
-        type: 'ITable',
-        props: {},
-      },
-    ],
-    stateSpace,
-  )
-
-  const row = genTableRowLine({}, stateSpace)
-  const col = genTableColumLine({}, stateSpace)
-
-  const insertRow = insertToAdress(
-    {
-      relation: {
-        isInner: true,
-        isForward: true,
-      },
-      anchor: {
-        coordinate: [table.pieceView.identity],
-        index: 0,
-      },
-    },
-    row.pieceView.identity,
-    table.pieceView.identity,
-    stateSpace,
-  )
-  const insertCol = insertToAdress(
-    {
-      relation: {
-        isInner: true,
-        isForward: true,
-      },
-      anchor: {
-        coordinate: [table.pieceView.identity],
-        index: 0,
-      },
-    },
-    col.pieceView.identity,
-    col.pieceView.identity,
-    stateSpace,
-  )
-
-  return table
-}
+//   return table
+// }

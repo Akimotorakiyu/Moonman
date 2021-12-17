@@ -6,7 +6,7 @@ import type {
   TPieceDataIdentity,
 } from '../../../operation/index'
 import { IPieceView, TPieceViewIdentity } from '../../../operation/pieceView'
-import { StateSpace } from '../stateSpace'
+import { BlockSpace } from '../stateSpace'
 // 生产环境中应使用随机数
 let id = 0
 
@@ -21,13 +21,11 @@ export function genIdentity(): IIdentity {
 // 创建 piece 数据
 export function createPieceData<T extends ArrayLike<unknown>>(
   dataArray: T,
-  stateSpace: StateSpace,
 ): IPieceData<T> {
   const pieceData: IPieceData<T> = {
     identity: genIdentity(),
     data: dataArray,
   }
-  stateSpace.dataSpace.push(pieceData)
 
   return pieceData
 }
@@ -35,7 +33,7 @@ export function createPieceData<T extends ArrayLike<unknown>>(
 // 创建 pieceView
 export function _createPieceView<T extends ArrayLike<unknown>>(
   pieceData: IPieceData<T>,
-  stateSpace: StateSpace,
+  stateSpace: BlockSpace,
 ) {
   const pieceView: IPieceView = {
     identity: genIdentity(),
@@ -58,13 +56,13 @@ export function _createPieceView<T extends ArrayLike<unknown>>(
  */
 export function createPieceViewAndPieceData<T extends ArrayLike<unknown>>(
   dataArray: T,
-  stateSpace: StateSpace,
+  parentStateSpace: BlockSpace,
 ): {
   pieceView: IPieceView
   pieceData: IPieceData<T>
 } {
-  const pieceData = createPieceData(dataArray, stateSpace)
-  const pieceView = _createPieceView(pieceData, stateSpace)
+  const pieceData = createPieceData(dataArray)
+  const pieceView = _createPieceView(pieceData, parentStateSpace)
 
   return {
     pieceView,
@@ -76,7 +74,7 @@ export function insertToAdress(
   relationAdress: IRelationAdress,
   pieceViewIdentity: TPieceViewIdentity,
   container: TPieceDataIdentity,
-  stateSpace: StateSpace,
+  parentStateSpace: BlockSpace,
 ) {
   const insertMark: IInsertMark = {
     type: 'IInsertMark',
@@ -86,7 +84,7 @@ export function insertToAdress(
     container,
   }
 
-  stateSpace.markSpace.push(insertMark)
+  parentStateSpace.markSpace.push(insertMark)
 
   return insertMark
 }
