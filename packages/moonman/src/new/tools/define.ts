@@ -1,10 +1,10 @@
 import type {
-  IPieceView,
   IIdentity,
   IPieceData,
   IRelationAdress,
   IInsertMark,
 } from '../operation/index'
+import { IPieceView } from '../operation/pieceView'
 
 // 生产环境中应使用随机数
 let id = 0

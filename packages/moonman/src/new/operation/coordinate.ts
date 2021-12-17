@@ -1,9 +1,9 @@
-import { IIdentity, isTheSameIdentity } from './identity'
-
+import { isTheSameIdentity } from './identity'
+import { TPieceViewIdentity } from './pieceView'
 /**
  * TCoordinate is the coordinate on the n dimension
  */
-export type TCoordinate = IIdentity[]
+export type TCoordinate = TPieceViewIdentity[]
 
 /**
  * isTheSameCoordinate

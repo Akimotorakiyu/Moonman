@@ -1,5 +1,7 @@
 import { IIdentifiable, IIdentity } from './identity'
 
+export type TPieceDataIdentity = IIdentity
+
 /**
  * 数据真正存储的地方
  * 一条或多条数据存储在一起
@@ -17,13 +19,4 @@ export interface IPieceData<T extends ArrayLike<unknown> = string>
 export interface IPieceRange {
   start: number
   end: number
-}
-
-/**
- * IPieceView
- * 数据视图
- */
-export interface IPieceView extends IIdentifiable {
-  piece: IPieceRange // 在 IPieceData 中的区间
-  data: IIdentity //指向 IPieceData
 }
