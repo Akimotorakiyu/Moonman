@@ -6,7 +6,7 @@ import type {
   TPieceDataIdentity,
 } from '../../../operation/index'
 import { IPieceView, TPieceViewIdentity } from '../../../operation/pieceView'
-import { BlockSpace } from '../stateSpace'
+import { BlockSpace } from '../blockSpace'
 // 生产环境中应使用随机数
 let id = 0
 
