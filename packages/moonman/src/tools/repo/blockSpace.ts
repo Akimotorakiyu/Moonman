@@ -1,4 +1,5 @@
 import {
+  IIdentifiable,
   IIdentity,
   IInsertMark,
   IPieceAdress,
@@ -13,8 +14,13 @@ import {
 import { IPieceView, TPieceViewIdentity } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
 
-export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>> {
-  readonly identity: IIdentity = genIdentity()
+export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
+  implements IIdentifiable
+{
+  constructor(
+    public props: Record<string, unknown> = {},
+    public identity: IIdentity = genIdentity(),
+  ) {}
 
   // store the op for the child
   readonly dataSpace: IPieceData<T>[] = []
@@ -23,8 +29,9 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>> {
   readonly propsMark: IPropsMark[] = []
 
   get copy() {
-    const copy = new BlockSpace()
+    const copy = new BlockSpace(this.props, this.identity)
     this.copySpaceData(copy)
+
     return copy
   }
 
