@@ -1,32 +1,26 @@
-import { IPieceView } from '../..'
 import { IPieceRange, IIdentity, IPieceData } from '../../operation'
 import { BlockSpace } from './blockSpace'
 import { genIdentity } from './bussiness/define'
-import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
+import {
+  IDocumentModel,
+  IParagraphModel,
+  ITextModel,
+  ITitleModel,
+} from './model'
 
-export class TextSpace extends BlockSpace implements IPieceView {
-  readonly type = 'text'
+export class TextSpace extends BlockSpace implements ITextModel {
+  readonly type = 'IText'
 
   constructor(
     defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
-    public data: IIdentity,
-    public dataPiece: IPieceData,
-    public piece: IPieceRange = { start: 0, end: dataPiece.data.length },
+    public readonly text: string = '',
   ) {
     super(defaultProps)
   }
 
   get copy() {
-    const copy = new TextSpace(
-      this.defaultProps,
-      this.identity,
-      this.data,
-      this.dataPiece,
-      {
-        ...this.piece,
-      },
-    )
+    const copy = new TextSpace(this.defaultProps, this.identity, this.text)
     this.copySpaceData(copy)
     return copy
   }

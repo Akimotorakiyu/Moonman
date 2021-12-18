@@ -1,5 +1,10 @@
 import { IIdentifiable } from '../..'
 
+export interface ITextModel extends IIdentifiable {
+  type: 'IText'
+  defaultProps: Record<string, unknown>
+}
+
 export interface ITitleModel extends IIdentifiable {
   type: 'ITitle'
   defaultProps: Record<string, unknown>
