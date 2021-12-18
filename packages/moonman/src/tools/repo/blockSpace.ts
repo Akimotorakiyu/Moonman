@@ -23,17 +23,9 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     public data: T,
   ) {}
 
-  readonly operationList: TOperation<T>[] = []
+  readonly operationList: TOperation<ArrayLike<unknown> | string>[] = []
 
   // store the op for the child
-  get dataSpace(): IPieceData<T>[] {
-    return this.operationList.reduce((acc, op) => {
-      if (op.type === 'IPieceData') {
-        acc.push(op)
-      }
-      return acc
-    }, [] as IPieceData<T>[])
-  }
   get viewSpace(): IPieceView[] {
     return this.operationList.reduce((acc, op) => {
       if (op.type === 'IPieceView') {
@@ -59,23 +51,35 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     return copy
   }
 
-  copySpaceData(copy: BlockSpace) {
+  protected copySpaceData(copy: BlockSpace) {
     copy.operationList.push(...this.operationList)
   }
 
-  addChild(
-    pieceViewIdentity: TPieceViewIdentity,
+  appendChild<T extends ArrayLike<any> = ArrayLike<any>>(
+    spaceData: BlockSpace<T>,
     relationAdress: IRelationAdress,
   ) {
+    const copy = this.copy
+
+    copy.operationList.push(spaceData)
+
+    const childPieceView: IPieceView = {
+      identity: genIdentity(),
+      data: spaceData.identity,
+      type: 'IPieceView',
+      piece: {
+        start: 0,
+        end: spaceData.data.length,
+      },
+    }
     const insertMark: IInsertMark = {
       type: 'IInsertMark',
       identity: genIdentity(),
       relationAdress: relationAdress,
-      pieceView: pieceViewIdentity,
+      pieceView: childPieceView.identity,
       container: this.identity,
     }
 
-    const copy = this.copy
     copy.operationList.push(insertMark)
 
     return copy
