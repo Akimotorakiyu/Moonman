@@ -12,10 +12,11 @@ import {
 } from '../../operation'
 import { IPieceView, TPieceViewIdentity } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
-
+import { dataRepo } from './repo'
 export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   implements IPieceData<T>
 {
+  static readonly dataRepo = dataRepo
   public readonly type = 'IPieceData'
   constructor(
     public defaultProps: Record<string, unknown> = {},
@@ -23,7 +24,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     public data: T,
   ) {}
 
-  readonly operationList: TOperation<ArrayLike<unknown> | string>[] = []
+  readonly operationList: TOperation[] = []
 
   // store the op for the child
   get viewSpace(): IPieceView[] {
@@ -61,7 +62,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   ) {
     const copy = this.copy
 
-    copy.operationList.push(spaceData)
+    dataRepo.pieceData.push(spaceData)
 
     const childPieceView: IPieceView = {
       identity: genIdentity(),
@@ -72,6 +73,9 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
         end: spaceData.data.length,
       },
     }
+
+    copy.operationList.push(childPieceView)
+
     const insertMark: IInsertMark = {
       type: 'IInsertMark',
       identity: genIdentity(),
