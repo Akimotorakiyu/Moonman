@@ -69,4 +69,9 @@ export interface IPropsMark extends IIdentifiable {
   data: Record<string, any>
 }
 
-export type TMark = IInsertMark | IRangeMark | IPieceMark | IMoveMark
+export type TMark =
+  | IInsertMark
+  | IRangeMark
+  | IPieceMark
+  | IMoveMark
+  | IPropsMark

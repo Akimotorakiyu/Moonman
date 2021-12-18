@@ -8,6 +8,7 @@ export type TPieceViewIdentity = IIdentity
  * 数据视图
  */
 export interface IPieceView extends IIdentifiable {
+  type: 'IPieceView'
   piece: IPieceRange // 在 IPieceData 中的区间
   data: TPieceDataIdentity //指向 IPieceData
 }

@@ -4,7 +4,6 @@ import { genIdentity } from './bussiness/define'
 import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
 
 export class TextSpace extends BlockSpace<string> {
-  readonly type = 'IText'
   constructor(
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
@@ -20,7 +19,6 @@ export class TextSpace extends BlockSpace<string> {
   }
 }
 export class TitleSpace extends BlockSpace<ITitleModel[]> {
-  readonly type = 'ITitle'
   constructor(
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
@@ -36,7 +34,6 @@ export class TitleSpace extends BlockSpace<ITitleModel[]> {
   }
 }
 export class ParagraphSpace extends BlockSpace<IParagraphModel[]> {
-  readonly type = 'IParagraph'
   constructor(
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
@@ -52,8 +49,6 @@ export class ParagraphSpace extends BlockSpace<IParagraphModel[]> {
   }
 }
 export class DocumentSpace extends BlockSpace<IDocumentModel[]> {
-  readonly type = 'IDocument'
-
   constructor(
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),

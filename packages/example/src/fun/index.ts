@@ -1,5 +1,5 @@
 import { createDocument } from '@moonman/moonman'
-
+console.log('hello')
 let docBlockSpace = createDocument()
 docBlockSpace = docBlockSpace.addPropsMark({
   color: 'blue',
@@ -14,4 +14,5 @@ docBlockSpace = docBlockSpace.addPropsMark({
   color: 'yellow',
   fontSize: '12px',
 })
-console.log('getComputedProps', docBlockSpace.getComputedProps)
+
+console.log('getComputedProps', docBlockSpace, docBlockSpace.getComputedProps)

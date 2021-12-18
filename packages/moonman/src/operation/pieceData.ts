@@ -9,6 +9,7 @@ export type TPieceDataIdentity = IIdentity
  */
 export interface IPieceData<T extends ArrayLike<unknown> = string>
   extends IIdentifiable {
+  type: 'IPieceData'
   data: T
 }
 

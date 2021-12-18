@@ -8,7 +8,7 @@ import {
   IRangeMark,
   IRelationAdress,
   TCoordinate,
-  TMark,
+  TOperation,
 } from '../../operation'
 import { IPieceView, TPieceViewIdentity } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
@@ -16,17 +16,41 @@ import { genIdentity } from './bussiness/define'
 export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   implements IPieceData<T>
 {
+  public readonly type = 'IPieceData'
   constructor(
     public defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
     public data: T,
   ) {}
 
+  readonly operationList: TOperation<T>[] = []
+
   // store the op for the child
-  readonly dataSpace: IPieceData<T>[] = []
-  readonly markSpace: TMark[] = []
-  readonly viewSpace: IPieceView[] = []
-  readonly propsMark: IPropsMark[] = []
+  get dataSpace(): IPieceData<T>[] {
+    return this.operationList.reduce((acc, op) => {
+      if (op.type === 'IPieceData') {
+        acc.push(op)
+      }
+      return acc
+    }, [] as IPieceData<T>[])
+  }
+  get viewSpace(): IPieceView[] {
+    return this.operationList.reduce((acc, op) => {
+      if (op.type === 'IPieceView') {
+        acc.push(op)
+      }
+      return acc
+    }, [] as IPieceView[])
+  }
+
+  get propsMark(): IPropsMark[] {
+    return this.operationList.reduce((acc, op) => {
+      if (op.type === 'IPropsMark') {
+        acc.push(op)
+      }
+      return acc
+    }, [] as IPropsMark[])
+  }
 
   get copy() {
     const copy = new BlockSpace(this.defaultProps, this.identity, this.data)
@@ -36,10 +60,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   }
 
   copySpaceData(copy: BlockSpace) {
-    copy.dataSpace.push(...this.dataSpace)
-    copy.markSpace.push(...this.markSpace)
-    copy.viewSpace.push(...this.viewSpace)
-    copy.propsMark.push(...this.propsMark)
+    copy.operationList.push(...this.operationList)
   }
 
   addChild(
@@ -55,7 +76,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     }
 
     const copy = this.copy
-    copy.markSpace.push(insertMark)
+    copy.operationList.push(insertMark)
 
     return copy
   }
@@ -77,7 +98,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
     const copy = this.copy
 
-    copy.markSpace.push(rangeMark)
+    copy.operationList.push(rangeMark)
 
     return copy
   }
@@ -93,8 +114,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     }
 
     const copy = this.copy
-
-    copy.markSpace.push(pieceMark)
+    copy.operationList.push(pieceMark)
 
     return copy
   }
@@ -108,7 +128,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
     const copy = this.copy
 
-    copy.propsMark.push(propsMark)
+    copy.operationList.push(propsMark)
 
     return copy
   }
