@@ -1,51 +1,48 @@
-import { IPieceRange, IIdentity, IPieceData } from '../../operation'
+import { IIdentity } from '../../operation'
 import { BlockSpace } from './blockSpace'
 import { genIdentity } from './bussiness/define'
-import {
-  IDocumentModel,
-  IParagraphModel,
-  ITextModel,
-  ITitleModel,
-} from './model'
+import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
 
-export class TextSpace extends BlockSpace implements ITextModel {
+export class TextSpace extends BlockSpace<string> {
   readonly type = 'IText'
-
   constructor(
     defaultProps: Record<string, unknown> = {},
-    public identity: IIdentity = genIdentity(),
-    public readonly text: string = '',
+    identity: IIdentity = genIdentity(),
+    data = '',
   ) {
-    super(defaultProps)
+    super(defaultProps, identity, data)
   }
 
   get copy() {
-    const copy = new TextSpace(this.defaultProps, this.identity, this.text)
+    const copy = new TextSpace(this.defaultProps, this.identity, this.data)
     this.copySpaceData(copy)
     return copy
   }
 }
-export class TitleSpace extends BlockSpace implements ITitleModel {
+export class TitleSpace extends BlockSpace<ITitleModel[]> {
   readonly type = 'ITitle'
   constructor(
     defaultProps: Record<string, unknown> = {},
-    public identity: IIdentity = genIdentity(),
+    identity: IIdentity = genIdentity(),
+    data = [],
   ) {
-    super(defaultProps)
+    super(defaultProps, identity, data)
   }
+
   get copy() {
     const copy = new TitleSpace(this.defaultProps, this.identity)
     this.copySpaceData(copy)
     return copy
   }
 }
-export class ParagraphSpace extends BlockSpace implements IParagraphModel {
+export class ParagraphSpace extends BlockSpace<IParagraphModel[]> {
   readonly type = 'IParagraph'
   constructor(
     defaultProps: Record<string, unknown> = {},
-    public identity: IIdentity = genIdentity(),
+    identity: IIdentity = genIdentity(),
+    data = [],
   ) {
-    super(defaultProps)
+    super(defaultProps, identity, data)
   }
 
   get copy() {
@@ -54,14 +51,15 @@ export class ParagraphSpace extends BlockSpace implements IParagraphModel {
     return copy
   }
 }
-export class DocumentSpace extends BlockSpace implements IDocumentModel {
+export class DocumentSpace extends BlockSpace<IDocumentModel[]> {
   readonly type = 'IDocument'
 
   constructor(
     defaultProps: Record<string, unknown> = {},
-    public identity: IIdentity = genIdentity(),
+    identity: IIdentity = genIdentity(),
+    data = [],
   ) {
-    super(defaultProps)
+    super(defaultProps, identity, data)
   }
 
   /**
