@@ -8,18 +8,18 @@ export class TextSpace extends BlockSpace implements IPieceView {
   readonly type = 'text'
 
   constructor(
-    props: Record<string, unknown> = {},
+    defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
     public data: IIdentity,
     public dataPiece: IPieceData,
     public piece: IPieceRange = { start: 0, end: dataPiece.data.length },
   ) {
-    super(props)
+    super(defaultProps)
   }
 
   get copy() {
     const copy = new TextSpace(
-      this.props,
+      this.defaultProps,
       this.identity,
       this.data,
       this.dataPiece,
@@ -34,13 +34,13 @@ export class TextSpace extends BlockSpace implements IPieceView {
 export class TitleSpace extends BlockSpace implements ITitleModel {
   readonly type = 'ITitle'
   constructor(
-    props: Record<string, unknown> = {},
+    defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
   ) {
-    super(props)
+    super(defaultProps)
   }
   get copy() {
-    const copy = new TitleSpace(this.props, this.identity)
+    const copy = new TitleSpace(this.defaultProps, this.identity)
     this.copySpaceData(copy)
     return copy
   }
@@ -48,14 +48,14 @@ export class TitleSpace extends BlockSpace implements ITitleModel {
 export class ParagraphSpace extends BlockSpace implements IParagraphModel {
   readonly type = 'IParagraph'
   constructor(
-    props: Record<string, unknown> = {},
+    defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
   ) {
-    super(props)
+    super(defaultProps)
   }
 
   get copy() {
-    const copy = new ParagraphSpace(this.props, this.identity)
+    const copy = new ParagraphSpace(this.defaultProps, this.identity)
     this.copySpaceData(copy)
     return copy
   }
@@ -64,16 +64,24 @@ export class DocumentSpace extends BlockSpace implements IDocumentModel {
   readonly type = 'IDocument'
 
   constructor(
-    props: Record<string, unknown> = {},
+    defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
   ) {
-    super(props)
+    super(defaultProps)
   }
 
+  /**
+   * super 中 copy 会调用此方法
+   * 会导致新的
+   */
   get copy() {
-    const copy = new DocumentSpace(this.props, this.identity)
+    const copy = new DocumentSpace(this.defaultProps, this.identity)
     this.copySpaceData(copy)
     return copy
+  }
+
+  addPropsMark(props: Record<string, unknown>): DocumentSpace {
+    return super.addPropsMark(props) as DocumentSpace
   }
 }
 

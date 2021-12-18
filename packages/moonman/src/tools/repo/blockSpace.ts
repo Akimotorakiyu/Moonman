@@ -18,7 +18,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   implements IIdentifiable
 {
   constructor(
-    public props: Record<string, unknown> = {},
+    public defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
   ) {}
 
@@ -29,7 +29,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   readonly propsMark: IPropsMark[] = []
 
   get copy() {
-    const copy = new BlockSpace(this.props, this.identity)
+    const copy = new BlockSpace(this.defaultProps, this.identity)
     this.copySpaceData(copy)
 
     return copy
@@ -60,6 +60,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     return copy
   }
 
+  // 添加 range mark 给 children
   addRangeMarkForChildren(
     from: IRelationAdress,
     to: IRelationAdress,
@@ -81,6 +82,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     return copy
   }
 
+  // 添加 piece mark 给 children
   addPieceMarkForChildren(piece: IPieceAdress, data: Record<string, unknown>) {
     const pieceMark: IPieceMark = {
       identity: genIdentity(),
@@ -96,7 +98,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
     return copy
   }
-
+  // 添加 PropsMark
   addPropsMark(props: Record<string, unknown>) {
     const propsMark: IPropsMark = {
       type: 'IPropsMark',
@@ -115,12 +117,22 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     return [this.identity]
   }
 
-  // todo: should check
-  // checkRelationAdress(relationAdress: IRelationAdress) {
-  //   return relationAdress.anchor.coordinate.some((id) => {
-  //     return this.viewSpace.some((view) => {
-  //       return isTheSameIdentity(id, view.identity)
-  //     })
-  //   })
-  // }
+  // 计算当前节点的 props
+  get getComputedProps() {
+    const computedProps = this.propsMark.reduce(
+      (acc, mark) => {
+        mark.data
+
+        return {
+          ...acc,
+          ...mark.data,
+        }
+      },
+      {
+        ...this.defaultProps,
+      } as Record<string, unknown>,
+    )
+
+    return computedProps
+  }
 }
