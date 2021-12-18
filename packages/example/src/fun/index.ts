@@ -1,31 +1,36 @@
-import { createDocument, TitleSpace, TextSpace } from '@moonman/moonman'
+import {
+  createDocument,
+  TitleSpace,
+  TextSpace,
+  BlockSpace,
+} from '@moonman/moonman'
 console.log('hello')
 let docBlockSpace = createDocument()
 let titleBlockSpace = new TitleSpace()
 let textBlockSpace = new TextSpace(undefined, undefined, 'hello')
 let textBlockSpace2 = new TextSpace(undefined, undefined, 'world')
 
-titleBlockSpace.appendChild(textBlockSpace, {
-  anchor: {
-    coordinate: [titleBlockSpace.identity],
-    index: 0,
-  },
-  relation: {
-    isInner: true,
-    isForward: true,
-  },
-})
-
-titleBlockSpace = titleBlockSpace.appendChild(textBlockSpace2, {
-  anchor: {
-    coordinate: [textBlockSpace.identity],
-    index: 2,
-  },
-  relation: {
-    isInner: false,
-    isForward: true,
-  },
-})
+titleBlockSpace = titleBlockSpace
+  .appendChild(textBlockSpace, {
+    anchor: {
+      coordinate: [titleBlockSpace.identity],
+      index: 0,
+    },
+    relation: {
+      isInner: true,
+      isForward: true,
+    },
+  })
+  .appendChild(textBlockSpace2, {
+    anchor: {
+      coordinate: [textBlockSpace.identity],
+      index: 2,
+    },
+    relation: {
+      isInner: false,
+      isForward: true,
+    },
+  })
 
 docBlockSpace = docBlockSpace
   .appendChild(titleBlockSpace, {
@@ -50,10 +55,7 @@ docBlockSpace = docBlockSpace
     fontSize: '12px',
   })
 
-console.log(
-  'getComputedProps',
-  docBlockSpace,
-  docBlockSpace.getComputedProps,
-  docBlockSpace.viewSpace,
-  TitleSpace.dataRepo,
-)
+// console.log(`docBlockSpace`, docBlockSpace)
+console.log(`titleBlockSpace`, titleBlockSpace)
+console.log(`dataRepo`, BlockSpace.dataRepo)
+console.log(`childrenView`, titleBlockSpace.childrenView)

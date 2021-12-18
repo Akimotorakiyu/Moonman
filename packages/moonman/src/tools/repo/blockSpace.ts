@@ -52,6 +52,16 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     return copy
   }
 
+  get childrenView() {
+    const view = this.viewSpace.map((vs) => {
+      return {
+        data: BlockSpace.dataRepo.getPieceData(vs.data),
+        piecw: [vs.piece.start, vs.piece.end],
+      }
+    })
+    return view.map((d) => d.data.data)
+  }
+
   protected copySpaceData(copy: BlockSpace) {
     copy.operationList.push(...this.operationList)
   }
@@ -62,7 +72,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   ) {
     const copy = this.copy
 
-    dataRepo.pieceData.push(spaceData)
+    BlockSpace.dataRepo.pieceData.push(spaceData)
 
     const childPieceView: IPieceView = {
       identity: genIdentity(),
