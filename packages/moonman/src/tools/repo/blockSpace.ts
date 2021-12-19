@@ -13,6 +13,7 @@ import {
 import { IPieceView, TPieceViewIdentity } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
 import { dataRepo } from './repo'
+import { PieceView } from './pieceView'
 export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   implements IPieceData<T>
 {
@@ -54,12 +55,10 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
   get childrenView() {
     const view = this.viewSpace.map((vs) => {
-      return {
-        data: BlockSpace.dataRepo.getPieceData(vs.data),
-        piecw: [vs.piece.start, vs.piece.end],
-      }
+      const pieceView = new PieceView(vs.piece, vs.data, vs.identity)
+      return pieceView
     })
-    return view.map((d) => d.data.data)
+    return view
   }
 
   protected copySpaceData(copy: BlockSpace) {
