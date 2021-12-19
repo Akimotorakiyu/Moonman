@@ -1,19 +1,20 @@
 import {
-  createDocument,
   TitleSpace,
   TextSpace,
   BlockSpace,
+  DocumentSpace,
 } from '@moonman/moonman'
 console.log('hello')
-let docBlockSpace = createDocument()
-let titleBlockSpace = new TitleSpace()
-let hello = new TextSpace(undefined, undefined, 'hello')
+
+let myDoc = new DocumentSpace()
+let docTitle = new TitleSpace()
+let hello = new TextSpace(undefined, undefined, 'hello  --Qiuye')
 let world = new TextSpace(undefined, undefined, 'world')
 
-titleBlockSpace = titleBlockSpace
+docTitle = docTitle
   .appendChild(hello, {
     anchor: {
-      coordinate: [titleBlockSpace.identity],
+      coordinate: [docTitle.identity],
       index: 0,
     },
     relation: {
@@ -24,7 +25,7 @@ titleBlockSpace = titleBlockSpace
   .appendChild(world, {
     anchor: {
       coordinate: [hello.identity],
-      index: 2,
+      index: 6,
     },
     relation: {
       isInner: false,
@@ -32,10 +33,10 @@ titleBlockSpace = titleBlockSpace
     },
   })
 
-docBlockSpace = docBlockSpace
-  .appendChild(titleBlockSpace, {
+myDoc = myDoc
+  .appendChild(docTitle, {
     anchor: {
-      coordinate: [docBlockSpace.identity],
+      coordinate: [myDoc.identity],
       index: 0,
     },
     relation: {
@@ -46,17 +47,23 @@ docBlockSpace = docBlockSpace
   .addPropsMark({
     color: 'blue',
     fontSize: '12px',
+    lastModify: 'zanlei',
+    author: 'zanlei',
   })
   .addPropsMark({
     color: 'red',
   })
   .addPropsMark({
     color: 'yellow',
-    fontSize: '12px',
+    fontSize: '14px',
+    lastModify: 'yubiyun',
+  })
+  .addPropsMark({
+    color: 'red',
   })
 
 // console.log(`docBlockSpace`, docBlockSpace)
-console.log(`titleBlockSpace`, titleBlockSpace)
+console.log(`titleBlockSpace`, docTitle)
 console.log(`dataRepo`, BlockSpace.dataRepo)
-console.log(`childrenView`, titleBlockSpace.childrenView)
-console.log(`docBlockSpace`, docBlockSpace.getComputedProps)
+console.log(`childrenView`, docTitle.childrenView)
+console.log(`docBlockSpace`, myDoc.getComputedProps)

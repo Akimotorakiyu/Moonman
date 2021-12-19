@@ -92,7 +92,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     to: IRelationAdress,
     data: Record<string, unknown>,
   ) {
-    const opList: TOperation[] = []
+    const opList: TOperation[] = [...this.operationList]
     const rangeMark: IRangeMark = {
       identity: genIdentity(),
       type: 'IRangeMark',
@@ -111,7 +111,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
   // 添加 piece mark 给 children
   addPieceMarkForChildren(piece: IPieceAdress, data: Record<string, unknown>) {
-    const opList: TOperation[] = []
+    const opList: TOperation[] = [...this.operationList]
 
     const pieceMark: IPieceMark = {
       identity: genIdentity(),
@@ -128,7 +128,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   }
   // 添加 PropsMark
   addPropsMark(props: Record<string, unknown>) {
-    const opList: TOperation[] = []
+    const opList: TOperation[] = [...this.operationList]
 
     const propsMark: IPropsMark = {
       type: 'IPropsMark',
