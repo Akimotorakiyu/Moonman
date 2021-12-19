@@ -1,7 +1,6 @@
 import {
   PieceTitleData,
   PieceTextData,
-  PieceData,
   PieceDocumentData,
 } from '@moonman/moonman'
 console.log('hello')
@@ -64,7 +63,7 @@ myDoc = myDoc
 
 // console.log(`docBlockSpace`, docBlockSpace)
 console.log(`titleBlockSpace`, docTitle)
-console.log(`dataRepo`, PieceData.dataRepo)
+console.log(`dataRepo`, docTitle.dataRepo)
 console.log(`childrenView`, docTitle.childrenView)
 console.log(`docBlockSpace`, myDoc, myDoc.childrenView)
 console.log(`docBlockSpace`, myDoc.getComputedProps)

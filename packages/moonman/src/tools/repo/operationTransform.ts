@@ -1,8 +1,12 @@
 import { IPieceView, IPropsMark, TOperation } from '../../operation'
 import { PieceView } from './pieceView'
+import { DataRepo } from './repo'
 
 export class OperationTransform {
-  constructor(public readonly operationList: TOperation[] = []) {}
+  constructor(
+    public readonly operationList: TOperation[] = [],
+    public dataRepo: DataRepo,
+  ) {}
 
   /**
    * 从 operationList 中提取 PieceView
@@ -17,11 +21,16 @@ export class OperationTransform {
   }
 
   /**
-   * 将 PieceView 转换为 PieceView
+   * 将 IPieceView 转换为 PieceView
    */
   get pieceViewList() {
     const view = this.rawPieceViewList.map((vs) => {
-      const pieceView = new PieceView(vs.piece, vs.data, vs.identity)
+      const pieceView = new PieceView(
+        vs.piece,
+        vs.data,
+        vs.identity,
+        this.dataRepo,
+      )
       return pieceView
     })
     return view
@@ -36,7 +45,7 @@ export class OperationTransform {
     }, [] as IPropsMark[])
   }
 
-  addOperation(opList: TOperation[]) {
-    return new OperationTransform(this.operationList.concat(opList))
+  addOperation(opList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
+    return new OperationTransform(this.operationList.concat(opList), dataRepo)
   }
 }

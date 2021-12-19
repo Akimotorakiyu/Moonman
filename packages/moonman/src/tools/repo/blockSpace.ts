@@ -14,10 +14,9 @@ import {
 } from '../../operation'
 import { IPieceView } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
-import { dataRepo } from './repo'
+import { DataRepo } from './repo'
 import { OperationTransform } from './operationTransform'
 export class PieceData<T extends TData> implements IPieceData<T> {
-  static readonly dataRepo = dataRepo
   public readonly type = 'IPieceData'
   readonly operationTransform: OperationTransform
 
@@ -42,8 +41,9 @@ export class PieceData<T extends TData> implements IPieceData<T> {
     public defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
     public operationList: TOperation[] = [],
+    public dataRepo = new DataRepo(),
   ) {
-    this.operationTransform = new OperationTransform(operationList)
+    this.operationTransform = new OperationTransform(operationList, dataRepo)
   }
 
   /**
@@ -51,12 +51,13 @@ export class PieceData<T extends TData> implements IPieceData<T> {
    * @param operationList
    * @returns
    */
-  createCopy(operationList: TOperation[]) {
+  createCopy(operationList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
     return new PieceData(
       this.data,
       this.defaultProps,
       this.identity,
       operationList,
+      dataRepo,
     )
   }
 
@@ -72,7 +73,7 @@ export class PieceData<T extends TData> implements IPieceData<T> {
   ) {
     const opList: TOperation[] = [...this.operationList]
 
-    PieceData.dataRepo.pieceData.push(spaceData)
+    const dataRepo = this.dataRepo.addPieceData(spaceData)
 
     const childPieceView: IPieceView = {
       identity: genIdentity(),
@@ -96,7 +97,7 @@ export class PieceData<T extends TData> implements IPieceData<T> {
 
     opList.push(insertMark)
 
-    const copy = this.createCopy(opList)
+    const copy = this.createCopy(opList, dataRepo)
 
     return copy
   }

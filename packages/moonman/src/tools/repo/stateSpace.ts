@@ -2,6 +2,7 @@ import { IIdentity, TOperation } from '../../operation'
 import { PieceData } from './blockSpace'
 import { genIdentity } from './bussiness/define'
 import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
+import { DataRepo } from './repo'
 
 export class PieceTextData extends PieceData<string> {
   constructor(
@@ -9,16 +10,18 @@ export class PieceTextData extends PieceData<string> {
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
     operationList: TOperation[] = [],
+    dataRepo = new DataRepo(),
   ) {
-    super(data, defaultProps, identity, operationList)
+    super(data, defaultProps, identity, operationList, dataRepo)
   }
 
-  createCopy(operationList: TOperation[]) {
+  createCopy(operationList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
     return new PieceTextData(
       this.data,
       this.defaultProps,
       this.identity,
       operationList,
+      dataRepo,
     )
   }
 }
@@ -28,16 +31,18 @@ export class PieceTitleData extends PieceData<ITitleModel> {
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
     operationList: TOperation[] = [],
+    dataRepo = new DataRepo(),
   ) {
-    super(data, defaultProps, identity, operationList)
+    super(data, defaultProps, identity, operationList, dataRepo)
   }
 
-  createCopy(operationList: TOperation[]) {
+  createCopy(operationList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
     return new PieceTitleData(
       this.data,
       this.defaultProps,
       this.identity,
       operationList,
+      dataRepo,
     )
   }
 }
@@ -47,16 +52,18 @@ export class PieceParagraphData extends PieceData<IParagraphModel> {
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
     operationList: TOperation[] = [],
+    dataRepo = new DataRepo(),
   ) {
-    super(data, defaultProps, identity, operationList)
+    super(data, defaultProps, identity, operationList, dataRepo)
   }
 
-  createCopy(operationList: TOperation[]) {
+  createCopy(operationList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
     return new PieceParagraphData(
       this.data,
       this.defaultProps,
       this.identity,
       operationList,
+      dataRepo,
     )
   }
 }
@@ -66,20 +73,22 @@ export class PieceDocumentData extends PieceData<IDocumentModel> {
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
     operationList: TOperation[] = [],
+    dataRepo = new DataRepo(),
   ) {
-    super(data, defaultProps, identity, operationList)
+    super(data, defaultProps, identity, operationList, dataRepo)
   }
 
   /**
    * super 中 copy 会调用此方法
    * 会导致新的
    */
-  createCopy(operationList: TOperation[]) {
+  createCopy(operationList: TOperation[], dataRepo: DataRepo = this.dataRepo) {
     return new PieceDocumentData(
       this.data,
       this.defaultProps,
       this.identity,
       operationList,
+      dataRepo,
     )
   }
 

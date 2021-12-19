@@ -4,12 +4,15 @@ import {
   isTheSameIdentity,
   TData,
 } from '../../operation'
-
+import { PieceData } from './blockSpace'
 export class DataRepo {
-  readonly pieceData: IPieceData<TData>[] = []
+  constructor(
+    public rawPieceDataList: IPieceData<TData>[] = [],
+    public pieceDataList: PieceData<TData>[] = [],
+  ) {}
 
-  getPieceData<T extends TData = string>(identity: IIdentity): IPieceData<T> {
-    const pieceData = this.pieceData.find((pieceData) => {
+  getPieceData<T extends TData = string>(identity: IIdentity): PieceData<T> {
+    const pieceData = this.pieceDataList.find((pieceData) => {
       return isTheSameIdentity(identity, pieceData.identity)
     })
 
@@ -17,8 +20,18 @@ export class DataRepo {
       throw new Error('Not found pieceData, check your identity')
     }
 
-    return pieceData as IPieceData<T>
+    return pieceData as PieceData<T>
+  }
+
+  addPieceData<T extends TData>(rawPieceData: IPieceData<T>) {
+    const pieceData = new PieceData<T>(
+      rawPieceData.data,
+      {},
+      rawPieceData.identity,
+    )
+    return new DataRepo(
+      [...this.rawPieceDataList, rawPieceData],
+      [...this.pieceDataList, pieceData],
+    )
   }
 }
-
-export const dataRepo = new DataRepo()
