@@ -59,3 +59,4 @@ docBlockSpace = docBlockSpace
 console.log(`titleBlockSpace`, titleBlockSpace)
 console.log(`dataRepo`, BlockSpace.dataRepo)
 console.log(`childrenView`, titleBlockSpace.childrenView)
+console.log(`docBlockSpace`, docBlockSpace.getComputedProps)
