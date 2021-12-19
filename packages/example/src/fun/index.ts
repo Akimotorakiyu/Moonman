@@ -1,15 +1,15 @@
 import {
-  TitleSpace,
-  TextSpace,
-  BlockSpace,
-  DocumentSpace,
+  PieceTitleData,
+  PieceTextData,
+  PieceData,
+  PieceDocumentData,
 } from '@moonman/moonman'
 console.log('hello')
 
-let myDoc = new DocumentSpace()
-let docTitle = new TitleSpace()
-let hello = new TextSpace(undefined, undefined, 'hello  --Qiuye')
-let world = new TextSpace(undefined, undefined, 'world')
+let myDoc = new PieceDocumentData()
+let docTitle = new PieceTitleData()
+let hello = new PieceTextData('hello  --Qiuye')
+let world = new PieceTextData('world')
 
 docTitle = docTitle
   .appendChild(hello, {
@@ -64,6 +64,7 @@ myDoc = myDoc
 
 // console.log(`docBlockSpace`, docBlockSpace)
 console.log(`titleBlockSpace`, docTitle)
-console.log(`dataRepo`, BlockSpace.dataRepo)
+console.log(`dataRepo`, PieceData.dataRepo)
 console.log(`childrenView`, docTitle.childrenView)
+console.log(`docBlockSpace`, myDoc, myDoc.childrenView)
 console.log(`docBlockSpace`, myDoc.getComputedProps)

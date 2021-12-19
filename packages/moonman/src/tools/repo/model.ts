@@ -1,36 +1,29 @@
-import { IIdentifiable } from '../..'
+import {} from '../..'
 
-export interface ITextModel extends IIdentifiable {
+export interface ITextModel {
   type: 'IText'
-  defaultProps: Record<string, unknown>
 }
 
-export interface ITitleModel extends IIdentifiable {
+export interface ITitleModel extends Record<string, unknown> {
   type: 'ITitle'
-  defaultProps: Record<string, unknown>
 }
 
-export interface ITableColumLineModel extends IIdentifiable {
+export interface ITableColumLineModel extends Record<string, unknown> {
   type: 'ITableColumLine'
-  defaultProps: Record<string, unknown>
 }
 
-export interface ITableRowLineModel extends IIdentifiable {
+export interface ITableRowLineModel extends Record<string, unknown> {
   type: 'ITableRowLine'
-  defaultProps: Record<string, unknown>
 }
 
-export interface IDocumentModel extends IIdentifiable {
+export interface IDocumentModel extends Record<string, unknown> {
   type: 'IDocument'
-  defaultProps: Record<string, unknown>
 }
 
-export interface IParagraphModel extends IIdentifiable {
+export interface IParagraphModel extends Record<string, unknown> {
   type: 'IParagraph'
-  defaultProps: Record<string, unknown>
 }
 
-export interface ITableModel extends IIdentifiable {
+export interface ITableModel extends Record<string, unknown> {
   type: 'ITable'
-  defaultProps: Record<string, unknown>
 }

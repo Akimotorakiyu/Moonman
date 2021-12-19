@@ -3,29 +3,44 @@ import {
   IInsertMark,
   IPieceAdress,
   IPieceData,
+  TData,
   IPieceMark,
   IPropsMark,
   IRangeMark,
   IRelationAdress,
   TCoordinate,
   TOperation,
+  IPieceRange,
 } from '../../operation'
 import { IPieceView } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
 import { dataRepo } from './repo'
-import { PieceView } from './pieceView'
 import { OperationTransform } from './operationTransform'
-export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
-  implements IPieceData<T>
-{
+export class PieceData<T extends TData> implements IPieceData<T> {
   static readonly dataRepo = dataRepo
   public readonly type = 'IPieceData'
   readonly operationTransform: OperationTransform
 
+  getPiece(pieceRange: IPieceRange) {
+    if (typeof this.data === 'string') {
+      return this.data.slice(pieceRange.start, pieceRange.end)
+    } else {
+      return this.data
+    }
+  }
+
+  get length() {
+    if (typeof this.data === 'string') {
+      return this.data.length
+    } else {
+      return 1
+    }
+  }
+
   constructor(
+    public data: T,
     public defaultProps: Record<string, unknown> = {},
     public identity: IIdentity = genIdentity(),
-    public data: T,
     public operationList: TOperation[] = [],
   ) {
     this.operationTransform = new OperationTransform(operationList)
@@ -37,10 +52,10 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
    * @returns
    */
   createCopy(operationList: TOperation[]) {
-    return new BlockSpace(
+    return new PieceData(
+      this.data,
       this.defaultProps,
       this.identity,
-      this.data,
       operationList,
     )
   }
@@ -51,13 +66,13 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     })
   }
 
-  appendChild<T extends ArrayLike<any> = ArrayLike<any>>(
-    spaceData: BlockSpace<T>,
+  appendChild<T extends TData>(
+    spaceData: PieceData<T>,
     relationAdress: IRelationAdress,
   ) {
     const opList: TOperation[] = [...this.operationList]
 
-    BlockSpace.dataRepo.pieceData.push(spaceData)
+    PieceData.dataRepo.pieceData.push(spaceData)
 
     const childPieceView: IPieceView = {
       identity: genIdentity(),
@@ -65,7 +80,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
       type: 'IPieceView',
       piece: {
         start: 0,
-        end: spaceData.data.length,
+        end: spaceData.length,
       },
     }
 

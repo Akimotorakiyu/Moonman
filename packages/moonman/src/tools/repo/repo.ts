@@ -1,11 +1,14 @@
-import { IIdentity, IPieceData, isTheSameIdentity } from '../../operation'
+import {
+  IIdentity,
+  IPieceData,
+  isTheSameIdentity,
+  TData,
+} from '../../operation'
 
 export class DataRepo {
-  readonly pieceData: IPieceData<ArrayLike<unknown> | string>[] = []
+  readonly pieceData: IPieceData<TData>[] = []
 
-  getPieceData<T extends ArrayLike<unknown> = string>(
-    identity: IIdentity,
-  ): IPieceData<T> {
+  getPieceData<T extends TData = string>(identity: IIdentity): IPieceData<T> {
     const pieceData = this.pieceData.find((pieceData) => {
       return isTheSameIdentity(identity, pieceData.identity)
     })

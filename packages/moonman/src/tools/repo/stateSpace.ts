@@ -1,73 +1,73 @@
 import { IIdentity, TOperation } from '../../operation'
-import { BlockSpace } from './blockSpace'
+import { PieceData } from './blockSpace'
 import { genIdentity } from './bussiness/define'
 import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
 
-export class TextSpace extends BlockSpace<string> {
+export class PieceTextData extends PieceData<string> {
   constructor(
-    defaultProps: Record<string, unknown> = {},
-    identity: IIdentity = genIdentity(),
     data = '',
+    defaultProps: Record<string, unknown> = {},
+    identity: IIdentity = genIdentity(),
     operationList: TOperation[] = [],
   ) {
-    super(defaultProps, identity, data, operationList)
+    super(data, defaultProps, identity, operationList)
   }
 
   createCopy(operationList: TOperation[]) {
-    return new TextSpace(
+    return new PieceTextData(
+      this.data,
       this.defaultProps,
       this.identity,
-      this.data,
       operationList,
     )
   }
 }
-export class TitleSpace extends BlockSpace<ITitleModel[]> {
+export class PieceTitleData extends PieceData<ITitleModel> {
   constructor(
+    data: ITitleModel = { type: 'ITitle' },
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
-    data: ITitleModel[] = [],
     operationList: TOperation[] = [],
   ) {
-    super(defaultProps, identity, data, operationList)
+    super(data, defaultProps, identity, operationList)
   }
 
   createCopy(operationList: TOperation[]) {
-    return new TitleSpace(
+    return new PieceTitleData(
+      this.data,
       this.defaultProps,
       this.identity,
-      this.data,
       operationList,
     )
   }
 }
-export class ParagraphSpace extends BlockSpace<IParagraphModel[]> {
+export class PieceParagraphData extends PieceData<IParagraphModel> {
   constructor(
+    data: IParagraphModel = { type: 'IParagraph' },
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
-    data: IParagraphModel[] = [],
     operationList: TOperation[] = [],
   ) {
-    super(defaultProps, identity, data, operationList)
+    super(data, defaultProps, identity, operationList)
   }
 
   createCopy(operationList: TOperation[]) {
-    return new ParagraphSpace(
+    return new PieceParagraphData(
+      this.data,
       this.defaultProps,
       this.identity,
-      this.data,
       operationList,
     )
   }
 }
-export class DocumentSpace extends BlockSpace<IDocumentModel[]> {
+export class PieceDocumentData extends PieceData<IDocumentModel> {
   constructor(
+    data: IDocumentModel = { type: 'IDocument' },
     defaultProps: Record<string, unknown> = {},
     identity: IIdentity = genIdentity(),
-    data: IDocumentModel[] = [],
     operationList: TOperation[] = [],
   ) {
-    super(defaultProps, identity, data, operationList)
+    super(data, defaultProps, identity, operationList)
   }
 
   /**
@@ -75,20 +75,15 @@ export class DocumentSpace extends BlockSpace<IDocumentModel[]> {
    * 会导致新的
    */
   createCopy(operationList: TOperation[]) {
-    return new DocumentSpace(
+    return new PieceDocumentData(
+      this.data,
       this.defaultProps,
       this.identity,
-      this.data,
       operationList,
     )
   }
 
-  addPropsMark(props: Record<string, unknown>): DocumentSpace {
-    return super.addPropsMark(props) as DocumentSpace
+  addPropsMark(props: Record<string, unknown>): PieceDocumentData {
+    return super.addPropsMark(props) as PieceDocumentData
   }
-}
-
-export function createDocument() {
-  const stateSpace = new DocumentSpace()
-  return stateSpace
 }
