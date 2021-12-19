@@ -7,11 +7,11 @@ import {
 console.log('hello')
 let docBlockSpace = createDocument()
 let titleBlockSpace = new TitleSpace()
-let textBlockSpace = new TextSpace(undefined, undefined, 'hello')
-let textBlockSpace2 = new TextSpace(undefined, undefined, 'world')
+let hello = new TextSpace(undefined, undefined, 'hello')
+let world = new TextSpace(undefined, undefined, 'world')
 
 titleBlockSpace = titleBlockSpace
-  .appendChild(textBlockSpace, {
+  .appendChild(hello, {
     anchor: {
       coordinate: [titleBlockSpace.identity],
       index: 0,
@@ -21,9 +21,9 @@ titleBlockSpace = titleBlockSpace
       isForward: true,
     },
   })
-  .appendChild(textBlockSpace2, {
+  .appendChild(world, {
     anchor: {
-      coordinate: [textBlockSpace.identity],
+      coordinate: [hello.identity],
       index: 2,
     },
     relation: {

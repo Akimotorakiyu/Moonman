@@ -31,25 +31,11 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
     this.operationTransform = new OperationTransform(operationList)
   }
 
-  // store the op for the child
-  get viewSpace(): IPieceView[] {
-    return this.operationList.reduce((acc, op) => {
-      if (op.type === 'IPieceView') {
-        acc.push(op)
-      }
-      return acc
-    }, [] as IPieceView[])
-  }
-
-  get propsMark(): IPropsMark[] {
-    return this.operationList.reduce((acc, op) => {
-      if (op.type === 'IPropsMark') {
-        acc.push(op)
-      }
-      return acc
-    }, [] as IPropsMark[])
-  }
-
+  /**
+   * 需要在子类中被子类覆写
+   * @param operationList
+   * @returns
+   */
   createCopy(operationList: TOperation[]) {
     return new BlockSpace(
       this.defaultProps,
@@ -60,18 +46,16 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
   }
 
   get childrenView() {
-    const view = this.viewSpace.map((vs) => {
-      const pieceView = new PieceView(vs.piece, vs.data, vs.identity)
-      return pieceView
+    return this.operationTransform.pieceViewList.map((pv) => {
+      return pv.realData
     })
-    return view
   }
 
   appendChild<T extends ArrayLike<any> = ArrayLike<any>>(
     spaceData: BlockSpace<T>,
     relationAdress: IRelationAdress,
   ) {
-    const opList: TOperation[] = []
+    const opList: TOperation[] = [...this.operationList]
 
     BlockSpace.dataRepo.pieceData.push(spaceData)
 
@@ -164,7 +148,7 @@ export class BlockSpace<T extends ArrayLike<any> = ArrayLike<any>>
 
   // 计算当前节点的 props
   get getComputedProps() {
-    const computedProps = this.propsMark.reduce(
+    const computedProps = this.operationTransform.propsMark.reduce(
       (acc, mark) => {
         mark.data
 
