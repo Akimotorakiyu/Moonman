@@ -12,7 +12,7 @@ let world = new PieceTextData('world')
 
 docTitle = docTitle
   .appendChild(hello, {
-    anchor: {
+    adress: {
       coordinate: [docTitle.identity],
       index: 0,
     },
@@ -22,7 +22,7 @@ docTitle = docTitle
     },
   })
   .appendChild(world, {
-    anchor: {
+    adress: {
       coordinate: [hello.identity],
       index: 6,
     },
@@ -34,7 +34,7 @@ docTitle = docTitle
 
 myDoc = myDoc
   .appendChild(docTitle, {
-    anchor: {
+    adress: {
       coordinate: [myDoc.identity],
       index: 0,
     },

@@ -16,6 +16,12 @@ import { IPieceView } from '../../operation/pieceView'
 import { genIdentity } from './bussiness/define'
 import { DataRepo } from './repo'
 import { OperationTransform } from './operationTransform'
+
+/**
+ * PieceData
+ * 可以从中获取它的一部分数据，获取它的长度
+ * 可以获取作用在其之上的 props
+ */
 export class PieceData<T extends TData> implements IPieceData<T> {
   public readonly type = 'IPieceData'
   readonly operationTransform: OperationTransform

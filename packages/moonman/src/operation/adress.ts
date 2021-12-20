@@ -4,7 +4,7 @@ import { IPieceRange } from './pieceData'
 /**
  * 表示一个 meta 元素的位置
  */
-interface IAdress {
+export interface IAdress {
   coordinate: TCoordinate
   index: number // index in ziped meta coordinate
 }
@@ -24,7 +24,7 @@ export interface IAdressRelation {
  * 或者 range mark 标记数据
  */
 export interface IRelationAdress {
-  anchor: IAdress
+  adress: IAdress
   relation: IAdressRelation
 }
 
