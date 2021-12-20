@@ -5,19 +5,27 @@ import {
   IIdentity,
   IAdress,
   IRelationAdress,
+  TOperation,
 } from '../../operation'
 import { PieceData } from './blockSpace'
 import { DataRepo } from './repo'
 import { isTheSameIdentity } from '../../old/operation'
+import { OperationTransform } from './operationTransform'
 
 export class PieceView<T extends TData> implements IPieceView {
   type: 'IPieceView' = 'IPieceView'
+  readonly operationTransform: OperationTransform
+
   constructor(
     public piece: IPieceRange,
     public data: IIdentity,
     public identity: IIdentity,
     public dataRepo: DataRepo,
-  ) {}
+    public defaultProps: Record<string, unknown> = {},
+    public operationList: TOperation[] = [],
+  ) {
+    this.operationTransform = new OperationTransform(operationList, dataRepo)
+  }
 
   get realData() {
     const piece = this.srcData.getPiece(this.piece)
@@ -100,5 +108,27 @@ export class PieceView<T extends TData> implements IPieceView {
 
   get length() {
     return this.piece.end - this.piece.start
+  }
+
+  get getComputedProps() {
+    const computedProps = this.operationTransform.propsMark.reduce(
+      (acc, mark) => {
+        mark.data
+
+        return {
+          ...acc,
+          ...mark.data,
+        }
+      },
+      {
+        ...this.defaultProps,
+      } as Record<string, unknown>,
+    )
+
+    return computedProps
+  }
+
+  get getMergedProps() {
+    return {}
   }
 }
