@@ -2,15 +2,15 @@
  * 所有操作和节点的唯一身份标志
  */
 export interface IIdentity {
-  timestamp: number
-  id: number
+  readonly timestamp: number
+  readonly id: number
 }
 
 /**
  * 有身份的协议
  */
 export interface IIdentifiable {
-  identity: IIdentity
+  readonly identity: IIdentity
 }
 
 //

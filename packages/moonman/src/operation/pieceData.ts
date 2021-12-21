@@ -16,8 +16,8 @@ export type TData = string | Record<string, unknown>
  * one or more meta info ziped in a piece
  */
 export interface IPieceData<T extends TData = string> extends IIdentifiable {
-  type: 'IPieceData'
-  data: T
+  readonly type: 'IPieceData'
+  readonly data: T
 }
 
 /**
@@ -25,6 +25,6 @@ export interface IPieceData<T extends TData = string> extends IIdentifiable {
  * 左开右闭
  */
 export interface IPieceRange {
-  start: number
-  end: number
+  readonly start: number
+  readonly end: number
 }

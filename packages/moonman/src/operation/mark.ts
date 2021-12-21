@@ -11,10 +11,10 @@ export type TInsertMarkIdentity = IIdentity
  * 在容器中的某一个节点位置插入数据
  */
 export interface IInsertMark extends IIdentifiable {
-  type: 'IInsertMark'
-  relationAdress: IRelationAdress
-  pieceView: TPieceViewIdentity
-  container: TPieceDataIdentity
+  readonly type: 'IInsertMark'
+  readonly relationAdress: IRelationAdress
+  readonly pieceView: TPieceViewIdentity
+  readonly container: TPieceDataIdentity
 }
 
 export type TRangeMarkIdentity = IIdentity
@@ -28,11 +28,11 @@ export type TRangeMarkIdentity = IIdentity
  * 比如说删除、颜色、等附加数据操作
  */
 export interface IRangeMark extends IIdentifiable {
-  type: 'IRangeMark'
-  from: IRelationAdress
-  to: IRelationAdress
-  data: Record<string, any>
-  container: TPieceDataIdentity
+  readonly type: 'IRangeMark'
+  readonly from: IRelationAdress
+  readonly to: IRelationAdress
+  readonly data: Record<string, any>
+  readonly container: TPieceDataIdentity
 }
 
 export type TPieceMarkIdentity = IIdentity
@@ -42,10 +42,10 @@ export type TPieceMarkIdentity = IIdentity
  * 比如说删除、颜色、等附加数据操作
  */
 export interface IPieceMark extends IIdentifiable {
-  type: 'IPieceMark'
-  piece: IPieceAdress
-  data: Record<string, any>
-  container: TPieceDataIdentity
+  readonly type: 'IPieceMark'
+  readonly piece: IPieceAdress
+  readonly data: Record<string, any>
+  readonly container: TPieceDataIdentity
 }
 
 export type TMoveMarkIdentity = IIdentity
@@ -55,18 +55,18 @@ export type TMoveMarkIdentity = IIdentity
  * 隐含意味着在同父容器内进行的移动
  */
 export interface IMoveMark extends IIdentifiable {
-  type: 'IMoveMark'
-  srcPiece: IPieceAdress
-  aimPiece: IPieceAdress
-  container: TPieceDataIdentity
+  readonly type: 'IMoveMark'
+  readonly srcPiece: IPieceAdress
+  readonly aimPiece: IPieceAdress
+  readonly container: TPieceDataIdentity
 }
 
 /**
  * 对数据 或者节点 本身的Mark
  */
 export interface IPropsMark extends IIdentifiable {
-  type: 'IPropsMark'
-  data: Record<string, any>
+  readonly type: 'IPropsMark'
+  readonly data: Record<string, any>
 }
 
 export type TMark =

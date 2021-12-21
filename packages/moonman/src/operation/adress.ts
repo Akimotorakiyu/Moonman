@@ -5,8 +5,8 @@ import { IPieceRange } from './pieceData'
  * 表示一个 meta 元素的位置
  */
 export interface IAdress {
-  coordinate: TCoordinate
-  index: number // index in ziped meta coordinate
+  readonly coordinate: TCoordinate
+  readonly index: number // index in ziped meta coordinate
 }
 
 /**
@@ -14,8 +14,8 @@ export interface IAdress {
  * 外部的前后，和内部的前后
  */
 export interface IAdressRelation {
-  isForward: boolean
-  isInner: boolean
+  readonly isForward: boolean
+  readonly isInner: boolean
 }
 
 /**
@@ -24,8 +24,8 @@ export interface IAdressRelation {
  * 或者 range mark 标记数据
  */
 export interface IRelationAdress {
-  adress: IAdress
-  relation: IAdressRelation
+  readonly adress: IAdress
+  readonly relation: IAdressRelation
 }
 
 /**
@@ -33,6 +33,6 @@ export interface IRelationAdress {
  * 用于 move、piece mark 等只表示数据的 场景
  */
 export interface IPieceAdress {
-  coordinate: TCoordinate
-  piece: IPieceRange
+  readonly coordinate: TCoordinate
+  readonly piece: IPieceRange
 }
