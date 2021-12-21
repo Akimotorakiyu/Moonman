@@ -1,6 +1,6 @@
 import { IPieceView, IPropsMark, TOperation } from '../../operation'
 import { PieceView } from './pieceView'
-import { DataRepo } from './repo'
+import { DataRepo } from './dataRepo'
 
 export class OperationTransform {
   constructor(

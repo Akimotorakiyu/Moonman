@@ -7,8 +7,8 @@ import {
   IRelationAdress,
   TOperation,
 } from '../../operation'
-import { PieceData } from './blockSpace'
-import { DataRepo } from './repo'
+import { PieceData } from './pieceData'
+import { DataRepo } from './dataRepo'
 import { isTheSameIdentity } from '../../old/operation'
 import { OperationTransform } from './operationTransform'
 

@@ -13,8 +13,8 @@ import {
   IPieceRange,
 } from '../../operation'
 import { IPieceView } from '../../operation/pieceView'
-import { genIdentity } from './bussiness/define'
-import { DataRepo } from './repo'
+import { genIdentity } from './helper/genIdentity'
+import { DataRepo } from './dataRepo'
 import { OperationTransform } from './operationTransform'
 
 /**

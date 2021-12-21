@@ -4,7 +4,7 @@ import {
   isTheSameIdentity,
   TData,
 } from '../../operation'
-import { PieceData } from './blockSpace'
+import { PieceData } from './pieceData'
 export class DataRepo {
   constructor(
     public rawPieceDataList: IPieceData<TData>[] = [],

@@ -1,8 +1,8 @@
 import { IIdentity, TOperation } from '../../operation'
-import { PieceData } from './blockSpace'
-import { genIdentity } from './bussiness/define'
+import { PieceData } from './pieceData'
+import { genIdentity } from './helper/genIdentity'
 import { IDocumentModel, IParagraphModel, ITitleModel } from './model'
-import { DataRepo } from './repo'
+import { DataRepo } from './dataRepo'
 
 export class PieceTextData extends PieceData<string> {
   constructor(
