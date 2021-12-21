@@ -5,7 +5,7 @@ export type TPieceViewIdentity = IIdentity
 
 /**
  * IPieceView
- * 数据视图
+ * 数据视图,对此的操作记录在父 piece data 上
  */
 export interface IPieceView extends IIdentifiable {
   readonly type: 'IPieceView'
