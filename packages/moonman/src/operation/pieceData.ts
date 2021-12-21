@@ -17,18 +17,11 @@ export type TData = string | Record<string, unknown>
  * one or more meta info ziped in a piece
  * 子元素为 pieceview，对所有子 pieceview 的操作的记录在 父 PieceData 上
  * 对 PieceData 的操作直接记录在 PieceData 上
+ * piece data 和 piece darta 之间 为 pieceview 隔离
+ * operationNotes 的数量是唯一会变的
  */
 export interface IPieceData<T extends TData = string> extends IIdentifiable {
   readonly type: 'IPieceData'
   readonly data: T
   readonly operationNotes: TOperation[]
-}
-
-/**
- * Range 即区间
- * 左开右闭
- */
-export interface IPieceRange {
-  readonly start: number
-  readonly end: number
 }

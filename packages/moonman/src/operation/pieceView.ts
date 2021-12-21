@@ -1,7 +1,15 @@
 import { IIdentifiable, IIdentity } from './identity'
-import { IPieceRange } from './pieceData'
 import { TPieceDataIdentity } from './pieceData'
 export type TPieceViewIdentity = IIdentity
+
+/**
+ * Range 即区间
+ * 左开右闭
+ */
+export interface IPieceRange {
+  readonly start: number
+  readonly end: number
+}
 
 /**
  * IPieceView

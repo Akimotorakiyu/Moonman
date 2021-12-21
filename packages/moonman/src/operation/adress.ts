@@ -1,5 +1,5 @@
 import { TCoordinate } from './coordinate'
-import { IPieceRange } from './pieceData'
+import { IPieceRange } from './pieceView'
 
 /**
  * 表示一个 meta 元素的位置
