@@ -1,5 +1,4 @@
 import {
-  IIdentity,
   IInsertMark,
   IPieceView,
   IPropsMark,

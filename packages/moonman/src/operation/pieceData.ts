@@ -23,5 +23,5 @@ export type TData = string | Record<string, unknown>
 export interface IPieceData<T extends TData = string> extends IIdentifiable {
   readonly type: 'IPieceData'
   readonly data: T
-  readonly operationNotes: TOperation[]
+  readonly operationList: TOperation[]
 }
