@@ -3,25 +3,112 @@ import {
   IInsertChildForElementOperation,
   IReplacedElement,
   IInsertBrotherForReplacedElementOperation,
+  TElementOperation,
+  TReplacedElementOperation,
 } from './basic'
 
-export const replacedElementMap = new Map<string, IReplacedElement>()
-export const elementMap = new Map<string, IElement>()
+export const replacedElementInfoMap = new Map<string, IReplacedElement>()
+export const elementInfoMap = new Map<string, IElement>()
+
+export const mergedOperationList: (
+  | TElementOperation
+  | TReplacedElementOperation
+)[] = []
+export let lastIndex = -1
+
+const replacedElementMap = new Map<string, MReplacedElement[]>()
+const elementMap = new Map<string, MElement>()
+
+function addToReplacedElementMap(ele: MReplacedElement) {
+  if (!replacedElementMap.has(ele.replacedElementInfo.id)) {
+    replacedElementMap.set(ele.replacedElementInfo.id, [])
+  }
+
+  const arr = replacedElementMap.get(ele.replacedElementInfo.id)
+  arr?.push(ele)
+
+  mergedOperationList.push(
+    ...(ele.replacedElementInfo.operation?.map((op) => {
+      return {
+        ...op,
+        group: 'r',
+        parentId: ele.replacedElementInfo.id,
+      }
+    }) ?? []),
+  )
+
+  mergedOperationList.sort((a, b) => {
+    return a.timestamp - b.timestamp
+  })
+}
+function addToElementMap(ele: MElement) {
+  elementMap.set(ele.elementInfo.id, ele)
+
+  mergedOperationList.push(
+    ...(ele.elementInfo.operation?.map((op) => {
+      return {
+        ...op,
+        group: 'e',
+        parentId: ele.elementInfo.id,
+      }
+    }) ?? []),
+  )
+
+  mergedOperationList.sort((a, b) => {
+    return a.timestamp - b.timestamp
+  })
+}
+
+// 历史永远只会向前
+function execOperation() {
+  const index = lastIndex + 1
+  const op = mergedOperationList[index]
+
+  if (!op) {
+    return
+  }
+
+  console.log(index, op)
+
+  if ((op as any).group === 'r') {
+    const id = (op as any).parentId
+    const rel = replacedElementMap.get(id)!
+
+    rel[0].execOperation(op)
+  } else {
+    const id = (op as any).parentId
+    const rel = elementMap.get(id)!
+
+    rel.execOperation(op)
+  }
+
+  lastIndex = index
+
+  execOperation()
+}
 
 export class MRootElement {
-  replacedDocelement: MReplacedElement
+  rootReplacedDocelement: MReplacedElement
+
   constructor(docId: string) {
-    this.replacedDocelement = getReplacedElement(docId, null)
+    this.rootReplacedDocelement = getReplacedElement(docId, null)
+
+    execOperation()
   }
 }
 
 function getReplacedElement(id: string, parentElement: MElement | null) {
-  const replacedElementInfo = replacedElementMap.get(id)
+  const replacedElementInfo = replacedElementInfoMap.get(id)
   if (replacedElementInfo) {
     if (replacedElementInfo.isPieceReplacedElement) {
-      return new MPieceReplacedElement(replacedElementInfo, parentElement)
+      const rEle = new MPieceReplacedElement(replacedElementInfo, parentElement)
+
+      addToReplacedElementMap(rEle)
+      return rEle
     } else {
-      return new MReplacedElement(replacedElementInfo, parentElement)
+      const rEle = new MReplacedElement(replacedElementInfo, parentElement)
+      addToReplacedElementMap(rEle)
+      return rEle
     }
   } else {
     throw new Error(`${id} not has a replacedElementInfo`)
@@ -34,20 +121,24 @@ export class MReplacedElement {
     public parentElement: MElement | null,
   ) {
     this.element = MElement.get(this.replacedElementInfo.src)
-    this.init()
+    // this.init()
   }
 
-  init() {
-    this.replacedElementInfo.operation?.filter((op) => {
-      switch (op.type) {
-        case 'insert-brother':
-          this.dealInsertBrother(op)
-          break
+  // init() {
+  //   this.replacedElementInfo.operation?.filter((op) => {
+  //     this.execOperation(op)
+  //   })
+  // }
 
-        default:
-          break
-      }
-    })
+  execOperation(op: TReplacedElementOperation) {
+    switch (op.type) {
+      case 'insert-brother':
+        this.dealInsertBrother(op)
+        break
+
+      default:
+        break
+    }
   }
 
   dealInsertBrother(op: IInsertBrotherForReplacedElementOperation) {
@@ -113,29 +204,42 @@ export class MReplacedElement {
 
 export class MElement {
   constructor(public elementInfo: IElement) {
-    this.init()
+    // this.init()
   }
 
   static get(id: string) {
-    const elementInfo = elementMap.get(id)
+    const elementInfo = elementInfoMap.get(id)
     if (elementInfo) {
-      return new MElement(elementInfo)
+      const ele = new MElement(elementInfo)
+      addToElementMap(ele)
+      return ele
     } else {
       throw new Error(`${id} not has a replacedElementInfo`)
     }
   }
 
-  init() {
-    this.elementInfo.operation?.filter((op) => {
-      switch (op.type) {
-        case 'insert-child':
-          this.dealInsertChild(op)
-          break
+  // init() {
+  //   this.elementInfo.operation?.filter((op) => {
+  //     switch (op.type) {
+  //       case 'insert-child':
+  //         this.dealInsertChild(op)
+  //         break
 
-        default:
-          break
-      }
-    })
+  //       default:
+  //         break
+  //     }
+  //   })
+  // }
+
+  execOperation(op: IInsertChildForElementOperation) {
+    switch (op.type) {
+      case 'insert-child':
+        this.dealInsertChild(op)
+        break
+
+      default:
+        break
+    }
   }
 
   dealInsertChild(op: IInsertChildForElementOperation) {

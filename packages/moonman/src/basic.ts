@@ -75,14 +75,14 @@ interface ITeleportMarkPointerForTableElementOperation {
 /**
  * 真实会改变节点内容的操作
  */
-type TElementOperation =
+export type TElementOperation =
   | IInsertChildForElementOperation
   | IMarkPointerForElementOperation
   | ITeleportInsertChildForTableElementOperation
   | IElementMarkOperation
   | ITeleportMarkPointerForTableElementOperation
 
-type TReplacedElementOperation =
+export type TReplacedElementOperation =
   | IInsertBrotherForReplacedElementOperation
   | IReplacedElementMarkOperation
   | IMarkPointerForReplacedElementOperation

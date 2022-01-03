@@ -3,16 +3,16 @@ import {
   IMarkData,
   IPieceReplacedElement,
   IReplacedElement,
-  replacedElementMap,
-  elementMap,
+  replacedElementInfoMap,
+  elementInfoMap,
 } from '@moonman/moonman'
 
 function addToReplacedElementMap(params: IReplacedElement) {
-  replacedElementMap.set(params.id, params)
+  replacedElementInfoMap.set(params.id, params)
 }
 
 function addToElementMap(params: IElement) {
-  elementMap.set(params.id, params)
+  elementInfoMap.set(params.id, params)
 }
 
 function addToMap(params: IReplacedElement, element: IElement) {
