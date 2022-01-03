@@ -10,6 +10,7 @@ import {
 function addToReplacedElementMap(params: IReplacedElement) {
   replacedElementMap.set(params.id, params)
 }
+
 function addToElementMap(params: IElement) {
   elementMap.set(params.id, params)
 }
@@ -91,6 +92,7 @@ const r文字: IPieceReplacedElement = {
   id: 'r-文字0',
   type: 'text',
   src: 'e-文字0',
+  isPieceReplacedElement: true,
   operation: [
     {
       type: 'insert-brother',
@@ -133,6 +135,7 @@ const r文字1: IPieceReplacedElement = {
   id: 'r-文字1',
   type: 'text',
   src: 'e-文字1',
+  isPieceReplacedElement: true,
   operation: [
     {
       type: 'insert-brother',
@@ -166,6 +169,7 @@ const r文字2: IPieceReplacedElement = {
   id: 'r-文字2',
   type: 'text',
   src: 'e-文字2',
+  isPieceReplacedElement: true,
   operation: [
     {
       type: 'insert-brother',
@@ -202,6 +206,7 @@ const r文字3: IPieceReplacedElement = {
   id: 'r-文字3',
   type: 'text',
   src: 'e-文字3',
+  isPieceReplacedElement: true,
 }
 
 const e文字3: IElement = {
@@ -421,6 +426,7 @@ const r文字4: IPieceReplacedElement = {
   id: 'r-文字4',
   type: 'text',
   src: 'e-文字4',
+  isPieceReplacedElement: true,
 }
 
 const e文字4: IElement = {
@@ -436,6 +442,7 @@ const r文字5: IPieceReplacedElement = {
   id: 'r-文字5',
   type: 'text',
   src: 'e-文字5',
+  isPieceReplacedElement: true,
 }
 
 const e文字5: IElement = {

@@ -11,20 +11,24 @@ export const elementMap = new Map<string, IElement>()
 export class MRootElement {
   replacedDocelement: MReplacedElement
   constructor(docId: string) {
-    this.replacedDocelement = MReplacedElement.get(docId, null)
+    this.replacedDocelement = getReplacedElement(docId, null)
+  }
+}
+
+function getReplacedElement(id: string, parentElement: MElement | null) {
+  const replacedElementInfo = replacedElementMap.get(id)
+  if (replacedElementInfo) {
+    if (replacedElementInfo.isPieceReplacedElement) {
+      return new MPieceReplacedElement(replacedElementInfo, parentElement)
+    } else {
+      return new MReplacedElement(replacedElementInfo, parentElement)
+    }
+  } else {
+    throw new Error(`${id} not has a replacedElementInfo`)
   }
 }
 
 export class MReplacedElement {
-  static get(id: string, parentElement: MElement | null) {
-    const replacedElementInfo = replacedElementMap.get(id)
-    if (replacedElementInfo) {
-      return new MReplacedElement(replacedElementInfo, parentElement)
-    } else {
-      throw new Error(`${id} not has a replacedElementInfo`)
-    }
-  }
-
   constructor(
     public replacedElementInfo: IReplacedElement,
     public parentElement: MElement | null,
@@ -76,7 +80,7 @@ export class MReplacedElement {
       this.parentElement.children.splice(
         index,
         0,
-        MReplacedElement.get(id, this.parentElement),
+        getReplacedElement(id, this.parentElement),
       )
     } else {
       throw new Error(`no parentElement ${id}`)
@@ -97,7 +101,7 @@ export class MReplacedElement {
       this.parentElement.children.splice(
         index + 1,
         0,
-        MReplacedElement.get(id, this.parentElement),
+        getReplacedElement(id, this.parentElement),
       )
     } else {
       throw new Error(`no parentElement ${id}`)
@@ -137,11 +141,11 @@ export class MElement {
   dealInsertChild(op: IInsertChildForElementOperation) {
     switch (op.position) {
       case 'back-flow':
-        this.children.unshift(MReplacedElement.get(op.nextId, this))
+        this.children.unshift(getReplacedElement(op.nextId, this))
         break
 
       case 'front-flow':
-        this.children.push(MReplacedElement.get(op.nextId, this))
+        this.children.push(getReplacedElement(op.nextId, this))
         break
 
       default:
@@ -152,3 +156,6 @@ export class MElement {
 
   children: MReplacedElement[] = []
 }
+
+export class MPieceReplacedElement extends MReplacedElement {}
+export class MPieceElement extends MElement {}

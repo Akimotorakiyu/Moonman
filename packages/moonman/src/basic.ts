@@ -79,19 +79,19 @@ type TReplacedElementOperation =
   | IReplacedElementMarkOperation
   | IMarkPointerForReplacedElementOperation
 
-export interface IReplacedElement {
+export interface ICommonReplacedElement {
   id: string
   src: string
   type: string
   operation?: TReplacedElementOperation[]
+  isPieceReplacedElement?: boolean
 }
 
+export type IReplacedElement = ICommonReplacedElement | IPieceReplacedElement
+
 // for text
-export interface IPieceReplacedElement extends IReplacedElement {
-  range?: {
-    start?: number
-    end?: number
-  }
+export interface IPieceReplacedElement extends ICommonReplacedElement {
+  isPieceReplacedElement: true
 }
 
 export interface IElement {
