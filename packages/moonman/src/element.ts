@@ -4,16 +4,14 @@ import {
   IReplacedElement,
   IInsertBrotherForReplacedElementOperation,
   TElementOperation,
+  TMergedOperationContainer,
   TReplacedElementOperation,
 } from './basic'
 
 export const replacedElementInfoMap = new Map<string, IReplacedElement>()
 export const elementInfoMap = new Map<string, IElement>()
 
-export const mergedOperationList: (
-  | TElementOperation
-  | TReplacedElementOperation
-)[] = []
+export const mergedOperationList: TMergedOperationContainer[] = []
 export let lastIndex = -1
 
 const replacedElementMap = new Map<string, MReplacedElement[]>()
@@ -30,15 +28,15 @@ function addToReplacedElementMap(ele: MReplacedElement) {
   mergedOperationList.push(
     ...(ele.replacedElementInfo.operation?.map((op) => {
       return {
-        ...op,
-        group: 'r',
-        parentId: ele.replacedElementInfo.id,
+        op,
+        type: 'ReplacedElementOperation' as const,
+        containerId: ele.replacedElementInfo.id,
       }
     }) ?? []),
   )
 
   mergedOperationList.sort((a, b) => {
-    return a.timestamp - b.timestamp
+    return a.op.timestamp - b.op.timestamp
   })
 }
 function addToElementMap(ele: MElement) {
@@ -47,15 +45,15 @@ function addToElementMap(ele: MElement) {
   mergedOperationList.push(
     ...(ele.elementInfo.operation?.map((op) => {
       return {
-        ...op,
-        group: 'e',
-        parentId: ele.elementInfo.id,
+        op,
+        type: 'ElementOperation' as const,
+        containerId: ele.elementInfo.id,
       }
     }) ?? []),
   )
 
   mergedOperationList.sort((a, b) => {
-    return a.timestamp - b.timestamp
+    return a.op.timestamp - b.op.timestamp
   })
 }
 
@@ -70,16 +68,16 @@ function execOperation() {
 
   console.log(index, op)
 
-  if ((op as any).group === 'r') {
-    const id = (op as any).parentId
+  if (op.type === 'ReplacedElementOperation') {
+    const id = (op as any).containerId
     const rel = replacedElementMap.get(id)!
 
-    rel[0].execOperation(op)
+    rel[0].execOperation(op.op)
   } else {
-    const id = (op as any).parentId
+    const id = (op as any).containerId
     const rel = elementMap.get(id)!
 
-    rel.execOperation(op)
+    rel.execOperation(op.op)
   }
 
   lastIndex = index
@@ -231,7 +229,7 @@ export class MElement {
   //   })
   // }
 
-  execOperation(op: IInsertChildForElementOperation) {
+  execOperation(op: TElementOperation) {
     switch (op.type) {
       case 'insert-child':
         this.dealInsertChild(op)

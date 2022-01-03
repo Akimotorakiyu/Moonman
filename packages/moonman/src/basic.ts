@@ -87,6 +87,21 @@ export type TReplacedElementOperation =
   | IReplacedElementMarkOperation
   | IMarkPointerForReplacedElementOperation
 
+interface IElementOperationContainer {
+  type: 'ElementOperation'
+  op: TElementOperation
+  containerId: string
+}
+interface IReplacedElementOperationContainer {
+  type: 'ReplacedElementOperation'
+  op: TReplacedElementOperation
+  containerId: string
+}
+
+export type TMergedOperationContainer =
+  | IElementOperationContainer
+  | IReplacedElementOperationContainer
+
 export interface ICommonReplacedElement {
   id: string
   src: string
