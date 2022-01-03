@@ -34,6 +34,7 @@ const eDoc: IElement = {
       type: 'insert-child',
       nextId: 'r-par0',
       position: 'back-flow',
+      timestamp: 0,
     },
   ],
 }
@@ -49,6 +50,7 @@ const rPar: IReplacedElement = {
       type: 'insert-brother',
       nextId: 'r-table0',
       position: 'back-flow',
+      timestamp: 1,
     },
   ],
 }
@@ -61,6 +63,7 @@ const ePar: IElement = {
       type: 'insert-child',
       nextId: 'r-mention-zanlei-0',
       position: 'back-flow',
+      timestamp: 2,
     },
   ],
 }
@@ -76,6 +79,7 @@ const rMentionZanlei: IReplacedElement = {
       type: 'insert-brother',
       nextId: 'r-文字0',
       position: 'back-flow',
+      timestamp: 3,
     },
   ],
 }
@@ -98,6 +102,7 @@ const r文字: IPieceReplacedElement = {
       type: 'insert-brother',
       nextId: 'r-image-zhumulangma-0',
       position: 'back-flow',
+      timestamp: 4,
     },
   ],
 }
@@ -119,6 +124,7 @@ const rImageZhumulangma: IReplacedElement = {
       type: 'insert-brother',
       nextId: 'r-文字1',
       position: 'back-flow',
+      timestamp: 5,
     },
   ],
 }
@@ -141,12 +147,14 @@ const r文字1: IPieceReplacedElement = {
       type: 'insert-brother',
       nextId: 'r-flow-chart-0',
       position: 'back-flow',
+      timestamp: 6,
     },
     {
       type: 'insert-brother',
       nextId: 'r-文字2',
       position: 'back-flow',
       offsetIndex: 1,
+      timestamp: 7,
     },
   ],
 }
@@ -160,6 +168,7 @@ const e文字1: IElement = {
       type: 'end-mark-pointer',
       markId: 'mark-0',
       offsetIndex: 3,
+      timestamp: 8,
     },
   ],
 }
@@ -176,6 +185,7 @@ const r文字2: IPieceReplacedElement = {
       nextId: 'r-文字3',
       position: 'back-flow',
       offsetIndex: 1,
+      timestamp: 9,
     },
   ],
 }
@@ -189,6 +199,7 @@ const e文字2: IElement = {
       type: 'start-mark-pointer',
       markId: 'mark-0',
       offsetIndex: 0,
+      timestamp: 10,
     },
   ],
 }
@@ -245,33 +256,39 @@ const eTable: IElement = {
       type: 'insert-child',
       position: 'back-flow',
       nextId: 'r-row0',
+      timestamp: 11,
     },
     {
       type: 'insert-child',
       position: 'back-flow',
       nextId: 'r-col0',
+      timestamp: 12,
     },
     {
       type: 'teleport-insert-child',
       nextId: 'r-文字4',
       position: 'back-flow',
       coordinate: ['e-row0', 'e-col0'],
+      timestamp: 13,
     },
     {
       type: 'teleport-insert-child',
       nextId: 'r-文字5',
       position: 'back-flow',
       coordinate: ['e-row0', 'e-col3'],
+      timestamp: 14,
     },
     {
       type: 'start-teleport-mark-pointer',
       markId: 'mark2',
       coordinate: ['e-row0', 'e-col0'],
+      timestamp: 15,
     },
     {
       type: 'end-teleport-mark-pointer',
       markId: 'mark2',
       coordinate: ['e-row0', 'e-col3'],
+      timestamp: 16,
     },
   ],
 }
@@ -294,11 +311,13 @@ const rRow0: IReplacedElement = {
       type: 'insert-brother',
       position: 'back-flow',
       nextId: 'r-row1',
+      timestamp: 17,
     },
     {
       type: 'insert-brother',
       position: 'front-flow',
       nextId: 'r-row2',
+      timestamp: 18,
     },
   ],
 }
@@ -346,16 +365,19 @@ const rCol0: IReplacedElement = {
       type: 'insert-brother',
       position: 'back-flow',
       nextId: 'r-col1',
+      timestamp: 19,
     },
     {
       type: 'insert-brother',
       position: 'back-flow',
       nextId: 'r-col2',
+      timestamp: 20,
     },
     {
       type: 'insert-brother',
       position: 'back-flow',
       nextId: 'r-col3',
+      timestamp: 21,
     },
   ],
 }
@@ -367,6 +389,7 @@ const eCol0: IElement = {
     {
       type: 'element-mark',
       markId: 'mark-1',
+      timestamp: 22,
     },
   ],
 }

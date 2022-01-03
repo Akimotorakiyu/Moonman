@@ -7,6 +7,7 @@ export interface IInsertChildForElementOperation {
   type: 'insert-child'
   nextId: string
   position: 'front-flow' | 'back-flow'
+  timestamp: number
 }
 export interface IInsertBrotherForReplacedElementOperation {
   type: 'insert-brother'
@@ -14,6 +15,7 @@ export interface IInsertBrotherForReplacedElementOperation {
   position: 'front-flow' | 'back-flow'
   // 文字节点会用到
   offsetIndex?: number
+  timestamp: number
 }
 
 /**
@@ -26,10 +28,12 @@ interface IMarkPointerForElementOperation {
   markId: string
   // for text
   offsetIndex: number
+  timestamp: number
 }
 interface IMarkPointerForReplacedElementOperation {
   type: 'start-replaced-mark-pointer' | 'end-replaced-mark-pointer'
   markId: string
+  timestamp: number
 }
 
 /**
@@ -40,11 +44,13 @@ interface IMarkPointerForReplacedElementOperation {
 interface IElementMarkOperation {
   type: 'element-mark'
   markId: string
+  timestamp: number
 }
 
 interface IReplacedElementMarkOperation {
   type: 'replaced-element-mark'
   markId: string
+  timestamp: number
 }
 
 /**
@@ -56,12 +62,14 @@ interface ITeleportInsertChildForTableElementOperation {
   nextId: string
   position: 'front-flow' | 'back-flow'
   coordinate: string[]
+  timestamp: number
 }
 
 interface ITeleportMarkPointerForTableElementOperation {
   type: 'start-teleport-mark-pointer' | 'end-teleport-mark-pointer'
   markId: string
   coordinate: string[]
+  timestamp: number
 }
 
 /**
