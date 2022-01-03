@@ -1,4 +1,23 @@
-import { IElement, IMarkData, IPieceReplacedElement, IReplacedElement } from '.'
+import {
+  IElement,
+  IMarkData,
+  IPieceReplacedElement,
+  IReplacedElement,
+  replacedElementMap,
+  elementMap,
+} from '@moonman/moonman'
+
+function addToReplacedElementMap(params: IReplacedElement) {
+  replacedElementMap.set(params.id, params)
+}
+function addToElementMap(params: IElement) {
+  elementMap.set(params.id, params)
+}
+
+function addToMap(params: IReplacedElement, element: IElement) {
+  addToReplacedElementMap(params)
+  addToElementMap(element)
+}
 
 const rDoc: IReplacedElement = {
   id: 'r-doc0',
@@ -17,6 +36,8 @@ const eDoc: IElement = {
     },
   ],
 }
+
+addToMap(rDoc, eDoc)
 
 const rPar: IReplacedElement = {
   id: 'r-par0',
@@ -43,6 +64,8 @@ const ePar: IElement = {
   ],
 }
 
+addToMap(rPar, ePar)
+
 const rMentionZanlei: IReplacedElement = {
   id: 'r-mention-zanlei-0',
   type: 'mention',
@@ -61,6 +84,8 @@ const eMentionZanlei: IElement = {
   type: 'mention',
   operation: [],
 }
+
+addToMap(rMentionZanlei, eMentionZanlei)
 
 const r文字: IPieceReplacedElement = {
   id: 'r-文字0',
@@ -81,6 +106,8 @@ const e文字: IElement = {
   content: '我们去',
 }
 
+addToMap(r文字, e文字)
+
 const rImageZhumulangma: IReplacedElement = {
   id: 'r-image-zhumulangma-0',
   type: 'image',
@@ -99,6 +126,8 @@ const eImageZhumulangma: IElement = {
   type: 'image',
   operation: [],
 }
+
+addToMap(rImageZhumulangma, eImageZhumulangma)
 
 const r文字1: IPieceReplacedElement = {
   id: 'r-文字1',
@@ -131,6 +160,7 @@ const e文字1: IElement = {
     },
   ],
 }
+addToMap(r文字1, e文字1)
 
 const r文字2: IPieceReplacedElement = {
   id: 'r-文字2',
@@ -159,6 +189,8 @@ const e文字2: IElement = {
   ],
 }
 
+addToMap(r文字2, e文字2)
+
 const mark0: IMarkData = {
   id: 'mark-0',
   data: {
@@ -179,6 +211,8 @@ const e文字3: IElement = {
   operation: [],
 }
 
+addToMap(r文字3, e文字3)
+
 const rFLowChart: IReplacedElement = {
   id: 'r-flow-chart-0',
   type: 'flow-chart',
@@ -190,6 +224,8 @@ const eFlowChart: IElement = {
   type: 'flow-chart',
   operation: [],
 }
+
+addToMap(rFLowChart, eFlowChart)
 
 const rTable: IReplacedElement = {
   id: 'r-table0',
@@ -235,6 +271,8 @@ const eTable: IElement = {
   ],
 }
 
+addToMap(rTable, eTable)
+
 const mark2: IMarkData = {
   id: 'mark2',
   data: {
@@ -265,6 +303,8 @@ const eRow0: IElement = {
   type: 'row',
 }
 
+addToMap(rRow0, eRow0)
+
 const rRow1: IReplacedElement = {
   id: 'r-row1',
   type: 'row',
@@ -275,6 +315,8 @@ const eRow1: IElement = {
   id: 'e-row1',
   type: 'row',
 }
+
+addToMap(rRow1, eRow1)
 
 const rRow2: IReplacedElement = {
   id: 'r-row2',
@@ -287,6 +329,8 @@ const eRow2: IElement = {
   type: 'row',
   operation: [],
 }
+
+addToMap(rRow2, eRow2)
 
 const rCol0: IReplacedElement = {
   id: 'r-col0',
@@ -322,6 +366,8 @@ const eCol0: IElement = {
   ],
 }
 
+addToMap(rCol0, eCol0)
+
 const mark1: IMarkData = {
   id: 'mark-1',
   data: {
@@ -341,6 +387,8 @@ const eCol1: IElement = {
   operation: [],
 }
 
+addToMap(rCol1, eCol1)
+
 const rCol2: IReplacedElement = {
   id: 'r-col2',
   type: 'col',
@@ -353,6 +401,8 @@ const eCol2: IElement = {
   operation: [],
 }
 
+addToMap(rCol2, eCol2)
+
 const rCol3: IReplacedElement = {
   id: 'r-col3',
   type: 'col',
@@ -364,6 +414,8 @@ const eCol3: IElement = {
   type: 'col',
   operation: [],
 }
+
+addToMap(rCol3, eCol3)
 
 const r文字4: IPieceReplacedElement = {
   id: 'r-文字4',
@@ -378,6 +430,8 @@ const e文字4: IElement = {
   operation: [],
 }
 
+addToMap(r文字4, e文字4)
+
 const r文字5: IPieceReplacedElement = {
   id: 'r-文字5',
   type: 'text',
@@ -390,3 +444,5 @@ const e文字5: IElement = {
   content: '第二个格子',
   operation: [],
 }
+
+addToMap(r文字5, e文字5)
