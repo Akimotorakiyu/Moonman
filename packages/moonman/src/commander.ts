@@ -1,4 +1,4 @@
-import { enableAllPlugins } from 'immer'
+import { applyPatches, enableAllPlugins } from 'immer'
 enableAllPlugins()
 
 interface IElementBase {
@@ -66,7 +66,7 @@ type TOperationForExec =
 export const replacedElementInfoMap = new Map<string, IReplacedElementInfo>()
 
 interface IOperationList {
-  mergedOperationList: TOperationForExec[]
+  unexecedOperationList: TOperationForExec[]
   execedOperationList: TOperationForExec[]
   infoMap: {
     replacedElementInfoMap: Map<string, IReplacedElementInfo>
@@ -75,7 +75,7 @@ interface IOperationList {
   }
 }
 
-function useOperationList(): IOperationList {
+function useState(doc: INode): IOperationList {
   const mergedOperationList: TOperationForExec[] = []
   const execedOperationList: TOperationForExec[] = []
 
@@ -83,8 +83,15 @@ function useOperationList(): IOperationList {
   const elementInfoMap = new Map<string, IElementInfo>()
   const elementToNodeMap = new Map<string, INode>()
 
+  replacedElementInfoMap.set(
+    doc.replacedElementInfo.id,
+    doc.replacedElementInfo,
+  )
+  elementInfoMap.set(doc.elementInfo.id, doc.elementInfo)
+  elementToNodeMap.set(doc.elementInfo.id, doc)
+
   return {
-    mergedOperationList,
+    unexecedOperationList: mergedOperationList,
     execedOperationList,
     infoMap: {
       replacedElementInfoMap,
@@ -238,39 +245,60 @@ const execOperationForReplacedElement = (
   }
 }
 
-const execOperation = (state: IState) => {
-  const operation = state.operationList.execedOperationList.shift()
-  if (operation) {
-    switch (operation.type) {
-      case 'ElementOperation':
-        execOperationForElement(state, operation)
-        break
-      case 'ReplacedElementOperation':
-        execOperationForReplacedElement(state, operation)
-        break
+const execOperation = (state: IState, operation: TOperationForExec) => {
+  switch (operation.type) {
+    case 'ElementOperation':
+      execOperationForElement(state, operation)
+      break
+    case 'ReplacedElementOperation':
+      execOperationForReplacedElement(state, operation)
+      break
 
-      default:
-        break
-    }
-  } else {
-    console.log('no operation')
+    default:
+      break
   }
+  state.operationList.execedOperationList.push(operation)
 }
 
 export function createEnv(doc: INode) {
   const state: IState = {
     doc,
-    operationList: useOperationList(),
+    operationList: useState(doc),
   }
 
-  const run = () => {
-    execOperation(state)
+  const execStackOperation = () => {
+    const operation = state.operationList.unexecedOperationList.shift()
+    if (operation) {
+      execOperation(state, operation)
+    } else {
+      console.log('no operation')
+    }
+  }
+
+  const addOpAndExec = (operation: TOperationForExec) => {
+    const node = state.operationList.infoMap.elementToNodeMap.get(
+      operation.containerId,
+    )
+    if (node) {
+      switch (operation.type) {
+        case 'ElementOperation':
+          node.elementInfo.operationList.push(operation.op)
+          break
+        case 'ReplacedElementOperation':
+          node.replacedElementInfo.operationList.push(operation.op)
+          break
+
+        default:
+          break
+      }
+    }
+    execOperation(state, operation)
   }
 
   return {
     state,
-    execOperation,
-    run,
+    execStackOperation,
+    addOpAndExec,
   }
 }
 
@@ -306,4 +334,24 @@ export function createDoc() {
   }
 
   return docNode
+}
+
+export function addChildForNode(
+  node: INode,
+  childId: string,
+): IElementOperationContainer {
+  const op: IInsertChildForElementOperation = {
+    nextId: childId,
+    position: 'front-flow',
+    timestamp: Date.now(),
+    type: 'insert-child',
+  }
+
+  const opc: IElementOperationContainer = {
+    type: 'ElementOperation',
+    op,
+    containerId: node.elementInfo.id,
+  }
+
+  return opc
 }
