@@ -157,10 +157,10 @@ const insertChildForNode = (
 
   switch (op.position) {
     case 'back-flow':
-      node.children.unshift(childNode)
+      node.children.push(childNode)
       break
     case 'front-flow':
-      node.children.push(childNode)
+      node.children.unshift(childNode)
       break
 
     default:
