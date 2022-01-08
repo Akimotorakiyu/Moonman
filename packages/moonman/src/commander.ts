@@ -155,6 +155,8 @@ const insertChildForNode = (
     parentElement: node,
   }
 
+  state.operationList.infoMap.elementToNodeMap.set(childElement.id, childNode)
+
   switch (op.position) {
     case 'back-flow':
       node.children.push(childNode)
@@ -182,6 +184,11 @@ const insertBrotherForNode = (
     replacedElementInfo: brotherReplacedElement,
     parentElement: node,
   }
+
+  state.operationList.infoMap.elementToNodeMap.set(
+    brotherElement.id,
+    brotherNode,
+  )
 
   if (node.parentElement) {
     const index = node.parentElement?.children.findIndex((child) => {
@@ -349,6 +356,27 @@ export function addChildForNode(
 
   const opc: IElementOperationContainer = {
     type: 'ElementOperation',
+    op,
+    containerId: node.elementInfo.id,
+  }
+
+  return opc
+}
+
+export function addBrotherForNode(
+  node: INode,
+  brotherId: string,
+  pos: 'front-flow' | 'back-flow' = 'front-flow',
+): IReplacedElementOperationContainer {
+  const op: IInsertBrotherForReplacedElementOperation = {
+    nextId: brotherId,
+    position: pos,
+    timestamp: Date.now(),
+    type: 'insert-brother',
+  }
+
+  const opc: IReplacedElementOperationContainer = {
+    type: 'ReplacedElementOperation',
     op,
     containerId: node.elementInfo.id,
   }
