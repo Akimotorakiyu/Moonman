@@ -3,9 +3,11 @@ import {
   IMarkData,
   IPieceReplacedElement,
   IReplacedElement,
+} from '@moonman/moonman/src/basic'
+import {
   replacedElementInfoMap,
   elementInfoMap,
-} from '@moonman/moonman'
+} from '@moonman/moonman/src/element'
 
 function addToReplacedElementMap(params: IReplacedElement) {
   replacedElementInfoMap.set(params.id, params)
