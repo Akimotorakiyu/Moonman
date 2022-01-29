@@ -64,7 +64,7 @@ export function createSpaceShipBlueprint(
   planetId: string,
 ): ISpaceShipBlueprint {
   return {
-    type: 'spaceShip',
+    type: 'spaceShipBlueprint',
     id: getId(),
     operationTransform: [],
     planetId,
@@ -73,7 +73,7 @@ export function createSpaceShipBlueprint(
 
 export function createPlanetBlueprint(): IPlanetBlueprint {
   return {
-    type: 'planet',
+    type: 'planetBlueprint',
     id: getId(),
     operationTransform: [],
   }
@@ -81,6 +81,7 @@ export function createPlanetBlueprint(): IPlanetBlueprint {
 
 export function createSpaceShip(blueprint: ISpaceShipBlueprint): ISpaceShip {
   return {
+    type: 'spaceShip',
     blueprint,
     slots: {},
   }
@@ -88,6 +89,7 @@ export function createSpaceShip(blueprint: ISpaceShipBlueprint): ISpaceShip {
 
 export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
   return {
+    type: 'planet',
     blueprint,
     children: [],
   }

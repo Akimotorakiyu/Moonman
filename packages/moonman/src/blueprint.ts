@@ -32,28 +32,26 @@ export interface ITransaction {
 }
 
 export interface ISpaceShipBlueprint {
-  type: 'spaceShip'
+  type: 'spaceShipBlueprint'
   id: string
   operationTransform: IAddRelativeSpaceShip[]
   planetId: string
 }
 
 export interface IPlanetBlueprint {
-  type: 'planet'
+  type: 'planetBlueprint'
   id: string
   operationTransform: IAddChildSpaceShip[]
 }
 
 export interface ISpaceShip {
+  type: 'spaceShip'
   blueprint: ISpaceShipBlueprint
   slots: Record<string, ISpaceShip>
 }
 
 export interface IPlanet {
+  type: 'planet'
   blueprint: IPlanetBlueprint
   children: []
-}
-
-export interface ISlots {
-  [name: string]: []
 }
