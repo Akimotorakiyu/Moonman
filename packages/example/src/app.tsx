@@ -2,37 +2,27 @@ import { reactive } from 'vue'
 import { defineFactoryComponent } from './func'
 import { defineStateSuite } from './func/defineState'
 
-const CChild = () => {
-  const state = App.suite.inject()
-  console.log(state, showSuite.inject())
-  return <div>child{state?.count}</div>
+import { createDocument } from '@moonman/moonman'
+
+const CEditor = () => {
+  const doc = docState.inject()
+
+  return <div></div>
 }
 
-const showSuite = defineStateSuite(() => {
-  return reactive({
-    show: true,
-  })
+const docState = defineStateSuite(() => {
+  const doc = createDocument()
+  return reactive(doc)
 })
 
 export const App = defineFactoryComponent(
   (props, ctx) => {
-    const status = reactive({
-      count: 0,
-      showStatus: showSuite(),
-    })
-
-    return status
+    docState()
   },
   (state) => {
     return (
-      <div
-        class=" text-blue-500"
-        onClick={() => {
-          state.count++
-        }}
-      >
-        hello world {state.count}
-        <CChild></CChild>
+      <div class=" text-blue-500">
+        <CEditor></CEditor>
       </div>
     )
   },
