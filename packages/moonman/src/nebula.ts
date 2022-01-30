@@ -11,7 +11,7 @@ import {
   IPlanet,
 } from './blueprint'
 import { getId } from './util'
-
+import { messageCenter } from './wave'
 export function createTransaction(): ITransaction {
   return {
     timestamp: Date.now(),
@@ -79,15 +79,27 @@ export function createPlanetBlueprint(): IPlanetBlueprint {
   }
 }
 
-export function createSpaceShip(blueprint: ISpaceShipBlueprint): ISpaceShip {
+export function createSpaceShip(
+  blueprint: ISpaceShipBlueprint,
+  planet: IPlanet,
+): ISpaceShip {
+  messageCenter.addAction(blueprint.id, (e, tr) => {
+    console.log(e, tr)
+  })
+
   return {
     type: 'spaceShip',
     blueprint,
     slots: {},
+    planet,
   }
 }
 
 export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
+  messageCenter.addAction(blueprint.id, (e, tr) => {
+    console.log(e, tr)
+  })
+
   return {
     type: 'planet',
     blueprint,

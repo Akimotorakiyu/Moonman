@@ -16,7 +16,17 @@ export interface IAddChildSpaceShip {
   direction: TDirection
 }
 
-export type TOperationTransform = IAddRelativeSpaceShip | IAddChildSpaceShip
+export interface IMark {
+  type: 'mark'
+  timestamp: number
+  name: string
+  value: unknown
+}
+
+export type TOperationTransform =
+  | IAddRelativeSpaceShip
+  | IAddChildSpaceShip
+  | IMark
 
 export interface IStep {
   type: 'step'
@@ -48,6 +58,7 @@ export interface ISpaceShip {
   type: 'spaceShip'
   blueprint: ISpaceShipBlueprint
   slots: Record<string, ISpaceShip>
+  planet: IPlanet
 }
 
 export interface IPlanet {
