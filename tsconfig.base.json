@@ -10,9 +10,7 @@
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "jsx": "react",
-    "jsxFactory": "htsx.createElement",
-    "jsxFragmentFactory": "htsx.Fragment",
+    "jsx": "preserve",
     "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"]
   }
 }
