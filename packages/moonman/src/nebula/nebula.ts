@@ -89,15 +89,22 @@ export function createSpaceShip(
   blueprint: ISpaceShipBlueprint,
   planet: IPlanet,
 ): ISpaceShip {
-  messageCenter.addAction(blueprint.id, (e, step, tr) => {
-    console.log(e, step, tr)
-  })
-
   const spaceship: ISpaceShip = reactive({
     type: 'spaceShip',
     blueprint,
     slots: {},
     planet,
+  })
+
+  messageCenter.addAction(blueprint.id, (e, step, tr) => {
+    if (step.type === 'addRelativeSpaceShip') {
+      const _spaceship = querySpaceship(step.spaceShipId)
+      let slot = Reflect.get(spaceship.slots, step.direction)
+      if (!slot) {
+        Reflect.set(spaceship.slots, step.direction, (slot = []))
+      }
+      slot.push(_spaceship)
+    }
   })
 
   registSpaceship(spaceship)
@@ -113,12 +120,8 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
   })
 
   messageCenter.addAction(blueprint.id, (e, step, tr) => {
-    console.log(e, step, tr)
-
     if (step.type === 'addChildSpaceShip') {
       const spaceship = querySpaceship(step.spaceShipId)
-
-      console.log('spaceship', spaceship)
 
       if (spaceship) {
         planet.children.push(spaceship)

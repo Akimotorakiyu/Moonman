@@ -3,6 +3,7 @@ import { defineFactoryComponent } from './func'
 import { defineStateSuite } from './func/defineState'
 
 import {
+  createAndAddRelativeSpaceShip,
   createDocument,
   createPlanetAndConnectPlant,
   createTransaction,
@@ -20,6 +21,13 @@ const CSpaceVision = defineFactoryComponent(
     }
   },
   ({ editorState, spaceship }) => {
+    if (
+      editorState?.status.currentSpaceship.blueprint.id ===
+      spaceship.blueprint.id
+    ) {
+      console.log(spaceship)
+    }
+
     return (
       <div
         class={`${' shadow-gray-200 shadow-md p-2 rounded-md'} ${
@@ -38,9 +46,26 @@ const CSpaceVision = defineFactoryComponent(
         </button>
         <div>spaceship {spaceship.blueprint.id}</div>
         <div>planet {spaceship.planet.blueprint.id}</div>
+
+        <div>
+          {Object.entries(spaceship.slots).map(([name, spaceshipList]) => {
+            console.log(name, spaceshipList)
+            return spaceshipList.map((sp) => {
+              return (
+                <CSpaceVision
+                  spaceship={sp}
+                  key={sp.blueprint.id}
+                ></CSpaceVision>
+              )
+            })
+          })}
+        </div>
+
         <div class="">
           {spaceship.planet.children.map((sp) => {
-            return <CSpaceVision spaceship={sp}></CSpaceVision>
+            return (
+              <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+            )
           })}
         </div>
       </div>
@@ -55,12 +80,20 @@ const CEditor = () => {
     <div>
       <div class="m-2 ">
         <button
-          class="bg-green-400 text-white p-2 rounded-md"
+          class="bg-green-400 text-white p-2 rounded-md mx-2"
           onClick={() => {
             doc?.addChild()
           }}
         >
           创建并添加飞船
+        </button>
+        <button
+          class="bg-green-400 text-white p-2 rounded-md"
+          onClick={() => {
+            doc?.addBrother()
+          }}
+        >
+          创建并添加关联飞船
         </button>
       </div>
       <div class="m-2">
@@ -84,6 +117,16 @@ const ediotrStateFactory = defineStateSuite(() => {
     })
   }
 
+  const addBrother = () => {
+    const tr = createTransaction()
+
+    createAndAddRelativeSpaceShip(tr, status.currentSpaceship)
+
+    tr.steps.forEach((s) => {
+      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
+    })
+  }
+
   const setCurrentSpaceship = (spaceship: ISpaceShip) => {
     status.currentSpaceship = spaceship
   }
@@ -93,12 +136,14 @@ const ediotrStateFactory = defineStateSuite(() => {
     doc,
     addChild,
     setCurrentSpaceship,
+    addBrother,
   })
 })
 
 export const App = defineFactoryComponent(
   (props, ctx) => {
-    ediotrStateFactory()
+    const es = ediotrStateFactory()
+    Reflect.set(window, 'es', es)
   },
   (state) => {
     return (

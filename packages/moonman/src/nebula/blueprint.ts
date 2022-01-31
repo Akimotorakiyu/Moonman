@@ -57,7 +57,7 @@ export interface IPlanetBlueprint {
 export interface ISpaceShip {
   type: 'spaceShip'
   blueprint: ISpaceShipBlueprint
-  slots: Record<string, ISpaceShip>
+  slots: Record<string, ISpaceShip[]>
   planet: IPlanet
 }
 
