@@ -1,2 +1,3 @@
 export const name = 'moonman'
-export * from './civilization'
+export * from './nebula'
+export * from './command'

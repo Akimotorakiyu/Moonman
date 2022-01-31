@@ -64,5 +64,5 @@ export interface ISpaceShip {
 export interface IPlanet {
   type: 'planet'
   blueprint: IPlanetBlueprint
-  children: []
+  children: ISpaceShip[]
 }

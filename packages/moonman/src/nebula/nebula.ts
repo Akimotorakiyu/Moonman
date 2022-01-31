@@ -10,8 +10,14 @@ import {
   ISpaceShip,
   IPlanet,
 } from './blueprint'
-import { getId } from './util'
+import { getId } from '../util'
 import { messageCenter } from './wave'
+import {
+  querySpaceship,
+  registPlanet,
+  registSpaceship,
+} from './registrationCenter'
+import { reactive } from '@vue/reactivity'
 export function createTransaction(): ITransaction {
   return {
     timestamp: Date.now(),
@@ -83,26 +89,46 @@ export function createSpaceShip(
   blueprint: ISpaceShipBlueprint,
   planet: IPlanet,
 ): ISpaceShip {
-  messageCenter.addAction(blueprint.id, (e, tr) => {
-    console.log(e, tr)
+  messageCenter.addAction(blueprint.id, (e, step, tr) => {
+    console.log(e, step, tr)
   })
 
-  return {
+  const spaceship: ISpaceShip = reactive({
     type: 'spaceShip',
     blueprint,
     slots: {},
     planet,
-  }
+  })
+
+  registSpaceship(spaceship)
+
+  return spaceship
 }
 
 export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
-  messageCenter.addAction(blueprint.id, (e, tr) => {
-    console.log(e, tr)
-  })
-
-  return {
+  const planet: IPlanet = reactive({
     type: 'planet',
     blueprint,
     children: [],
-  }
+  })
+
+  messageCenter.addAction(blueprint.id, (e, step, tr) => {
+    console.log(e, step, tr)
+
+    if (step.type === 'addChildSpaceShip') {
+      const spaceship = querySpaceship(step.spaceShipId)
+
+      console.log('spaceship', spaceship)
+
+      if (spaceship) {
+        planet.children.push(spaceship)
+      } else {
+        throw new Error('未注册的宇宙飞船')
+      }
+    }
+  })
+
+  registPlanet(planet)
+
+  return planet
 }

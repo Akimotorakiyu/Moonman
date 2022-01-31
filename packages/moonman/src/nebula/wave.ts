@@ -1,7 +1,7 @@
 import { createMessageCenter } from './event/event'
-import { ITransaction } from './blueprint'
+import { ITransaction, TOperationTransform } from './blueprint'
 interface IWave {
-  [key: string]: [ITransaction]
+  [key: string]: [TOperationTransform, ITransaction]
 }
 
 export const messageCenter = createMessageCenter<IWave>()
