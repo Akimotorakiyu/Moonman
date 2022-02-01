@@ -3,6 +3,7 @@ import { defineFactoryComponent } from './func'
 import { defineStateSuite } from './func/defineState'
 
 import {
+  addMarkForPlantOrSpaceShip,
   createAndAddRelativeSpaceShip,
   createDocument,
   createPlanetAndConnectPlant,
@@ -44,9 +45,11 @@ const CSpaceVision = defineFactoryComponent(
         >
           setCurrent{editorState?.status.currentSpaceship.blueprint.id}
         </button>
-        <div>spaceship {spaceship.blueprint.id}</div>
+        <div>
+          spaceship {spaceship.blueprint.id}
+          {spaceship.blueprint.operationTransform.length}
+        </div>
         <div>planet {spaceship.planet.blueprint.id}</div>
-
         <div>
           {Object.entries(spaceship.slots).map(([name, spaceshipList]) => {
             console.log(name, spaceshipList)
@@ -111,7 +114,18 @@ const ediotrStateFactory = defineStateSuite(() => {
 
   const addChild = () => {
     const tr = createTransaction()
-    createPlanetAndConnectPlant(tr, status.currentSpaceship.planet)
+    const spaceship = createPlanetAndConnectPlant(
+      tr,
+      status.currentSpaceship.planet,
+    )
+
+    addMarkForPlantOrSpaceShip(
+      tr,
+      spaceship,
+      '',
+      'id: ' + spaceship.blueprint.id,
+    )
+
     tr.steps.forEach((s) => {
       messageCenter.dispatch(s.aimId, s.operationTransform, tr)
     })
@@ -120,7 +134,14 @@ const ediotrStateFactory = defineStateSuite(() => {
   const addBrother = () => {
     const tr = createTransaction()
 
-    createAndAddRelativeSpaceShip(tr, status.currentSpaceship)
+    const spaceship = createAndAddRelativeSpaceShip(tr, status.currentSpaceship)
+
+    addMarkForPlantOrSpaceShip(
+      tr,
+      spaceship.planet,
+      '',
+      'id: ' + spaceship.planet.blueprint.id,
+    )
 
     tr.steps.forEach((s) => {
       messageCenter.dispatch(s.aimId, s.operationTransform, tr)

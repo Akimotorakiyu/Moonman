@@ -16,8 +16,9 @@ export interface IAddChildSpaceShip {
   direction: TDirection
 }
 
-export interface IMark {
-  type: 'mark'
+export interface IAddMark {
+  type: 'addMark'
+  transactionId: string
   timestamp: number
   name: string
   value: unknown
@@ -26,7 +27,7 @@ export interface IMark {
 export type TOperationTransform =
   | IAddRelativeSpaceShip
   | IAddChildSpaceShip
-  | IMark
+  | IAddMark
 
 export interface IStep {
   type: 'step'
@@ -44,14 +45,14 @@ export interface ITransaction {
 export interface ISpaceShipBlueprint {
   type: 'spaceShipBlueprint'
   id: string
-  operationTransform: IAddRelativeSpaceShip[]
+  operationTransform: (IAddRelativeSpaceShip | IAddMark)[]
   planetId: string
 }
 
 export interface IPlanetBlueprint {
   type: 'planetBlueprint'
   id: string
-  operationTransform: IAddChildSpaceShip[]
+  operationTransform: (IAddChildSpaceShip | IAddMark)[]
 }
 
 export interface ISpaceShip {

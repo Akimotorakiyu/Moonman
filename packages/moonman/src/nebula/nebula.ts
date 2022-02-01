@@ -18,6 +18,7 @@ import {
   registSpaceship,
 } from './registrationCenter'
 import { reactive } from '@vue/reactivity'
+import { IAddMark } from '.'
 export function createTransaction(): ITransaction {
   return {
     timestamp: Date.now(),
@@ -66,6 +67,20 @@ export function createAddChildSpaceShip(
   }
 }
 
+export function createAddMark<T>(
+  transactionId: string,
+  name: string,
+  value: T,
+): IAddMark {
+  return {
+    timestamp: Date.now(),
+    type: 'addMark',
+    transactionId,
+    name,
+    value,
+  }
+}
+
 export function createSpaceShipBlueprint(
   planetId: string,
 ): ISpaceShipBlueprint {
@@ -104,6 +119,10 @@ export function createSpaceShip(
         Reflect.set(spaceship.slots, step.direction, (slot = []))
       }
       slot.push(_spaceship)
+      spaceship.blueprint.operationTransform.push(step)
+    } else if (step.type === 'addMark') {
+      console.log('spaceShip add mark', step)
+      spaceship.blueprint.operationTransform.push(step)
     }
   })
 
@@ -122,12 +141,16 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
   messageCenter.addAction(blueprint.id, (e, step, tr) => {
     if (step.type === 'addChildSpaceShip') {
       const spaceship = querySpaceship(step.spaceShipId)
+      planet.blueprint.operationTransform.push(step)
 
       if (spaceship) {
         planet.children.push(spaceship)
       } else {
         throw new Error('未注册的宇宙飞船')
       }
+    } else if (step.type === 'addMark') {
+      console.log('planet add mark', step)
+      planet.blueprint.operationTransform.push(step)
     }
   })
 

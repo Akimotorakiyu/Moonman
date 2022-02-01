@@ -28,6 +28,7 @@ export function createAndConnetBrotherSpaceshipBySpaceship(
 ) {
   const spaceship = createSpaceShipByPlanet(planet)
   addBrotherSpaceShipStep(tr, main, spaceship)
+  return spaceship
 }
 
 export function createAndAddRelativeSpaceShip(
@@ -36,5 +37,6 @@ export function createAndAddRelativeSpaceShip(
 ) {
   const planetBlueprint = createPlanetBlueprint()
   const planet = createPlanet(planetBlueprint)
-  createAndConnetBrotherSpaceshipBySpaceship(tr, main, planet)
+  const spaceship = createAndConnetBrotherSpaceshipBySpaceship(tr, main, planet)
+  return spaceship
 }

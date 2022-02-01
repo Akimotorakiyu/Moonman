@@ -24,10 +24,14 @@ export function createAndConnetSpaceshipByPlanet(
 ) {
   const spaceship = createSpaceShipByPlanet(planet)
   addChildSpaceShipStep(tr, main, spaceship)
+
+  return spaceship
 }
 
 export function createPlanetAndConnectPlant(tr: ITransaction, main: IPlanet) {
   const planetBlueprint = createPlanetBlueprint()
   const planet = createPlanet(planetBlueprint)
-  createAndConnetSpaceshipByPlanet(tr, main, planet)
+  const spaceship = createAndConnetSpaceshipByPlanet(tr, main, planet)
+
+  return spaceship
 }
