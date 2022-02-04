@@ -1,6 +1,5 @@
 import { ediotrStateFactory } from './editorState'
 import { CSpaceVision } from './component'
-
 export const CEditor = () => {
   const doc = ediotrStateFactory.inject()
   console.log(doc)

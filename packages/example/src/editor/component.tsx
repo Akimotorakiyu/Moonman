@@ -1,56 +1,36 @@
 import { ISpaceShip } from '@moonman/moonman'
 import { defineFactoryComponent } from '../func'
-import { ediotrStateFactory } from './editorState'
+import { componentMap } from './innerComponent'
 
 export const CSpaceVision = defineFactoryComponent(
   (props: { spaceship: ISpaceShip }) => {
-    const editorState = ediotrStateFactory.inject()
-
     return {
-      editorState: editorState,
       spaceship: props.spaceship,
     }
   },
-  ({ editorState, spaceship }) => {
-    if (
-      editorState?.status.currentSpaceship.blueprint.id ===
-      spaceship.blueprint.id
-    ) {
-      console.log(spaceship)
-    }
+  ({ spaceship }) => {
+    const RealComName = spaceship.planet.blueprint.content
+      ? 'TextComponent'
+      : 'CContainer'
 
+    const RealCom = componentMap.get(RealComName)!
+
+    console.log('RealCom', RealCom, componentMap)
     return (
       <>
-        <div>
-          {spaceship.slots.backward?.map((sp) => {
-            return (
-              <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
-            )
-          })}
-        </div>
+        {spaceship.slots.backward?.map((sp) => {
+          return (
+            <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+          )
+        })}
 
-        <span>{spaceship.planet.blueprint.content}</span>
+        <RealCom spaceship={spaceship}></RealCom>
 
-        <div
-          class=""
-          onClick={() => {
-            editorState?.setCurrentSpaceship(spaceship)
-          }}
-        >
-          {spaceship.planet.children.map((sp) => {
-            return (
-              <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
-            )
-          })}
-        </div>
-
-        <div>
-          {spaceship.slots.forward?.map((sp) => {
-            return (
-              <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
-            )
-          })}
-        </div>
+        {spaceship.slots.forward?.map((sp) => {
+          return (
+            <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+          )
+        })}
       </>
     )
   },

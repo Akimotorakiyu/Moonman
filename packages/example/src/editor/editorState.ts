@@ -22,7 +22,6 @@ export const ediotrStateFactory = defineStateSuite(() => {
     const spaceship = createPlanetAndConnectPlant(
       tr,
       status.currentSpaceship.planet,
-      '你好世界',
     )
 
     addMarkForPlantOrSpaceShip(
