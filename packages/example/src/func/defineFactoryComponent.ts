@@ -1,10 +1,14 @@
 import { defineStateSuite, TStateFactory, IStateSuite } from './defineState'
 import { SetupContext, VNode } from 'vue'
-import { defineFunctionComponent } from './defineFunctionComponent'
+import {
+  defineFunctionComponent,
+  IFunctionComponentOption,
+} from './defineFunctionComponent'
 
 export function defineFactoryComponent<P extends {}, S>(
   stateFactory: TStateFactory<[P, SetupContext], S>,
   view: (state: S) => VNode,
+  option?: IFunctionComponentOption,
 ) {
   const suite = defineStateSuite(stateFactory)
 
@@ -18,6 +22,7 @@ export function defineFactoryComponent<P extends {}, S>(
         },
       }
     },
+    option,
   )
 
   Reflect.set(com, 'suite', suite)

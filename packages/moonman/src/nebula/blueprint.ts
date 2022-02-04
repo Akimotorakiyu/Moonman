@@ -59,8 +59,13 @@ export interface IPlanetBlueprint {
 export interface ISpaceShip {
   type: 'spaceShip'
   blueprint: ISpaceShipBlueprint
-  slots: Record<string, ISpaceShip[]>
+  slots: ISlots
   planet: IPlanet
+}
+
+interface ISlots extends Record<string, ISpaceShip[]> {
+  forward: ISpaceShip[]
+  backward: ISpaceShip[]
 }
 
 export interface IPlanet {

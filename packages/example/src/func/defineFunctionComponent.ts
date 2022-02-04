@@ -19,6 +19,11 @@ const shallowReadonlyProxyHandler: ProxyHandler<any> = {
   setPrototypeOf: shallowReadonlyProxyHandlerFunction,
 }
 
+export interface IFunctionComponentOption {
+  name?: string
+  inheritAttrs?: boolean
+}
+
 /**
  * defineFunctionComponent
  * @author 臭哥哥·湫曗
@@ -31,7 +36,7 @@ export const defineFunctionComponent = <
   I extends { render: () => VNode | JSX.Element },
 >(
   component: (props: P, ctx: SetupContext) => I,
-  option?: { name?: string; inheritAttrs?: boolean },
+  option?: IFunctionComponentOption,
 ) => {
   const comName = option?.name || component.name || 'Anonymous Component'
 
