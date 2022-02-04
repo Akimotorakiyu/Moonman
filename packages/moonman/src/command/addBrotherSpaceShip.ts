@@ -34,8 +34,9 @@ export function createAndConnetBrotherSpaceshipBySpaceship(
 export function createAndAddRelativeSpaceShip(
   tr: ITransaction,
   main: ISpaceShip,
+  content?: unknown,
 ) {
-  const planetBlueprint = createPlanetBlueprint()
+  const planetBlueprint = createPlanetBlueprint(content)
   const planet = createPlanet(planetBlueprint)
   const spaceship = createAndConnetBrotherSpaceshipBySpaceship(tr, main, planet)
   return spaceship

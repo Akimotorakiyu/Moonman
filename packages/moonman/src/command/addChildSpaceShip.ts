@@ -28,8 +28,12 @@ export function createAndConnetSpaceshipByPlanet(
   return spaceship
 }
 
-export function createPlanetAndConnectPlant(tr: ITransaction, main: IPlanet) {
-  const planetBlueprint = createPlanetBlueprint()
+export function createPlanetAndConnectPlant(
+  tr: ITransaction,
+  main: IPlanet,
+  content?: unknown,
+) {
+  const planetBlueprint = createPlanetBlueprint(content)
   const planet = createPlanet(planetBlueprint)
   const spaceship = createAndConnetSpaceshipByPlanet(tr, main, planet)
 

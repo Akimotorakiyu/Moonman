@@ -53,6 +53,7 @@ export interface IPlanetBlueprint {
   type: 'planetBlueprint'
   id: string
   operationTransform: (IAddChildSpaceShip | IAddMark)[]
+  content?: unknown
 }
 
 export interface ISpaceShip {

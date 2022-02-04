@@ -45,11 +45,7 @@ const CSpaceVision = defineFactoryComponent(
         >
           setCurrent{editorState?.status.currentSpaceship.blueprint.id}
         </button>
-        <div>
-          spaceship {spaceship.blueprint.id}
-          {spaceship.blueprint.operationTransform.length}
-        </div>
-        <div>planet {spaceship.planet.blueprint.id}</div>
+        <span>{spaceship.planet.blueprint.content}</span>
         <div>
           {Object.entries(spaceship.slots).map(([name, spaceshipList]) => {
             console.log(name, spaceshipList)
@@ -117,6 +113,7 @@ const ediotrStateFactory = defineStateSuite(() => {
     const spaceship = createPlanetAndConnectPlant(
       tr,
       status.currentSpaceship.planet,
+      '你好世界',
     )
 
     addMarkForPlantOrSpaceShip(
@@ -134,7 +131,11 @@ const ediotrStateFactory = defineStateSuite(() => {
   const addBrother = () => {
     const tr = createTransaction()
 
-    const spaceship = createAndAddRelativeSpaceShip(tr, status.currentSpaceship)
+    const spaceship = createAndAddRelativeSpaceShip(
+      tr,
+      status.currentSpaceship,
+      '你好世界',
+    )
 
     addMarkForPlantOrSpaceShip(
       tr,

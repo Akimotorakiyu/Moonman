@@ -92,11 +92,13 @@ export function createSpaceShipBlueprint(
   }
 }
 
-export function createPlanetBlueprint(): IPlanetBlueprint {
+export function createPlanetBlueprint(content?: unknown): IPlanetBlueprint {
+  console.log('content', content)
   return {
     type: 'planetBlueprint',
     id: getId(),
     operationTransform: [],
+    content,
   }
 }
 
