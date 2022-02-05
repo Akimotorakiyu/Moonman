@@ -57,6 +57,22 @@ export const CEditor = () => {
           }
         }}
       ></input>
+
+      <input
+        value={doc?.inputingValyue}
+        placeholder="请输入图片链接"
+        onChange={(e) => {
+          if (doc && e.currentTarget) {
+            const target = e.currentTarget as HTMLInputElement
+            doc.inputingValyue = target.value.trim() || 'image.jpg'
+            const start = performance.now()
+            doc.addImageBrother('forward', doc.inputingValyue)
+            console.log(`use ${performance.now() - start}ms`)
+            doc.inputingValyue = ''
+            target.scrollIntoView()
+          }
+        }}
+      ></input>
     </div>
   )
 }

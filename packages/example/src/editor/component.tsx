@@ -1,4 +1,5 @@
 import { ISpaceShip } from '@moonman/moonman'
+import { computed, reactive, watchEffect } from 'vue'
 import { defineFactoryComponent } from '../func'
 import { componentMap } from './innerComponent'
 
@@ -9,7 +10,25 @@ export const CSpaceVision = defineFactoryComponent(
     }
   },
   ({ spaceship }) => {
-    const RealComName = spaceship.planet.blueprint.content
+    const attrs = reactive<Record<string, unknown> & { type?: string }>({})
+
+    watchEffect(() => {
+      const attr: Record<string, unknown> & { type?: string } = {}
+      spaceship.planet.blueprint.operationTransform.forEach((op) => {
+        if (op.type === 'addMark') {
+          attrs[op.name] = op.value
+          // Reflect.set(attr, op.name, op.value)
+        }
+      })
+
+      return attr
+    })
+
+    console.log('attrs.value.type', attrs.type)
+
+    const RealComName = attrs.type
+      ? attrs.type
+      : spaceship.planet.blueprint.content
       ? 'TextComponent'
       : 'CContainer'
 
@@ -24,7 +43,7 @@ export const CSpaceVision = defineFactoryComponent(
           )
         })}
 
-        <RealCom spaceship={spaceship}></RealCom>
+        <RealCom spaceship={spaceship} attrs={attrs}></RealCom>
 
         {spaceship.slots.forward?.map((sp) => {
           return (

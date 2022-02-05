@@ -85,6 +85,25 @@ export const ediotrStateFactory = defineStateSuite(() => {
     }
   }
 
+  const addImageBrother = (direction: TDirection, content?: string) => {
+    const tr = createTransaction()
+
+    const spaceship = createAndAddRelativeSpaceShip(
+      tr,
+      status.currentSpaceship,
+      direction,
+    )
+
+    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'image')
+    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', content)
+
+    tr.steps.forEach((s) => {
+      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
+    })
+
+    setCurrentSpaceship(spaceship)
+  }
+
   return reactive({
     status,
     doc,
@@ -92,5 +111,6 @@ export const ediotrStateFactory = defineStateSuite(() => {
     setCurrentSpaceship,
     addBrother,
     inputingValyue,
+    addImageBrother,
   })
 })
