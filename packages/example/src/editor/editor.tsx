@@ -42,6 +42,21 @@ export const CEditor = () => {
       <div class="m-2">
         <CSpaceVision spaceship={doc?.doc!}></CSpaceVision>
       </div>
+      <input
+        value={doc?.inputingValyue}
+        placeholder="请输入文字"
+        onChange={(e) => {
+          if (doc && e.currentTarget) {
+            const target = e.currentTarget as HTMLInputElement
+            doc.inputingValyue = target.value
+            const start = performance.now()
+            doc.addBrother('forward', doc.inputingValyue)
+            console.log(`use ${performance.now() - start}ms`)
+            doc.inputingValyue = ''
+            target.scrollIntoView()
+          }
+        }}
+      ></input>
     </div>
   )
 }

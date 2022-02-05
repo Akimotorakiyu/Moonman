@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
 import {
@@ -21,6 +21,8 @@ export const ediotrStateFactory = defineStateSuite(() => {
   const setCurrentSpaceship = (spaceship: ISpaceShip) => {
     status.currentSpaceship = spaceship
   }
+
+  const inputingValyue = ref('')
 
   const addChild = () => {
     const tr = createTransaction()
@@ -45,26 +47,42 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
   const addBrother = (direction: TDirection, content?: string) => {
     const tr = createTransaction()
+    let spaceship: ISpaceShip | null = null
+    if (content) {
+      console.log('asdasd', [...content])
+      ;[...content].forEach((text) => {
+        spaceship = createAndAddRelativeSpaceShip(
+          tr,
+          status.currentSpaceship,
+          direction,
+          text,
+        )
+      })
+    } else {
+      spaceship = createAndAddRelativeSpaceShip(
+        tr,
+        status.currentSpaceship,
+        direction,
+        content,
+      )
+    }
 
-    const spaceship = createAndAddRelativeSpaceShip(
-      tr,
-      status.currentSpaceship,
-      direction,
-      content,
-    )
+    if (spaceship) {
+      addMarkForPlantOrSpaceShip(
+        tr,
+        spaceship.planet,
+        '',
+        'id: ' + spaceship.planet.blueprint.id,
+      )
 
-    addMarkForPlantOrSpaceShip(
-      tr,
-      spaceship.planet,
-      '',
-      'id: ' + spaceship.planet.blueprint.id,
-    )
+      tr.steps.forEach((s) => {
+        messageCenter.dispatch(s.aimId, s.operationTransform, tr)
+      })
 
-    tr.steps.forEach((s) => {
-      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-    })
-
-    setCurrentSpaceship(spaceship)
+      setCurrentSpaceship(spaceship)
+    } else {
+      throw new Error('no spaceship created')
+    }
   }
 
   return reactive({
@@ -73,5 +91,6 @@ export const ediotrStateFactory = defineStateSuite(() => {
     addChild,
     setCurrentSpaceship,
     addBrother,
+    inputingValyue,
   })
 })

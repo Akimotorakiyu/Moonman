@@ -15,7 +15,7 @@ export const CSpaceVision = defineFactoryComponent(
 
     const RealCom = componentMap.get(RealComName)!
 
-    console.log('RealCom', RealCom, componentMap)
+    // console.log('RealCom', RealCom, componentMap)
     return (
       <>
         {spaceship.slots.backward?.map((sp) => {

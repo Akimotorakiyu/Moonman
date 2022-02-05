@@ -93,7 +93,7 @@ export function createSpaceShipBlueprint(
 }
 
 export function createPlanetBlueprint(content?: unknown): IPlanetBlueprint {
-  console.log('content', content)
+  // console.log('content', content)
   return {
     type: 'planetBlueprint',
     id: getId(),
@@ -109,7 +109,10 @@ export function createSpaceShip(
   const spaceship: ISpaceShip = reactive({
     type: 'spaceShip',
     blueprint,
-    slots: {},
+    slots: {
+      forward: [],
+      backward: [],
+    },
     planet,
   })
 
@@ -123,7 +126,7 @@ export function createSpaceShip(
       slot.push(_spaceship)
       spaceship.blueprint.operationTransform.push(step)
     } else if (step.type === 'addMark') {
-      console.log('spaceShip add mark', step)
+      // console.log('spaceShip add mark', step)
       spaceship.blueprint.operationTransform.push(step)
     }
   })
@@ -151,7 +154,7 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
         throw new Error('未注册的宇宙飞船')
       }
     } else if (step.type === 'addMark') {
-      console.log('planet add mark', step)
+      // console.log('planet add mark', step)
       planet.blueprint.operationTransform.push(step)
     }
   })
