@@ -11,8 +11,15 @@ export const TextComponent = defineFunctionComponent(
       render() {
         return (
           <span
-            onClick={() => {
+            class={`${
+              editorState?.status.currentSpaceship.blueprint.id ===
+              props.spaceship.blueprint.id
+                ? 'shadow-green-400 shadow-sm'
+                : ''
+            }`}
+            onClick={(event) => {
               editorState?.setCurrentSpaceship(props.spaceship)
+              event.stopPropagation()
             }}
           >
             {props.spaceship.planet.blueprint.content}{' '}

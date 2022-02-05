@@ -1,4 +1,9 @@
-import { ISpaceShip, IPlanet, ITransaction } from '../nebula/blueprint'
+import {
+  ISpaceShip,
+  IPlanet,
+  ITransaction,
+  TDirection,
+} from '../nebula/blueprint'
 import { createSpaceShipByPlanet } from '../nebula/factory'
 import {
   createAddRelativeSpaceShip,
@@ -11,11 +16,12 @@ function addBrotherSpaceShipStep(
   tr: ITransaction,
   main: ISpaceShip,
   spaceship: ISpaceShip,
+  direction: TDirection,
 ) {
   const op = createAddRelativeSpaceShip(
     tr.id,
     spaceship.blueprint.id,
-    'forward',
+    direction,
   )
   const step = createStep(main.blueprint.id, op)
   tr.steps.push(step)
@@ -25,19 +31,26 @@ export function createAndConnetBrotherSpaceshipBySpaceship(
   tr: ITransaction,
   main: ISpaceShip,
   planet: IPlanet,
+  direction: TDirection,
 ) {
   const spaceship = createSpaceShipByPlanet(planet)
-  addBrotherSpaceShipStep(tr, main, spaceship)
+  addBrotherSpaceShipStep(tr, main, spaceship, direction)
   return spaceship
 }
 
 export function createAndAddRelativeSpaceShip(
   tr: ITransaction,
   main: ISpaceShip,
+  direction: TDirection,
   content?: unknown,
 ) {
   const planetBlueprint = createPlanetBlueprint(content)
   const planet = createPlanet(planetBlueprint)
-  const spaceship = createAndConnetBrotherSpaceshipBySpaceship(tr, main, planet)
+  const spaceship = createAndConnetBrotherSpaceshipBySpaceship(
+    tr,
+    main,
+    planet,
+    direction,
+  )
   return spaceship
 }

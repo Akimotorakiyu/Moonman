@@ -9,6 +9,7 @@ import {
   createTransaction,
   ISpaceShip,
   messageCenter,
+  TDirection,
 } from '@moonman/moonman'
 
 export const ediotrStateFactory = defineStateSuite(() => {
@@ -16,6 +17,10 @@ export const ediotrStateFactory = defineStateSuite(() => {
   const status = reactive({
     currentSpaceship: doc,
   })
+
+  const setCurrentSpaceship = (spaceship: ISpaceShip) => {
+    status.currentSpaceship = spaceship
+  }
 
   const addChild = () => {
     const tr = createTransaction()
@@ -34,15 +39,18 @@ export const ediotrStateFactory = defineStateSuite(() => {
     tr.steps.forEach((s) => {
       messageCenter.dispatch(s.aimId, s.operationTransform, tr)
     })
+
+    setCurrentSpaceship(spaceship)
   }
 
-  const addBrother = () => {
+  const addBrother = (direction: TDirection, content?: string) => {
     const tr = createTransaction()
 
     const spaceship = createAndAddRelativeSpaceShip(
       tr,
       status.currentSpaceship,
-      '你好世界',
+      direction,
+      content,
     )
 
     addMarkForPlantOrSpaceShip(
@@ -55,10 +63,8 @@ export const ediotrStateFactory = defineStateSuite(() => {
     tr.steps.forEach((s) => {
       messageCenter.dispatch(s.aimId, s.operationTransform, tr)
     })
-  }
 
-  const setCurrentSpaceship = (spaceship: ISpaceShip) => {
-    status.currentSpaceship = spaceship
+    setCurrentSpaceship(spaceship)
   }
 
   return reactive({
