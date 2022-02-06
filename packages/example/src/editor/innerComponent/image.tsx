@@ -9,7 +9,22 @@ export const ImageComponent = defineFunctionComponent(
     console.log('props.attrs.src', props.attrs)
     return {
       render() {
-        return <img class={` w-64 `} src={props.attrs.src} alt="image"></img>
+        return (
+          <img
+            class={` w-64 m-2 inline-block ${
+              editorState?.status.currentSpaceship.blueprint.id ===
+              props.spaceship.blueprint.id
+                ? 'shadow-green-800 shadow-lg'
+                : ''
+            }`}
+            onClick={(event) => {
+              editorState?.setCurrentSpaceship(props.spaceship)
+              event.stopPropagation()
+            }}
+            src={props.attrs.src}
+            alt="image"
+          ></img>
+        )
       },
     }
   },
