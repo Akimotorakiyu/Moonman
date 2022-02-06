@@ -1,11 +1,13 @@
-import { IPlanet, ISpaceShip, ITransaction } from '../nebula/blueprint'
-import { createSpaceShipByPlanet } from '../nebula/factory'
 import {
-  createAddChildSpaceShip,
+  ISpaceShip,
+  IPlanet,
+  ITransaction,
+  createSpaceShipByPlanet,
   createPlanet,
   createPlanetBlueprint,
   createStep,
-} from '../nebula/nebula'
+  createAddChildSpaceShip,
+} from '@moonman/core'
 
 function addChildSpaceShipStep(
   tr: ITransaction,

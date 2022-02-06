@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "serve": "vite"
+    "serve": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.1.0",
@@ -15,7 +16,7 @@
     "windicss": "^3.4.3"
   },
   "dependencies": {
-    "@moonman/moonman": "^1.0.0",
+    "@moonman/moonman": "workspace:*",
     "vue": "^3.2.29"
   }
 }

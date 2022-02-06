@@ -1,3 +1,3 @@
-export const name = 'moonman'
-export * from './nebula'
+export * from '@moonman/core'
 export * from './command'
+export * from './mark'

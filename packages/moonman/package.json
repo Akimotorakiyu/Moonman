@@ -4,6 +4,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
-    "@vue/reactivity": "^3.2.29"
+    "@vue/reactivity": "^3.2.29",
+    "@moonman/core": "workspace:*"
   }
 }

@@ -14,8 +14,8 @@ import { getId } from '../util'
 import { messageCenter } from './wave'
 import {
   querySpaceship,
-  registPlanet,
-  registSpaceship,
+  registerPlanet,
+  registerSpaceship,
 } from './registrationCenter'
 import { reactive } from '@vue/reactivity'
 import { IAddMark } from '.'
@@ -131,7 +131,7 @@ export function createSpaceShip(
     }
   })
 
-  registSpaceship(spaceship)
+  registerSpaceship(spaceship)
 
   return spaceship
 }
@@ -159,7 +159,7 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
     }
   })
 
-  registPlanet(planet)
+  registerPlanet(planet)
 
   return planet
 }

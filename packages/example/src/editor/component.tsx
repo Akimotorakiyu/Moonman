@@ -1,5 +1,5 @@
-import { ISpaceShip } from '@moonman/moonman'
-import { computed, reactive, watchEffect } from 'vue'
+import { ISpaceShip, mergeMark } from '@moonman/moonman'
+import { reactive, watchEffect } from 'vue'
 import { defineFactoryComponent } from '../func'
 import { componentMap } from './innerComponent'
 
@@ -13,15 +13,9 @@ export const CSpaceVision = defineFactoryComponent(
     const attrs = reactive<Record<string, unknown> & { type?: string }>({})
 
     watchEffect(() => {
-      const attr: Record<string, unknown> & { type?: string } = {}
-      spaceship.planet.blueprint.operationTransform.forEach((op) => {
-        if (op.type === 'addMark') {
-          attrs[op.name] = op.value
-          // Reflect.set(attr, op.name, op.value)
-        }
-      })
+      mergeMark(spaceship.planet, attrs)
 
-      return attr
+      console.log('calc attr', attrs)
     })
 
     console.log('attrs.value.type', attrs.type)

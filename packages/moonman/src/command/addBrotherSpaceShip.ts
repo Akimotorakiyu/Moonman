@@ -3,14 +3,12 @@ import {
   IPlanet,
   ITransaction,
   TDirection,
-} from '../nebula/blueprint'
-import { createSpaceShipByPlanet } from '../nebula/factory'
-import {
+  createSpaceShipByPlanet,
   createAddRelativeSpaceShip,
   createPlanet,
   createPlanetBlueprint,
   createStep,
-} from '../nebula/nebula'
+} from '@moonman/core'
 
 function addBrotherSpaceShipStep(
   tr: ITransaction,

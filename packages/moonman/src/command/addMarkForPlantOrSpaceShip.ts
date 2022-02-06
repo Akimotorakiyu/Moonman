@@ -1,10 +1,10 @@
 import {
-  ITransaction,
-  IPlanet,
-  createAddMark,
-  createStep,
   ISpaceShip,
-} from '../nebula'
+  IPlanet,
+  ITransaction,
+  createStep,
+  createAddMark,
+} from '@moonman/core'
 
 export function addMarkForPlantOrSpaceShip<T>(
   tr: ITransaction,

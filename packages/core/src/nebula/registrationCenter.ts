@@ -10,10 +10,10 @@ export function querySpaceship(id: string) {
   return spaceshipRegistrationCenter.get(id)
 }
 
-export function registPlanet(planet: IPlanet) {
+export function registerPlanet(planet: IPlanet) {
   planetRegistrationCenter.set(planet.blueprint.id, planet)
 }
 
-export function registSpaceship(spaceship: ISpaceShip) {
+export function registerSpaceship(spaceship: ISpaceShip) {
   spaceshipRegistrationCenter.set(spaceship.blueprint.id, spaceship)
 }

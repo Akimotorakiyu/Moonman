@@ -1,3 +1,4 @@
+import { IPlanet } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
@@ -108,6 +109,16 @@ export const ediotrStateFactory = defineStateSuite(() => {
     setCurrentSpaceship(spaceship)
   }
 
+  const addMark = (aim: IPlanet | ISpaceShip, name: string, value: unknown) => {
+    const tr = createTransaction()
+
+    console.log('mark delete')
+    addMarkForPlantOrSpaceShip(tr, aim, name, value)
+    tr.steps.forEach((s) => {
+      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
+    })
+  }
+
   return reactive({
     status,
     doc,
@@ -116,5 +127,6 @@ export const ediotrStateFactory = defineStateSuite(() => {
     addBrother,
     inputingValyue,
     addImageBrother,
+    addMark,
   })
 })

@@ -1,5 +1,4 @@
 export * from './nebula'
 export * from './blueprint'
 export * from './wave'
-export * from './civilization'
 export * from './factory'
