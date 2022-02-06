@@ -9,7 +9,7 @@ export const ImageComponent = defineFunctionComponent(
     console.log('props.attrs.src', props.attrs)
     return {
       render() {
-        return <img src={props.attrs.src} alt="image"></img>
+        return <img class={` w-64 `} src={props.attrs.src} alt="image"></img>
       },
     }
   },

@@ -26,11 +26,7 @@ export const CSpaceVision = defineFactoryComponent(
 
     console.log('attrs.value.type', attrs.type)
 
-    const RealComName = attrs.type
-      ? attrs.type
-      : spaceship.planet.blueprint.content
-      ? 'TextComponent'
-      : 'CContainer'
+    const RealComName = attrs.type ?? 'CContainer'
 
     const RealCom = componentMap.get(RealComName)!
 

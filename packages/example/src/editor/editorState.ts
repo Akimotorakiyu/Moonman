@@ -31,12 +31,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
       status.currentSpaceship.planet,
     )
 
-    addMarkForPlantOrSpaceShip(
-      tr,
-      spaceship,
-      '',
-      'id: ' + spaceship.blueprint.id,
-    )
+    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
 
     tr.steps.forEach((s) => {
       messageCenter.dispatch(s.aimId, s.operationTransform, tr)
@@ -57,6 +52,13 @@ export const ediotrStateFactory = defineStateSuite(() => {
           direction,
           text,
         )
+        addMarkForPlantOrSpaceShip(
+          tr,
+          spaceship.planet,
+          'type',
+          'TextComponent',
+        )
+        addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', text)
       })
     } else {
       spaceship = createAndAddRelativeSpaceShip(
@@ -65,6 +67,8 @@ export const ediotrStateFactory = defineStateSuite(() => {
         direction,
         content,
       )
+
+      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
     }
 
     if (spaceship) {
