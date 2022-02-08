@@ -1,4 +1,4 @@
-import { IPlanet, dispatchTransation } from '@moonman/moonman'
+import { IPlanet, dispatchTransation, doTransation } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
@@ -7,7 +7,6 @@ import {
   createAndAddRelativeSpaceShip,
   createDocument,
   createPlanetAndConnectPlant,
-  createTransaction,
   ISpaceShip,
   TDirection,
 } from '@moonman/moonman'
@@ -25,83 +24,79 @@ export const ediotrStateFactory = defineStateSuite(() => {
   const inputingValyue = ref('')
 
   const addChild = () => {
-    const tr = createTransaction()
-    const spaceship = createPlanetAndConnectPlant(
-      tr,
-      status.currentSpaceship.planet,
-    )
-
-    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
-
-    dispatchTransation(tr)
+    const spaceship = doTransation((tr) => {
+      const spaceship = createPlanetAndConnectPlant(
+        tr,
+        status.currentSpaceship.planet,
+      )
+      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
+      return spaceship
+    })
 
     setCurrentSpaceship(spaceship)
   }
 
   const addBrother = (direction: TDirection, content?: string) => {
-    const tr = createTransaction()
-    let spaceship: ISpaceShip | null = null
-    if (content) {
-      console.log('asdasd', [...content])
-      ;[...content].forEach((text) => {
+    const spaceship = doTransation((tr) => {
+      let spaceship: ISpaceShip | null = null
+      if (content) {
+        console.log('asdasd', [...content])
+        ;[...content].forEach((text) => {
+          spaceship = createAndAddRelativeSpaceShip(
+            tr,
+            status.currentSpaceship,
+            direction,
+            text,
+          )
+          addMarkForPlantOrSpaceShip(
+            tr,
+            spaceship.planet,
+            'type',
+            'TextComponent',
+          )
+          addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', text)
+        })
+      } else {
         spaceship = createAndAddRelativeSpaceShip(
           tr,
           status.currentSpaceship,
           direction,
-          text,
+          content,
         )
-        addMarkForPlantOrSpaceShip(
-          tr,
-          spaceship.planet,
-          'type',
-          'TextComponent',
-        )
-        addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', text)
-      })
-    } else {
-      spaceship = createAndAddRelativeSpaceShip(
-        tr,
-        status.currentSpaceship,
-        direction,
-        content,
-      )
 
-      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
-    }
+        addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
+      }
 
-    if (spaceship) {
-      dispatchTransation(tr)
+      if (!spaceship) {
+        throw new Error('no spaceship created')
+      }
+      return spaceship
+    })
 
-      setCurrentSpaceship(spaceship)
-    } else {
-      throw new Error('no spaceship created')
-    }
+    setCurrentSpaceship(spaceship)
   }
 
   const addImageBrother = (direction: TDirection, content?: string) => {
-    const tr = createTransaction()
+    const spaceship = doTransation((tr) => {
+      const spaceship = createAndAddRelativeSpaceShip(
+        tr,
+        status.currentSpaceship,
+        direction,
+      )
+      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'image')
+      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', content)
 
-    const spaceship = createAndAddRelativeSpaceShip(
-      tr,
-      status.currentSpaceship,
-      direction,
-    )
-
-    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'image')
-    addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', content)
-
-    dispatchTransation(tr)
+      return spaceship
+    })
 
     setCurrentSpaceship(spaceship)
   }
 
   const addMark = (aim: IPlanet | ISpaceShip, name: string, value: unknown) => {
-    const tr = createTransaction()
-
-    console.log('mark delete')
-    addMarkForPlantOrSpaceShip(tr, aim, name, value)
-
-    dispatchTransation(tr)
+    doTransation((tr) => {
+      console.log('mark delete')
+      addMarkForPlantOrSpaceShip(tr, aim, name, value)
+    })
   }
 
   return reactive({
