@@ -5,8 +5,8 @@ import {
   createSpaceShip,
   createSpaceShipBlueprint,
   createTransaction,
-  messageCenter,
 } from '@moonman/core'
+import { dispatchTransation } from './dispatchTransation'
 
 export function createDocument() {
   const planetBlueprint = createPlanetBlueprint()
@@ -18,9 +18,7 @@ export function createDocument() {
 
   addMarkForPlantOrSpaceShip(tr, spaceShip.planet, 'type', 'CContainer')
 
-  tr.steps.forEach((s) => {
-    messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-  })
+  dispatchTransation(tr)
 
   return spaceShip
 }

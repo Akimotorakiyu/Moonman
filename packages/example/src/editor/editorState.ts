@@ -1,4 +1,4 @@
-import { IPlanet } from '@moonman/moonman'
+import { IPlanet, dispatchTransation } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
@@ -9,7 +9,6 @@ import {
   createPlanetAndConnectPlant,
   createTransaction,
   ISpaceShip,
-  messageCenter,
   TDirection,
 } from '@moonman/moonman'
 
@@ -34,9 +33,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
     addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
 
-    tr.steps.forEach((s) => {
-      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-    })
+    dispatchTransation(tr)
 
     setCurrentSpaceship(spaceship)
   }
@@ -73,16 +70,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     }
 
     if (spaceship) {
-      addMarkForPlantOrSpaceShip(
-        tr,
-        spaceship.planet,
-        '',
-        'id: ' + spaceship.planet.blueprint.id,
-      )
-
-      tr.steps.forEach((s) => {
-        messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-      })
+      dispatchTransation(tr)
 
       setCurrentSpaceship(spaceship)
     } else {
@@ -102,9 +90,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'image')
     addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', content)
 
-    tr.steps.forEach((s) => {
-      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-    })
+    dispatchTransation(tr)
 
     setCurrentSpaceship(spaceship)
   }
@@ -114,9 +100,8 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
     console.log('mark delete')
     addMarkForPlantOrSpaceShip(tr, aim, name, value)
-    tr.steps.forEach((s) => {
-      messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-    })
+
+    dispatchTransation(tr)
   }
 
   return reactive({
