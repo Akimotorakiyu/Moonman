@@ -1,4 +1,9 @@
-import { IPlanet, dispatchTransation, doTransation } from '@moonman/moonman'
+import {
+  IPlanet,
+  runCommandsWithTransation,
+  doTransation,
+  defineCommand,
+} from '@moonman/moonman'
 import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
@@ -10,6 +15,14 @@ import {
   ISpaceShip,
   TDirection,
 } from '@moonman/moonman'
+
+const addMarkCommand = defineCommand(
+  (aim: IPlanet | ISpaceShip, name: string, value: unknown) => (next, tr) => {
+    addMarkForPlantOrSpaceShip(tr, aim, name, value)
+    next()
+    return true
+  },
+)
 
 export const ediotrStateFactory = defineStateSuite(() => {
   const doc = createDocument()
@@ -93,10 +106,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
   }
 
   const addMark = (aim: IPlanet | ISpaceShip, name: string, value: unknown) => {
-    doTransation((tr) => {
-      console.log('mark delete')
-      addMarkForPlantOrSpaceShip(tr, aim, name, value)
-    })
+    runCommandsWithTransation([addMarkCommand(aim, name, value)])
   }
 
   return reactive({
