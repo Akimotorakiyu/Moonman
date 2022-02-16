@@ -1,5 +1,8 @@
 export type TDirection = 'forward' | 'backward'
 
+/**
+ * for planet
+ */
 export interface IAddRelativeSpaceShip {
   type: 'addRelativeSpaceShip'
   transactionId: string
@@ -8,6 +11,15 @@ export interface IAddRelativeSpaceShip {
   direction: TDirection
 }
 
+export interface ITransferSpaceShip {
+  type: 'moveSpaceShip'
+  nextSpaceShipId: string
+  timestamp: number
+}
+
+/**
+ * for spaceship
+ */
 export interface IAddChildSpaceShip {
   type: 'addChildSpaceShip'
   transactionId: string
@@ -16,6 +28,9 @@ export interface IAddChildSpaceShip {
   direction: TDirection
 }
 
+/**
+ * for planet and spaceship
+ */
 export interface IAddMark {
   type: 'addMark'
   transactionId: string
@@ -28,6 +43,7 @@ export type TOperationTransform =
   | IAddRelativeSpaceShip
   | IAddChildSpaceShip
   | IAddMark
+  | ITransferSpaceShip
 
 export interface IStep {
   type: 'step'
@@ -45,7 +61,7 @@ export interface ITransaction {
 export interface ISpaceShipBlueprint {
   type: 'spaceShipBlueprint'
   id: string
-  operationTransform: (IAddRelativeSpaceShip | IAddMark)[]
+  operationTransform: (IAddRelativeSpaceShip | ITransferSpaceShip | IAddMark)[]
   planetId: string
 }
 
