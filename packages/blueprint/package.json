@@ -1,8 +1,9 @@
 {
-  "name": "@moonman/core",
+  "name": "@moonman/blueprint",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@vue/reactivity": "^3.2.29"
   }

@@ -5,7 +5,7 @@ import {
   createSpaceShip,
   createSpaceShipBlueprint,
   createTransaction,
-} from '@moonman/core'
+} from '@moonman/nebula'
 import { dispatchTransation } from './dispatchTransation'
 
 export function createDocument() {

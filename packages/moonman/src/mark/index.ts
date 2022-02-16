@@ -1,4 +1,4 @@
-import { IPlanet, ISpaceShip } from '@moonman/core'
+import { IPlanet, ISpaceShip } from '@moonman/blueprint'
 
 export function mergeMark(
   center: IPlanet | ISpaceShip,

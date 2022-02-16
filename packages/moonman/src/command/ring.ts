@@ -1,4 +1,4 @@
-import { ITransaction } from '@moonman/core'
+import { ITransaction } from '@moonman/blueprint'
 
 export type TNext<R> = () => R | undefined
 export type TMiddleWare<Args extends unknown[], R> = (

@@ -4,7 +4,7 @@ import {
   ITransaction,
   createStep,
   createAddMark,
-} from '@moonman/core'
+} from '@moonman/nebula'
 
 export function addMarkForPlantOrSpaceShip<T>(
   tr: ITransaction,

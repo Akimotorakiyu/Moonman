@@ -9,16 +9,16 @@ import {
   IPlanetBlueprint,
   ISpaceShip,
   IPlanet,
-} from './blueprint'
+  IAddMark,
+} from '@moonman/blueprint'
 import { getId } from '../util'
-import { messageCenter } from './wave'
+import { messageCenter } from './registrationCenter/wave'
 import {
   querySpaceship,
   registerPlanet,
   registerSpaceship,
-} from './registrationCenter'
+} from './registrationCenter/registrationCenter'
 import { reactive } from '@vue/reactivity'
-import { IAddMark } from '.'
 export function createTransaction(): ITransaction {
   return {
     timestamp: Date.now(),

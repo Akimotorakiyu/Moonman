@@ -1,4 +1,4 @@
-import { IPlanet, ISpaceShip } from './blueprint'
+import { IPlanet, ISpaceShip } from '@moonman/blueprint'
 import { createSpaceShip, createSpaceShipBlueprint } from './nebula'
 
 export function createSpaceShipByPlanet(planet: IPlanet): ISpaceShip {

@@ -1,4 +1,4 @@
-import { ITransaction } from '@moonman/core'
+import { ITransaction } from '@moonman/blueprint'
 import { doTransation } from './dispatchTransation'
 import { commandRing } from './ring'
 import { TMiddleWare } from './ring'

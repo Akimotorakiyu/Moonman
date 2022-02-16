@@ -1,4 +1,4 @@
-import { ISpaceShip, IPlanet } from './blueprint'
+import { IPlanet, ISpaceShip } from '@moonman/blueprint'
 const planetRegistrationCenter = new Map<string, IPlanet>()
 const spaceshipRegistrationCenter = new Map<string, ISpaceShip>()
 

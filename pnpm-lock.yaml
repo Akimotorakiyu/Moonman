@@ -17,7 +17,7 @@ importers:
       pretty-quick: 3.1.3_prettier@2.5.1
       typescript: 4.5.5
 
-  packages/core:
+  packages/blueprint:
     specifiers:
       '@vue/reactivity': ^3.2.29
     dependencies:
@@ -46,10 +46,20 @@ importers:
 
   packages/moonman:
     specifiers:
-      '@moonman/core': workspace:*
+      '@moonman/blueprint': workspace:*
+      '@moonman/nebula': workspace:*
       '@vue/reactivity': ^3.2.29
     dependencies:
-      '@moonman/core': link:../core
+      '@moonman/blueprint': link:../blueprint
+      '@moonman/nebula': link:../nebula
+      '@vue/reactivity': 3.2.30
+
+  packages/nebula:
+    specifiers:
+      '@moonman/blueprint': workspace:*
+      '@vue/reactivity': ^3.2.29
+    dependencies:
+      '@moonman/blueprint': link:../blueprint
       '@vue/reactivity': 3.2.30
 
 packages:

@@ -1,5 +1,5 @@
-import { createMessageCenter } from './event/event'
-import { ITransaction, TOperationTransform } from './blueprint'
+import { createMessageCenter } from './event'
+import { ITransaction, TOperationTransform } from '@moonman/blueprint'
 interface IWave {
   [key: string]: [TOperationTransform, ITransaction]
 }

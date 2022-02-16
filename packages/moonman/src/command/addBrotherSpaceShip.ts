@@ -8,7 +8,7 @@ import {
   createPlanet,
   createPlanetBlueprint,
   createStep,
-} from '@moonman/core'
+} from '@moonman/nebula'
 
 function addBrotherSpaceShipStep(
   tr: ITransaction,
