@@ -45,6 +45,7 @@ export function createAddRelativeSpaceShip(
   direction: TDirection,
 ): IAddRelativeSpaceShip {
   return {
+    id: getId(),
     direction,
     timestamp: Date.now(),
     transactionId,
@@ -59,6 +60,7 @@ export function createAddChildSpaceShip(
   direction: TDirection,
 ): IAddChildSpaceShip {
   return {
+    id: getId(),
     direction,
     timestamp: Date.now(),
     transactionId,
@@ -73,6 +75,7 @@ export function createAddMark<T>(
   value: T,
 ): IAddMark {
   return {
+    id: getId(),
     timestamp: Date.now(),
     type: 'addMark',
     transactionId,
@@ -83,6 +86,7 @@ export function createAddMark<T>(
 
 export function createSpaceShipBlueprint(
   planetId: string,
+  id: number = getId(),
 ): ISpaceShipBlueprint {
   return {
     type: 'spaceShipBlueprint',
@@ -92,13 +96,11 @@ export function createSpaceShipBlueprint(
   }
 }
 
-export function createPlanetBlueprint(content?: unknown): IPlanetBlueprint {
-  // console.log('content', content)
+export function createPlanetBlueprint(id: number = getId()): IPlanetBlueprint {
   return {
     type: 'planetBlueprint',
     id: getId(),
     operationTransform: [],
-    content,
   }
 }
 

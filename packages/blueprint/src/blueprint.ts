@@ -1,74 +1,19 @@
-export type TDirection = 'forward' | 'backward'
-
-/**
- * for planet
- */
-export interface IAddRelativeSpaceShip {
-  type: 'addRelativeSpaceShip'
-  transactionId: string
-  timestamp: number
-  spaceShipId: string
-  direction: TDirection
-}
-
-export interface ITransferSpaceShip {
-  type: 'moveSpaceShip'
-  nextSpaceShipId: string
-  timestamp: number
-}
-
-/**
- * for spaceship
- */
-export interface IAddChildSpaceShip {
-  type: 'addChildSpaceShip'
-  transactionId: string
-  timestamp: number
-  spaceShipId: string
-  direction: TDirection
-}
-
-/**
- * for planet and spaceship
- */
-export interface IAddMark {
-  type: 'addMark'
-  transactionId: string
-  timestamp: number
-  name: string
-  value: unknown
-}
-
-export type TOperationTransform =
-  | IAddRelativeSpaceShip
-  | IAddChildSpaceShip
-  | IAddMark
-  | ITransferSpaceShip
-
-export interface IStep {
-  type: 'step'
-  aimId: string
-  operationTransform: TOperationTransform
-}
-
-export interface ITransaction {
-  type: 'transaction'
-  id: string
-  timestamp: number
-  steps: IStep[]
-}
+import {
+  TPlanetOperationTransform,
+  TSpaceShipOperationTransform,
+} from './operationTransform'
 
 export interface ISpaceShipBlueprint {
   type: 'spaceShipBlueprint'
-  id: string
-  operationTransform: (IAddRelativeSpaceShip | ITransferSpaceShip | IAddMark)[]
+  id: number
+  operationTransform: TSpaceShipOperationTransform[]
   planetId: string
 }
 
 export interface IPlanetBlueprint {
   type: 'planetBlueprint'
-  id: string
-  operationTransform: (IAddChildSpaceShip | IAddMark)[]
+  id: number
+  operationTransform: TPlanetOperationTransform[]
   content?: unknown
 }
 
