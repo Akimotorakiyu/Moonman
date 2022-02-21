@@ -24,9 +24,10 @@ export interface ISpaceShip {
   planet: IPlanet
 }
 
-interface ISlots extends Record<string, ISpaceShip[]> {
-  forward: ISpaceShip[]
-  backward: ISpaceShip[]
+type TTimestampAndIdCombine = `${number}-${number}`
+interface ISlots extends Record<string, TTimestampAndIdCombine[]> {
+  forward: TTimestampAndIdCombine[]
+  backward: TTimestampAndIdCombine[]
 }
 
 export interface IPlanet {

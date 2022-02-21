@@ -4,7 +4,7 @@ import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
 
 export const TextComponent = defineFunctionComponent(
-  (props: { spaceship: ISpaceShip }) => {
+  (props: { spaceship: ISpaceShip; attrs: { content: string } }) => {
     const editorState = ediotrStateFactory.inject()
 
     return {
@@ -22,7 +22,7 @@ export const TextComponent = defineFunctionComponent(
               event.stopPropagation()
             }}
           >
-            {props.spaceship.planet.blueprint.content}{' '}
+            {props.attrs.content}
           </span>
         )
       },

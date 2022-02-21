@@ -67,7 +67,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
             'type',
             'TextComponent',
           )
-          addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', text)
+          addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'content', text)
         })
       } else {
         spaceship = createAndAddRelativeSpaceShip(
