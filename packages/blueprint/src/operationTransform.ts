@@ -2,7 +2,7 @@ import { IIdentity } from './identity'
 
 export type TDirection = 'forward' | 'backward'
 /**
- * for planet
+ * for spaceship
  */
 export interface IAddRelativeSpaceShip {
   identity: IIdentity
@@ -16,12 +16,14 @@ export interface IAddRelativeSpaceShip {
 export interface ITransferSpaceShip {
   identity: IIdentity
 
-  type: 'moveSpaceShip'
+  type: 'transferSpaceShip'
   nextSpaceShipId: IIdentity
+
+  transactionId: IIdentity
 }
 
 /**
- * for spaceship
+ * for planet
  */
 export interface IAddChildSpaceShip {
   identity: IIdentity
@@ -39,16 +41,10 @@ export interface IAddMark {
   identity: IIdentity
 
   type: 'addMark'
-  transactionId: string
+  transactionId: IIdentity
   name: string
   value: unknown
 }
-
-export type TOperationTransform =
-  | IAddRelativeSpaceShip
-  | IAddChildSpaceShip
-  | IAddMark
-  | ITransferSpaceShip
 
 export type TSpaceShipOperationTransform =
   | IAddRelativeSpaceShip
@@ -57,15 +53,26 @@ export type TSpaceShipOperationTransform =
 
 export type TPlanetOperationTransform = IAddChildSpaceShip | IAddMark
 
-export interface IStep {
-  type: 'step'
+export type TOperationTransform =
+  | TSpaceShipOperationTransform
+  | TPlanetOperationTransform
+
+export interface IPlanetStep {
+  type: 'planetStep'
   aimId: IIdentity
-  operationTransform: TOperationTransform
+  operationTransform: TPlanetOperationTransform
 }
+export interface ISpaceShipStep {
+  type: 'spaceShipStep'
+  aimId: IIdentity
+  operationTransform: TSpaceShipOperationTransform
+}
+
+export type TStep = IPlanetStep | ISpaceShipStep
 
 export interface ITransaction {
   identity: IIdentity
 
   type: 'transaction'
-  steps: IStep[]
+  steps: TStep[]
 }

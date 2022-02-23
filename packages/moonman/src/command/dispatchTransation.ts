@@ -1,9 +1,8 @@
-import { createTransaction, ITransaction, messageCenter } from '@moonman/nebula'
-export function dispatchTransation(tr: ITransaction) {
-  tr.steps.forEach((s) => {
-    messageCenter.dispatch(s.aimId, s.operationTransform, tr)
-  })
-}
+import {
+  createTransaction,
+  dispatchTransation,
+  ITransaction,
+} from '@moonman/nebula'
 
 export function doTransation<T>(fn: (tr: ITransaction) => T) {
   const tr = createTransaction()

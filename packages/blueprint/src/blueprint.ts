@@ -30,6 +30,7 @@ export interface ISpaceShip {
   blueprint: ISpaceShipBlueprint
   slots: ISlots
   planet: IPlanet
+  attributes: Record<string, unknown>
 }
 
 interface ISlots extends Record<string, IIdentity[]> {
@@ -40,5 +41,6 @@ interface ISlots extends Record<string, IIdentity[]> {
 export interface IPlanet {
   type: 'planet'
   blueprint: IPlanetBlueprint
-  children: ISpaceShip[]
+  children: IIdentity[]
+  attributes: Record<string, unknown>
 }
