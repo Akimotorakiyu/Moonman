@@ -10,10 +10,12 @@ import {
   ISpaceShip,
   IPlanet,
   IAddMark,
+  IIdentity,
 } from '@moonman/blueprint'
-import { getId } from '../util'
+import { getIdentity } from '../util'
 import { messageCenter } from './registrationCenter/wave'
 import {
+  getTimestampAndIdCombineKey,
   querySpaceship,
   registerPlanet,
   registerSpaceship,
@@ -21,15 +23,14 @@ import {
 import { reactive } from '@vue/reactivity'
 export function createTransaction(): ITransaction {
   return {
-    timestamp: Date.now(),
-    id: getId(),
+    identity: getIdentity(),
     steps: [],
     type: 'transaction',
   }
 }
 
 export function createStep(
-  aimId: string,
+  aimId: IIdentity,
   operationTransform: TOperationTransform,
 ): IStep {
   return {
@@ -40,14 +41,13 @@ export function createStep(
 }
 
 export function createAddRelativeSpaceShip(
-  transactionId: string,
-  spaceShipId: string,
+  transactionId: IIdentity,
+  spaceShipId: IIdentity,
   direction: TDirection,
 ): IAddRelativeSpaceShip {
   return {
-    id: getId(),
+    identity: getIdentity(),
     direction,
-    timestamp: Date.now(),
     transactionId,
     spaceShipId,
     type: 'addRelativeSpaceShip',
@@ -55,14 +55,13 @@ export function createAddRelativeSpaceShip(
 }
 
 export function createAddChildSpaceShip(
-  transactionId: string,
-  spaceShipId: string,
+  transactionId: IIdentity,
+  spaceShipId: IIdentity,
   direction: TDirection,
 ): IAddChildSpaceShip {
   return {
-    id: getId(),
+    identity: getIdentity(),
     direction,
-    timestamp: Date.now(),
     transactionId,
     spaceShipId,
     type: 'addChildSpaceShip',
@@ -75,8 +74,7 @@ export function createAddMark<T>(
   value: T,
 ): IAddMark {
   return {
-    id: getId(),
-    timestamp: Date.now(),
+    identity: getIdentity(),
     type: 'addMark',
     transactionId,
     name,
@@ -85,21 +83,23 @@ export function createAddMark<T>(
 }
 
 export function createSpaceShipBlueprint(
-  planetId: string,
-  id: number = getId(),
+  planetId: IIdentity,
+  identity: IIdentity = getIdentity(),
 ): ISpaceShipBlueprint {
   return {
     type: 'spaceShipBlueprint',
-    id: getId(),
+    identity,
     operationTransform: [],
     planetId,
   }
 }
 
-export function createPlanetBlueprint(id: number = getId()): IPlanetBlueprint {
+export function createPlanetBlueprint(
+  identity: IIdentity = getIdentity(),
+): IPlanetBlueprint {
   return {
     type: 'planetBlueprint',
-    id: getId(),
+    identity,
     operationTransform: [],
   }
 }
@@ -118,20 +118,23 @@ export function createSpaceShip(
     planet,
   })
 
-  messageCenter.addAction(blueprint.id, (e, step, tr) => {
-    if (step.type === 'addRelativeSpaceShip') {
-      const _spaceship = querySpaceship(step.spaceShipId)
-      let slot = Reflect.get(spaceship.slots, step.direction)
-      if (!slot) {
-        Reflect.set(spaceship.slots, step.direction, (slot = []))
+  messageCenter.addAction(
+    getTimestampAndIdCombineKey(blueprint.identity),
+    (e, step, tr) => {
+      if (step.type === 'addRelativeSpaceShip') {
+        const _spaceship = querySpaceship(step.spaceShipId)
+        let slot = Reflect.get(spaceship.slots, step.direction)
+        if (!slot) {
+          Reflect.set(spaceship.slots, step.direction, (slot = []))
+        }
+        slot.push(_spaceship)
+        spaceship.blueprint.operationTransform.push(step)
+      } else if (step.type === 'addMark') {
+        // console.log('spaceShip add mark', step)
+        spaceship.blueprint.operationTransform.push(step)
       }
-      slot.push(_spaceship)
-      spaceship.blueprint.operationTransform.push(step)
-    } else if (step.type === 'addMark') {
-      // console.log('spaceShip add mark', step)
-      spaceship.blueprint.operationTransform.push(step)
-    }
-  })
+    },
+  )
 
   registerSpaceship(spaceship)
 
@@ -145,21 +148,24 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
     children: [],
   })
 
-  messageCenter.addAction(blueprint.id, (e, step, tr) => {
-    if (step.type === 'addChildSpaceShip') {
-      const spaceship = querySpaceship(step.spaceShipId)
-      planet.blueprint.operationTransform.push(step)
+  messageCenter.addAction(
+    getTimestampAndIdCombineKey(blueprint.identity),
+    (e, step, tr) => {
+      if (step.type === 'addChildSpaceShip') {
+        const spaceship = querySpaceship(step.spaceShipId)
+        planet.blueprint.operationTransform.push(step)
 
-      if (spaceship) {
-        planet.children.push(spaceship)
-      } else {
-        throw new Error('未注册的宇宙飞船')
+        if (spaceship) {
+          planet.children.push(spaceship)
+        } else {
+          throw new Error('未注册的宇宙飞船')
+        }
+      } else if (step.type === 'addMark') {
+        // console.log('planet add mark', step)
+        planet.blueprint.operationTransform.push(step)
       }
-    } else if (step.type === 'addMark') {
-      // console.log('planet add mark', step)
-      planet.blueprint.operationTransform.push(step)
-    }
-  })
+    },
+  )
 
   registerPlanet(planet)
 

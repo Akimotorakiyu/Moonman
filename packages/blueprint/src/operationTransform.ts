@@ -1,32 +1,34 @@
+import { IIdentity } from './identity'
+
 export type TDirection = 'forward' | 'backward'
 /**
  * for planet
  */
 export interface IAddRelativeSpaceShip {
-  id: number
-  timestamp: number
+  identity: IIdentity
+
   type: 'addRelativeSpaceShip'
-  transactionId: string
-  spaceShipId: string
+  transactionId: IIdentity
+  spaceShipId: IIdentity
   direction: TDirection
 }
 
 export interface ITransferSpaceShip {
-  id: number
-  timestamp: number
+  identity: IIdentity
+
   type: 'moveSpaceShip'
-  nextSpaceShipId: string
+  nextSpaceShipId: IIdentity
 }
 
 /**
  * for spaceship
  */
 export interface IAddChildSpaceShip {
-  id: number
-  timestamp: number
+  identity: IIdentity
+
   type: 'addChildSpaceShip'
-  transactionId: string
-  spaceShipId: string
+  transactionId: IIdentity
+  spaceShipId: IIdentity
   direction: TDirection
 }
 
@@ -34,8 +36,8 @@ export interface IAddChildSpaceShip {
  * for planet and spaceship
  */
 export interface IAddMark {
-  id: number
-  timestamp: number
+  identity: IIdentity
+
   type: 'addMark'
   transactionId: string
   name: string
@@ -57,13 +59,13 @@ export type TPlanetOperationTransform = IAddChildSpaceShip | IAddMark
 
 export interface IStep {
   type: 'step'
-  aimId: string
+  aimId: IIdentity
   operationTransform: TOperationTransform
 }
 
 export interface ITransaction {
-  timestamp: number
+  identity: IIdentity
+
   type: 'transaction'
-  id: number
   steps: IStep[]
 }

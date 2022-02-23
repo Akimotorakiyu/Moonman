@@ -1,4 +1,9 @@
+import { IIdentity } from '@moonman/blueprint'
+
 let idIndicator = 0
-export function getId() {
-  return idIndicator++
+export function getIdentity(): IIdentity {
+  return {
+    id: idIndicator++,
+    timestamp: Date.now(),
+  }
 }

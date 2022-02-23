@@ -7,6 +7,9 @@ export function fusionTOperationTransform(
   opList2: TOperationTransform[],
 ) {
   return zipFusion(opList1, opList2, (value1, value2) => {
-    return value2.timestamp - value1.timestamp || value2.id - value1.id
+    return (
+      value2.identity.timestamp - value1.identity.timestamp ||
+      value2.identity.id - value1.identity.id
+    )
   })
 }
