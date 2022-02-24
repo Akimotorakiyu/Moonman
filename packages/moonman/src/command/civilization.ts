@@ -1,12 +1,11 @@
-import { addMarkForPlantOrSpaceship } from './addMarkForPlantOrSpaceship'
 import {
   createPlanet,
   createPlanetBlueprint,
   createSpaceship,
   createSpaceshipBlueprint,
   createTransaction,
+  dispatchTransation,
 } from '@moonman/nebula'
-import { dispatchTransation } from './dispatchTransation'
 
 export function createDocument() {
   const planetBlueprint = createPlanetBlueprint()

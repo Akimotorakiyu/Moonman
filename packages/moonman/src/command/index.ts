@@ -1,6 +1,3 @@
-export * from './addChildSpaceship'
-export * from './addBrotherSpaceship'
-export * from './addMarkForPlantOrSpaceship'
 export * from './civilization'
 export * from './dispatchTransation'
 export * from './command'
