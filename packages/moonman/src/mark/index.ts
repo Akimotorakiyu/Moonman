@@ -1,10 +1,10 @@
-import { IPlanet, ISpaceShip } from '@moonman/blueprint'
+import { IPlanet, ISpaceship } from '@moonman/blueprint'
 
 export function mergeMark(
-  center: IPlanet | ISpaceShip,
+  center: IPlanet | ISpaceship,
   atrrs: Record<string, unknown>,
 ) {
-  center.blueprint.operationTransform.forEach((operation) => {
+  center.blueprint.operations.forEach((operation) => {
     if (operation.type === 'addMark') {
       atrrs[operation.name] = operation.value
     }

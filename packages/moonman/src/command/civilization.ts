@@ -1,24 +1,24 @@
-import { addMarkForPlantOrSpaceShip } from './addMarkForPlantOrSpaceShip'
+import { addMarkForPlantOrSpaceship } from './addMarkForPlantOrSpaceship'
 import {
   createPlanet,
   createPlanetBlueprint,
-  createSpaceShip,
-  createSpaceShipBlueprint,
+  createSpaceship,
+  createSpaceshipBlueprint,
   createTransaction,
 } from '@moonman/nebula'
 import { dispatchTransation } from './dispatchTransation'
 
 export function createDocument() {
   const planetBlueprint = createPlanetBlueprint()
-  const spaceShipBlueprint = createSpaceShipBlueprint(planetBlueprint.id)
+  const spaceshipBlueprint = createSpaceshipBlueprint(planetBlueprint.id)
   const planet = createPlanet(planetBlueprint)
-  const spaceShip = createSpaceShip(spaceShipBlueprint, planet)
+  const spaceship = createSpaceship(spaceshipBlueprint, planet)
 
   const tr = createTransaction()
 
-  addMarkForPlantOrSpaceShip(tr, spaceShip.planet, 'type', 'CContainer')
+  addMarkForPlantOrSpaceship(tr, spaceship.planet, 'type', 'CContainer')
 
   dispatchTransation(tr)
 
-  return spaceShip
+  return spaceship
 }

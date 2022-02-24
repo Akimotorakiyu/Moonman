@@ -1,20 +1,20 @@
 import {
-  ISpaceShip,
+  ISpaceship,
   IPlanet,
   ITransaction,
-  createSpaceShipByPlanet,
+  createSpaceshipByPlanet,
   createPlanet,
   createPlanetBlueprint,
   createStep,
-  createAddChildSpaceShip,
+  createAddChildSpaceship,
 } from '@moonman/nebula'
 
-function addChildSpaceShipStep(
+function addChildSpaceshipStep(
   tr: ITransaction,
   main: IPlanet,
-  spaceship: ISpaceShip,
+  spaceship: ISpaceship,
 ) {
-  const op = createAddChildSpaceShip(tr.id, spaceship.blueprint.id, 'forward')
+  const op = createAddChildSpaceship(tr.id, spaceship.blueprint.id, 'forward')
   const step = createStep(main.blueprint.id, op)
   tr.steps.push(step)
 }
@@ -24,8 +24,8 @@ export function createAndConnetSpaceshipByPlanet(
   main: IPlanet,
   planet: IPlanet,
 ) {
-  const spaceship = createSpaceShipByPlanet(planet)
-  addChildSpaceShipStep(tr, main, spaceship)
+  const spaceship = createSpaceshipByPlanet(planet)
+  addChildSpaceshipStep(tr, main, spaceship)
 
   return spaceship
 }

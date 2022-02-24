@@ -1,38 +1,38 @@
 import {
-  IAddChildSpaceShip,
-  IAddRelativeSpaceShip,
+  IAddChildSpaceship,
+  IAddRelativeSpaceship,
   TDirection,
   IAddMark,
   IIdentity,
-  ITransferSpaceShip,
+  ITransferSpaceship,
 } from '@moonman/blueprint'
 import { getIdentity } from '../util'
 
-export function createAddRelativeSpaceShip(
+export function createAddRelativeSpaceship(
   transactionId: IIdentity,
-  spaceShipId: IIdentity,
+  spaceshipId: IIdentity,
   direction: TDirection,
-): IAddRelativeSpaceShip {
+): IAddRelativeSpaceship {
   return {
     identity: getIdentity(),
     direction,
     transactionId,
-    spaceShipId,
-    type: 'addRelativeSpaceShip',
+    spaceshipId,
+    type: 'addRelativeSpaceship',
   }
 }
 
-export function createAddChildSpaceShip(
+export function createAddChildSpaceship(
   transactionId: IIdentity,
-  spaceShipId: IIdentity,
+  spaceshipId: IIdentity,
   direction: TDirection,
-): IAddChildSpaceShip {
+): IAddChildSpaceship {
   return {
     identity: getIdentity(),
     direction,
     transactionId,
-    spaceShipId,
-    type: 'addChildSpaceShip',
+    spaceshipId,
+    type: 'addChildSpaceship',
   }
 }
 
@@ -50,14 +50,14 @@ export function createAddMark<T>(
   }
 }
 
-export function createTransferSpaceShip<T>(
+export function createTransferSpaceship<T>(
   transactionId: IIdentity,
-  nextSpaceShipId: IIdentity,
-): ITransferSpaceShip {
+  nextSpaceshipId: IIdentity,
+): ITransferSpaceship {
   return {
     identity: getIdentity(),
-    type: 'transferSpaceShip',
+    type: 'transferSpaceship',
     transactionId,
-    nextSpaceShipId,
+    nextSpaceshipId,
   }
 }

@@ -8,17 +8,17 @@ import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
 
 import {
-  addMarkForPlantOrSpaceShip,
-  createAndAddRelativeSpaceShip,
+  addMarkForPlantOrSpaceship,
+  createAndAddRelativeSpaceship,
   createDocument,
   createPlanetAndConnectPlant,
-  ISpaceShip,
+  ISpaceship,
   TDirection,
 } from '@moonman/moonman'
 
 const addMarkCommand = defineCommand(
-  (aim: IPlanet | ISpaceShip, name: string, value: unknown) => (next, tr) => {
-    addMarkForPlantOrSpaceShip(tr, aim, name, value)
+  (aim: IPlanet | ISpaceship, name: string, value: unknown) => (next, tr) => {
+    addMarkForPlantOrSpaceship(tr, aim, name, value)
     next()
     return true
   },
@@ -30,7 +30,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     currentSpaceship: doc,
   })
 
-  const setCurrentSpaceship = (spaceship: ISpaceShip) => {
+  const setCurrentSpaceship = (spaceship: ISpaceship) => {
     status.currentSpaceship = spaceship
   }
 
@@ -42,7 +42,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
         tr,
         status.currentSpaceship.planet,
       )
-      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
+      addMarkForPlantOrSpaceship(tr, spaceship.planet, 'type', 'CContainer')
       return spaceship
     })
 
@@ -51,33 +51,33 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
   const addBrother = (direction: TDirection, content?: string) => {
     const spaceship = doTransation((tr) => {
-      let spaceship: ISpaceShip | null = null
+      let spaceship: ISpaceship | null = null
       if (content) {
         console.log('asdasd', [...content])
         ;[...content].forEach((text) => {
-          spaceship = createAndAddRelativeSpaceShip(
+          spaceship = createAndAddRelativeSpaceship(
             tr,
             status.currentSpaceship,
             direction,
             text,
           )
-          addMarkForPlantOrSpaceShip(
+          addMarkForPlantOrSpaceship(
             tr,
             spaceship.planet,
             'type',
             'TextComponent',
           )
-          addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'content', text)
+          addMarkForPlantOrSpaceship(tr, spaceship.planet, 'content', text)
         })
       } else {
-        spaceship = createAndAddRelativeSpaceShip(
+        spaceship = createAndAddRelativeSpaceship(
           tr,
           status.currentSpaceship,
           direction,
           content,
         )
 
-        addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'CContainer')
+        addMarkForPlantOrSpaceship(tr, spaceship.planet, 'type', 'CContainer')
       }
 
       if (!spaceship) {
@@ -91,13 +91,13 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
   const addImageBrother = (direction: TDirection, content?: string) => {
     const spaceship = doTransation((tr) => {
-      const spaceship = createAndAddRelativeSpaceShip(
+      const spaceship = createAndAddRelativeSpaceship(
         tr,
         status.currentSpaceship,
         direction,
       )
-      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'type', 'image')
-      addMarkForPlantOrSpaceShip(tr, spaceship.planet, 'src', content)
+      addMarkForPlantOrSpaceship(tr, spaceship.planet, 'type', 'image')
+      addMarkForPlantOrSpaceship(tr, spaceship.planet, 'src', content)
 
       return spaceship
     })
@@ -105,7 +105,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     setCurrentSpaceship(spaceship)
   }
 
-  const addMark = (aim: IPlanet | ISpaceShip, name: string, value: unknown) => {
+  const addMark = (aim: IPlanet | ISpaceship, name: string, value: unknown) => {
     runCommandsWithTransation([addMarkCommand(aim, name, value)])
   }
 

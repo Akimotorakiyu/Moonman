@@ -1,8 +1,10 @@
 import {
   ITransaction,
   IPlanetStep,
+  ISpaceshipStep,
   IIdentity,
-  TPlanetOperationTransform,
+  TPlanetOperation,
+  TSpaceshipOperation,
 } from '@moonman/blueprint'
 import { getIdentity } from '../util'
 
@@ -16,11 +18,21 @@ export function createTransaction(): ITransaction {
 
 export function createPlanetStep(
   aimId: IIdentity,
-  operationTransform: TPlanetOperationTransform,
+  operation: TPlanetOperation,
 ): IPlanetStep {
   return {
     type: 'planetStep',
-    operationTransform: operationTransform,
+    operation,
+    aimId,
+  }
+}
+export function createSpaceshipStep(
+  aimId: IIdentity,
+  operation: TSpaceshipOperation,
+): ISpaceshipStep {
+  return {
+    type: 'spaceshipStep',
+    operation,
     aimId,
   }
 }

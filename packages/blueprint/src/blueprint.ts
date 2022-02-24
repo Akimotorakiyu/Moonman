@@ -1,18 +1,15 @@
 import { IIdentity } from './identity'
-import {
-  TPlanetOperationTransform,
-  TSpaceShipOperationTransform,
-} from './operationTransform'
+import { TPlanetOperation, TSpaceshipOperation } from './operation'
 
 export type TTimestampAndIdCombineKey =
   `${IIdentity['timestamp']}-${IIdentity['id']}`
 
-export interface ISpaceShipBlueprint {
-  type: 'spaceShipBlueprint'
+export interface ISpaceshipBlueprint {
+  type: 'spaceshipBlueprint'
 
   identity: IIdentity
 
-  operationTransform: TSpaceShipOperationTransform[]
+  operations: TSpaceshipOperation[]
   planetId: IIdentity
 }
 
@@ -21,13 +18,12 @@ export interface IPlanetBlueprint {
 
   identity: IIdentity
 
-  operationTransform: TPlanetOperationTransform[]
-  content?: unknown
+  operations: TPlanetOperation[]
 }
 
-export interface ISpaceShip {
-  type: 'spaceShip'
-  blueprint: ISpaceShipBlueprint
+export interface ISpaceship {
+  type: 'spaceship'
+  blueprint: ISpaceshipBlueprint
   slots: ISlots
   planet: IPlanet
   attributes: Record<string, unknown>

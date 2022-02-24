@@ -1,13 +1,13 @@
 import {
   IPlanet,
-  ISpaceShip,
+  ISpaceship,
   IIdentity,
   TTimestampAndIdCombineKey,
 } from '@moonman/blueprint'
 const planetRegistrationCenter = new Map<TTimestampAndIdCombineKey, IPlanet>()
 const spaceshipRegistrationCenter = new Map<
   TTimestampAndIdCombineKey,
-  ISpaceShip
+  ISpaceship
 >()
 
 export function getTimestampAndIdCombineKey(
@@ -31,7 +31,7 @@ export function registerPlanet(planet: IPlanet) {
   )
 }
 
-export function registerSpaceship(spaceship: ISpaceShip) {
+export function registerSpaceship(spaceship: ISpaceship) {
   spaceshipRegistrationCenter.set(
     getTimestampAndIdCombineKey(spaceship.blueprint.identity),
     spaceship,

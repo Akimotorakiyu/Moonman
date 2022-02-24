@@ -1,7 +1,7 @@
 import {
-  ISpaceShipBlueprint,
+  ISpaceshipBlueprint,
   IPlanetBlueprint,
-  ISpaceShip,
+  ISpaceship,
   IPlanet,
   IIdentity,
 } from '@moonman/blueprint'
@@ -11,14 +11,14 @@ import {
   registerSpaceship,
 } from '../registrationCenter/registrationCenter'
 
-export function createSpaceShipBlueprint(
+export function createSpaceshipBlueprint(
   planetId: IIdentity,
   identity: IIdentity = getIdentity(),
-): ISpaceShipBlueprint {
+): ISpaceshipBlueprint {
   return {
-    type: 'spaceShipBlueprint',
+    type: 'spaceshipBlueprint',
     identity,
-    operationTransform: [],
+    operations: [],
     planetId,
   }
 }
@@ -29,16 +29,16 @@ export function createPlanetBlueprint(
   return {
     type: 'planetBlueprint',
     identity,
-    operationTransform: [],
+    operations: [],
   }
 }
 
-export function createSpaceShip(
-  blueprint: ISpaceShipBlueprint,
+export function createSpaceship(
+  blueprint: ISpaceshipBlueprint,
   planet: IPlanet,
-): ISpaceShip {
-  const spaceship: ISpaceShip = {
-    type: 'spaceShip',
+): ISpaceship {
+  const spaceship: ISpaceship = {
+    type: 'spaceship',
     blueprint,
     slots: {
       forward: [],
@@ -66,7 +66,7 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
   return planet
 }
 
-export function createSpaceShipByPlanet(planet: IPlanet): ISpaceShip {
-  const spaceShipBlueprint = createSpaceShipBlueprint(planet.blueprint.identity)
-  return createSpaceShip(spaceShipBlueprint, planet)
+export function createSpaceshipByPlanet(planet: IPlanet): ISpaceship {
+  const spaceshipBlueprint = createSpaceshipBlueprint(planet.blueprint.identity)
+  return createSpaceship(spaceshipBlueprint, planet)
 }

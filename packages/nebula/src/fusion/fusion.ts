@@ -1,19 +1,19 @@
 import {
-  ISpaceShipBlueprint,
+  ISpaceshipBlueprint,
   IPlanetBlueprint,
-  TSpaceShipOperationTransform,
-  TPlanetOperationTransform,
-  TOperationTransform,
+  TSpaceshipOperation,
+  TPlanetOperation,
+  TOperation,
   IIdentity,
 } from '@moonman/blueprint'
 
 import { zipFusion } from './zipFusionAlgorithm'
-import { createPlanetBlueprint, createSpaceShipBlueprint } from '..'
+import { createPlanetBlueprint, createSpaceshipBlueprint } from '..'
 
 // todo: 使用二分查找 插入法，对有大量操作，加入少量插入的情况进行优化
 export function fusionTOperationTransform(
-  opList1: TOperationTransform[],
-  opList2: TOperationTransform[],
+  opList1: TOperation[],
+  opList2: TOperation[],
 ) {
   return zipFusion(opList1, opList2, (value1, value2) => {
     return (
@@ -24,25 +24,24 @@ export function fusionTOperationTransform(
 }
 
 export function fusionSpaceshipBlueprint(
-  spaceship1: ISpaceShipBlueprint,
-  spaceship2: ISpaceShipBlueprint,
-): ISpaceShipBlueprint {
+  spaceship1: ISpaceshipBlueprint,
+  spaceship2: ISpaceshipBlueprint,
+): ISpaceshipBlueprint {
   if (!isTheSameIdentity(spaceship1.identity, spaceship2.identity)) {
     throw 'only the same spaceship blueprint can be fusioned'
   }
 
   const fusionedOpList = fusionTOperationTransform(
-    spaceship1.operationTransform,
-    spaceship2.operationTransform,
+    spaceship1.operations,
+    spaceship2.operations,
   )
 
-  const fusionedSpaceship = createSpaceShipBlueprint(
+  const fusionedSpaceship = createSpaceshipBlueprint(
     spaceship1.planetId,
     spaceship1.identity,
   )
 
-  fusionedSpaceship.operationTransform =
-    fusionedOpList as TSpaceShipOperationTransform[]
+  fusionedSpaceship.operations = fusionedOpList as TSpaceshipOperation[]
   return fusionedSpaceship
 }
 
@@ -59,13 +58,12 @@ export function fusionPlanetBlueprint(
   }
 
   const fusionedOpList = fusionTOperationTransform(
-    planetship1.operationTransform,
-    planetship2.operationTransform,
+    planetship1.operations,
+    planetship2.operations,
   )
 
   const fusionedSpaceship = createPlanetBlueprint(planetship1.identity)
 
-  fusionedSpaceship.operationTransform =
-    fusionedOpList as TPlanetOperationTransform[]
+  fusionedSpaceship.operations = fusionedOpList as TPlanetOperation[]
   return fusionedSpaceship
 }

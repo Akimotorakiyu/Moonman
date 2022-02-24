@@ -1,10 +1,10 @@
-import { ISpaceShip, mergeMark } from '@moonman/moonman'
+import { ISpaceship, mergeMark } from '@moonman/moonman'
 import { reactive, watchEffect } from 'vue'
 import { defineFactoryComponent } from '../func'
 import { componentMap } from './innerComponent'
 
 export const CSpaceVision = defineFactoryComponent(
-  (props: { spaceship: ISpaceShip }) => {
+  (props: { spaceship: ISpaceship }) => {
     return {
       spaceship: props.spaceship,
     }

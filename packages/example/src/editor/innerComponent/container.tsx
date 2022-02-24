@@ -1,10 +1,10 @@
-import { ISpaceShip } from '@moonman/moonman'
+import { ISpaceship } from '@moonman/moonman'
 import { defineFactoryComponent } from '../../func'
 import { ediotrStateFactory } from '../editorState'
 import { CSpaceVision } from '../component'
 import { registerComponent } from './map'
 export const CContainer = defineFactoryComponent(
-  (props: { spaceship: ISpaceShip }) => {
+  (props: { spaceship: ISpaceship }) => {
     const editorState = ediotrStateFactory.inject()
 
     return {

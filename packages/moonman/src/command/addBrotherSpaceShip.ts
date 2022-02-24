@@ -1,22 +1,22 @@
 import {
-  ISpaceShip,
+  ISpaceship,
   IPlanet,
   ITransaction,
   TDirection,
-  createSpaceShipByPlanet,
-  createAddRelativeSpaceShip,
+  createSpaceshipByPlanet,
+  createAddRelativeSpaceship,
   createPlanet,
   createPlanetBlueprint,
   createStep,
 } from '@moonman/nebula'
 
-function addBrotherSpaceShipStep(
+function addBrotherSpaceshipStep(
   tr: ITransaction,
-  main: ISpaceShip,
-  spaceship: ISpaceShip,
+  main: ISpaceship,
+  spaceship: ISpaceship,
   direction: TDirection,
 ) {
-  const op = createAddRelativeSpaceShip(
+  const op = createAddRelativeSpaceship(
     tr.id,
     spaceship.blueprint.id,
     direction,
@@ -27,18 +27,18 @@ function addBrotherSpaceShipStep(
 
 export function createAndConnetBrotherSpaceshipBySpaceship(
   tr: ITransaction,
-  main: ISpaceShip,
+  main: ISpaceship,
   planet: IPlanet,
   direction: TDirection,
 ) {
-  const spaceship = createSpaceShipByPlanet(planet)
-  addBrotherSpaceShipStep(tr, main, spaceship, direction)
+  const spaceship = createSpaceshipByPlanet(planet)
+  addBrotherSpaceshipStep(tr, main, spaceship, direction)
   return spaceship
 }
 
-export function createAndAddRelativeSpaceShip(
+export function createAndAddRelativeSpaceship(
   tr: ITransaction,
-  main: ISpaceShip,
+  main: ISpaceship,
   direction: TDirection,
   content?: unknown,
 ) {

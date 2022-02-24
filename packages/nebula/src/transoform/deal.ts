@@ -1,9 +1,9 @@
 import {
   IPlanet,
-  ISpaceShip,
+  ISpaceship,
   ITransaction,
   IPlanetStep,
-  ISpaceShipStep,
+  ISpaceshipStep,
 } from '@moonman/blueprint'
 import { queryPlanet, querySpaceship } from '..'
 
@@ -12,11 +12,11 @@ function dealPlanetOperationTransform(
   step: IPlanetStep,
   tr: ITransaction,
 ) {
-  const { operationTransform } = step
-  planet.blueprint.operationTransform.push(operationTransform)
+  const { operation: operationTransform } = step
+  planet.blueprint.operations.push(operationTransform)
 
-  if (operationTransform.type === 'addChildSpaceShip') {
-    planet.children.push(operationTransform.spaceShipId)
+  if (operationTransform.type === 'addChildSpaceship') {
+    planet.children.push(operationTransform.spaceshipId)
   } else if (operationTransform.type === 'addMark') {
     // todo: 自定义合并支持
     planet.attributes[operationTransform.name] = operationTransform.value
@@ -25,25 +25,25 @@ function dealPlanetOperationTransform(
   }
 }
 
-function dealSpaceShipOperationTransform(
-  spaceship: ISpaceShip,
-  step: ISpaceShipStep,
+function dealSpaceshipOperationTransform(
+  spaceship: ISpaceship,
+  step: ISpaceshipStep,
   tr: ITransaction,
 ) {
-  const { operationTransform } = step
-  spaceship.blueprint.operationTransform.push(operationTransform)
+  const { operation: operationTransform } = step
+  spaceship.blueprint.operations.push(operationTransform)
 
-  if (operationTransform.type === 'addRelativeSpaceShip') {
+  if (operationTransform.type === 'addRelativeSpaceship') {
     if (operationTransform.direction === 'backward') {
-      spaceship.slots.backward.push(operationTransform.spaceShipId)
+      spaceship.slots.backward.push(operationTransform.spaceshipId)
     } else {
-      spaceship.slots.forward.unshift(operationTransform.spaceShipId)
+      spaceship.slots.forward.unshift(operationTransform.spaceshipId)
     }
   } else if (operationTransform.type === 'addMark') {
     // todo: 自定义合并支持
     spaceship.attributes[operationTransform.name] = operationTransform.value
-  } else if (operationTransform.type === 'transferSpaceShip') {
-    spaceship.attributes['moveTo'] = operationTransform.nextSpaceShipId
+  } else if (operationTransform.type === 'transferSpaceship') {
+    spaceship.attributes['moveTo'] = operationTransform.nextSpaceshipId
   } else {
     throw 'unknow operationTransform type for spaceship'
   }
@@ -59,10 +59,10 @@ export function dispatchTransation(tr: ITransaction) {
         }
 
         break
-      case 'spaceShipStep':
+      case 'spaceshipStep':
         const spaceship = querySpaceship(step.aimId)
         if (spaceship) {
-          dealSpaceShipOperationTransform(spaceship, step, tr)
+          dealSpaceshipOperationTransform(spaceship, step, tr)
         }
         break
 

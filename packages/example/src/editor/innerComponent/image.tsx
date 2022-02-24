@@ -1,11 +1,11 @@
-import { ISpaceShip } from '@moonman/moonman'
+import { ISpaceship } from '@moonman/moonman'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
 
 export const ImageComponent = defineFunctionComponent(
   (props: {
-    spaceship: ISpaceShip
+    spaceship: ISpaceship
     attrs: { src: string; deleted?: boolean }
   }) => {
     const editorState = ediotrStateFactory.inject()

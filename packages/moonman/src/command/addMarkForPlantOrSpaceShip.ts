@@ -1,18 +1,18 @@
 import {
-  ISpaceShip,
+  ISpaceship,
   IPlanet,
   ITransaction,
   createStep,
   createAddMark,
 } from '@moonman/nebula'
 
-export function addMarkForPlantOrSpaceShip<T>(
+export function addMarkForPlantOrSpaceship<T>(
   tr: ITransaction,
-  planetOrSpaceShip: IPlanet | ISpaceShip,
+  planetOrSpaceship: IPlanet | ISpaceship,
   name: string,
   value: T,
 ) {
   const addMarkOp = createAddMark(tr.id, name, value)
-  const step = createStep(planetOrSpaceShip.blueprint.id, addMarkOp)
+  const step = createStep(planetOrSpaceship.blueprint.id, addMarkOp)
   tr.steps.push(step)
 }
