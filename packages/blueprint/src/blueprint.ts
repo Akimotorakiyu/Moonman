@@ -1,9 +1,6 @@
 import { IIdentity } from './identity'
 import { TPlanetOperation, TSpaceshipOperation } from './operation'
 
-export type TTimestampAndIdCombineKey =
-  `${IIdentity['timestamp']}-${IIdentity['id']}`
-
 export interface ISpaceshipBlueprint {
   type: 'spaceshipBlueprint'
 

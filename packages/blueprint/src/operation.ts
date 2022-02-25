@@ -58,23 +58,3 @@ export type TSpaceshipOperation =
 export type TPlanetOperation = IAddChildSpaceship | IAddMark
 
 export type TOperation = TSpaceshipOperation | TPlanetOperation
-
-export interface IPlanetStep {
-  type: 'planetStep'
-  aimId: IIdentity
-  operation: TPlanetOperation
-}
-export interface ISpaceshipStep {
-  type: 'spaceshipStep'
-  aimId: IIdentity
-  operation: TSpaceshipOperation
-}
-
-export type TStep = IPlanetStep | ISpaceshipStep
-
-export interface ITransaction {
-  identity: IIdentity
-
-  type: 'transaction'
-  steps: TStep[]
-}
