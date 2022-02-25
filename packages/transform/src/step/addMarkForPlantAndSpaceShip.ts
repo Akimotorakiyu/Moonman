@@ -4,7 +4,7 @@ import { createPlanetStep, createSpaceshipStep } from './createStep'
 
 export function addMarkForSpaceship<T>(
   tr: ITransaction,
-  planetOrSpaceship: IPlanet | ISpaceship,
+  planetOrSpaceship: ISpaceship,
   name: string,
   value: T,
 ) {
@@ -18,7 +18,7 @@ export function addMarkForSpaceship<T>(
 
 export function addMarkForPlant<T>(
   tr: ITransaction,
-  planetOrSpaceship: IPlanet | ISpaceship,
+  planetOrSpaceship: IPlanet,
   name: string,
   value: T,
 ) {

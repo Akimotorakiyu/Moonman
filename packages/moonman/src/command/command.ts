@@ -1,5 +1,5 @@
 import { ITransaction } from '@moonman/blueprint'
-import { doTransation } from './dispatchTransation'
+import { doTransation } from './doTransation'
 import { commandRing } from './ring'
 import { TMiddleWare } from './ring'
 
