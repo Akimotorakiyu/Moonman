@@ -5,7 +5,7 @@ import {
   IPlanetStep,
   ISpaceshipStep,
 } from '@moonman/blueprint'
-import { queryPlanet, querySpaceship } from '..'
+import { isTheSameIdentity, queryPlanet, querySpaceship } from '..'
 
 function dealPlanetOperationTransform(
   planet: IPlanet,
@@ -43,7 +43,32 @@ function dealSpaceshipOperationTransform(
     // todo: 自定义合并支持
     spaceship.attributes[operationTransform.name] = operationTransform.value
   } else if (operationTransform.type === 'transferSpaceship') {
-    spaceship.attributes['moveTo'] = operationTransform.nextSpaceshipId
+    if (
+      isTheSameIdentity(
+        operationTransform.toSpaceshipId,
+        spaceship.blueprint.identity,
+      )
+    ) {
+      spaceship.attributes['transferSrc'] = true
+    }
+
+    if (
+      isTheSameIdentity(
+        operationTransform.toSpaceshipId,
+        spaceship.blueprint.identity,
+      )
+    ) {
+      spaceship.attributes['transferIn'] = true
+    } else if (
+      isTheSameIdentity(
+        operationTransform.fromSpaceshipId,
+        spaceship.blueprint.identity,
+      )
+    ) {
+      spaceship.attributes['transferOut'] = true
+    } else {
+      throw 'unknow transfer'
+    }
   } else {
     throw 'unknow operationTransform type for spaceship'
   }

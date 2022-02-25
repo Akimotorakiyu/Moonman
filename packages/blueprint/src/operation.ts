@@ -17,7 +17,11 @@ export interface ITransferSpaceship {
   identity: IIdentity
 
   type: 'transferSpaceship'
-  nextSpaceshipId: IIdentity
+
+  srcSpaceshipId: IIdentity
+
+  fromSpaceshipId: IIdentity
+  toSpaceshipId: IIdentity
 
   transactionId: IIdentity
 }

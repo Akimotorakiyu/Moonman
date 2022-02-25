@@ -52,12 +52,16 @@ export function createAddMark<T>(
 
 export function createTransferSpaceship<T>(
   transactionId: IIdentity,
-  nextSpaceshipId: IIdentity,
+  fromSpaceshipId: IIdentity,
+  toSpaceshipId: IIdentity,
+  srcSpaceshipId: IIdentity,
 ): ITransferSpaceship {
   return {
     identity: getIdentity(),
     type: 'transferSpaceship',
     transactionId,
-    nextSpaceshipId,
+    srcSpaceshipId,
+    fromSpaceshipId,
+    toSpaceshipId,
   }
 }
