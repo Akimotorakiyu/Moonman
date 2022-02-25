@@ -17,11 +17,24 @@ export function getTimestampAndIdCombineKey(
 }
 
 export function queryPlanet(identity: IIdentity) {
-  return planetRegistrationCenter.get(getTimestampAndIdCombineKey(identity))
+  const planet = planetRegistrationCenter.get(
+    getTimestampAndIdCombineKey(identity),
+  )
+  if (!planet) {
+    throw 'unregistrator planet'
+  }
+  return planet
 }
 
 export function querySpaceship(identity: IIdentity) {
-  return spaceshipRegistrationCenter.get(getTimestampAndIdCombineKey(identity))
+  const spaceship = spaceshipRegistrationCenter.get(
+    getTimestampAndIdCombineKey(identity),
+  )
+
+  if (!spaceship) {
+    throw 'unregistrator spaceship'
+  }
+  return spaceship
 }
 
 export function registerPlanet(planet: IPlanet) {

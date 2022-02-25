@@ -3,40 +3,16 @@ import {
   IPlanetBlueprint,
   ISpaceship,
   IPlanet,
-  IIdentity,
 } from '@moonman/blueprint'
-import { getIdentity } from '../util'
 import {
+  queryPlanet,
   registerPlanet,
   registerSpaceship,
 } from '../registrationCenter/registrationCenter'
 
-export function createSpaceshipBlueprint(
-  planetId: IIdentity,
-  identity: IIdentity = getIdentity(),
-): ISpaceshipBlueprint {
-  return {
-    type: 'spaceshipBlueprint',
-    identity,
-    operations: [],
-    planetId,
-  }
-}
+export function createSpaceship(blueprint: ISpaceshipBlueprint): ISpaceship {
+  const planet: IPlanet = queryPlanet(blueprint.identity)
 
-export function createPlanetBlueprint(
-  identity: IIdentity = getIdentity(),
-): IPlanetBlueprint {
-  return {
-    type: 'planetBlueprint',
-    identity,
-    operations: [],
-  }
-}
-
-export function createSpaceship(
-  blueprint: ISpaceshipBlueprint,
-  planet: IPlanet,
-): ISpaceship {
   const spaceship: ISpaceship = {
     type: 'spaceship',
     blueprint,
@@ -53,7 +29,7 @@ export function createSpaceship(
   return spaceship
 }
 
-export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
+export function createPlanetByBlueprint(blueprint: IPlanetBlueprint): IPlanet {
   const planet: IPlanet = {
     type: 'planet',
     blueprint,
@@ -64,9 +40,4 @@ export function createPlanet(blueprint: IPlanetBlueprint): IPlanet {
   registerPlanet(planet)
 
   return planet
-}
-
-export function createSpaceshipByPlanet(planet: IPlanet): ISpaceship {
-  const spaceshipBlueprint = createSpaceshipBlueprint(planet.blueprint.identity)
-  return createSpaceship(spaceshipBlueprint, planet)
 }
