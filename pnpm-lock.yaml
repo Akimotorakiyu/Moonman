@@ -63,6 +63,16 @@ importers:
   packages/nebula:
     specifiers:
       '@moonman/blueprint': workspace:*
+      '@moonman/registration': workspace:*
+      '@vue/reactivity': ^3.2.29
+    dependencies:
+      '@moonman/blueprint': link:../blueprint
+      '@moonman/registration': link:../registration
+      '@vue/reactivity': 3.2.30
+
+  packages/registration:
+    specifiers:
+      '@moonman/blueprint': workspace:*
       '@vue/reactivity': ^3.2.29
     dependencies:
       '@moonman/blueprint': link:../blueprint

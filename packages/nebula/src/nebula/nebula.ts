@@ -8,7 +8,7 @@ import {
   queryPlanet,
   registerPlanet,
   registerSpaceship,
-} from '../registrationCenter/registrationCenter'
+} from '@moonman/registration'
 
 export function createSpaceship(blueprint: ISpaceshipBlueprint): ISpaceship {
   const planet: IPlanet = queryPlanet(blueprint.identity)

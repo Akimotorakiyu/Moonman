@@ -4,11 +4,11 @@ import {
   TSpaceshipOperation,
   TPlanetOperation,
   TOperation,
-  IIdentity,
 } from '@moonman/blueprint'
 
 import { zipFusion } from './zipFusionAlgorithm'
 import { createPlanetBlueprint, createSpaceshipBlueprint } from '..'
+import { isTheSameIdentity } from '../util'
 
 // todo: 使用二分查找 插入法，对有大量操作，加入少量插入的情况进行优化
 export function fusionTOperationTransform(
@@ -43,10 +43,6 @@ export function fusionSpaceshipBlueprint(
 
   fusionedSpaceship.operations = fusionedOpList as TSpaceshipOperation[]
   return fusionedSpaceship
-}
-
-export function isTheSameIdentity(id0: IIdentity, id1: IIdentity) {
-  return id0.timestamp === id1.timestamp && id0.id === id1.id
 }
 
 export function fusionPlanetBlueprint(

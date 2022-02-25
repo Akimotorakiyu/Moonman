@@ -1,12 +1,11 @@
 {
-  "name": "@moonman/nebula",
+  "name": "@moonman/registration",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
   "type": "module",
   "dependencies": {
     "@vue/reactivity": "^3.2.29",
-    "@moonman/blueprint": "workspace:*",
-    "@moonman/registration": "workspace:*"
+    "@moonman/blueprint": "workspace:*"
   }
 }
