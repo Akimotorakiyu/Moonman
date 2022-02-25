@@ -1,5 +1,5 @@
 import { ITransaction } from '@moonman/blueprint'
-import { getIdentity } from '../util'
+import { getIdentity } from '@moonman/nebula'
 
 export function createTransaction(): ITransaction {
   return {

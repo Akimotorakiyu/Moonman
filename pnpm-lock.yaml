@@ -54,10 +54,14 @@ importers:
     specifiers:
       '@moonman/blueprint': workspace:*
       '@moonman/nebula': workspace:*
+      '@moonman/registration': workspace:*
+      '@moonman/transform': workspace:*
       '@vue/reactivity': ^3.2.29
     dependencies:
       '@moonman/blueprint': link:../blueprint
       '@moonman/nebula': link:../nebula
+      '@moonman/registration': link:../registration
+      '@moonman/transform': link:../transform
       '@vue/reactivity': 3.2.30
 
   packages/nebula:
@@ -76,6 +80,18 @@ importers:
       '@vue/reactivity': ^3.2.29
     dependencies:
       '@moonman/blueprint': link:../blueprint
+      '@vue/reactivity': 3.2.30
+
+  packages/transform:
+    specifiers:
+      '@moonman/blueprint': workspace:*
+      '@moonman/nebula': workspace:*
+      '@moonman/registration': workspace:*
+      '@vue/reactivity': ^3.2.29
+    dependencies:
+      '@moonman/blueprint': link:../blueprint
+      '@moonman/nebula': link:../nebula
+      '@moonman/registration': link:../registration
       '@vue/reactivity': 3.2.30
 
 packages:

@@ -6,7 +6,7 @@ import {
   ISpaceshipStep,
 } from '@moonman/blueprint'
 import { queryPlanet, querySpaceship } from '@moonman/registration'
-import { isTheSameIdentity } from '../util'
+import { isTheSameIdentity } from '@moonman/nebula'
 
 function dealPlanetOperationTransform(
   planet: IPlanet,

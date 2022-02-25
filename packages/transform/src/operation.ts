@@ -6,7 +6,7 @@ import {
   IIdentity,
   ITransferSpaceship,
 } from '@moonman/blueprint'
-import { getIdentity } from '../util'
+import { getIdentity } from '@moonman/nebula'
 
 export function createAddRelativeSpaceship(
   transactionId: IIdentity,
