@@ -1,5 +1,5 @@
 {
-  "name": "@moonman/moonman",
+  "name": "@moonman/command",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
@@ -7,9 +7,8 @@
   "dependencies": {
     "@vue/reactivity": "^3.2.29",
     "@moonman/blueprint": "workspace:*",
-    "@moonman/nebula": "workspace:*",
+    "@moonman/registration": "workspace:*",
     "@moonman/transform": "workspace:*",
-    "@moonman/command": "workspace:*",
-    "@moonman/registration": "workspace:*"
+    "@moonman/nebula": "workspace:*"
   }
 }

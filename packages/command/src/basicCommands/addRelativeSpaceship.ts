@@ -1,7 +1,7 @@
 import { IPlanet, ISpaceship, TDirection } from '@moonman/blueprint'
 import { createSpaceshipByPlanet } from '@moonman/nebula'
-import { addBrotherSpaceshipStep, addMarkForPlant } from '@moonman/transform'
-import { defineCommand } from '@moonman/transform'
+import { addBrotherSpaceshipStep } from '@moonman/transform'
+import { defineCommand } from '../commandRing'
 
 export function addRelative(
   main: ISpaceship,
@@ -17,8 +17,6 @@ export function addRelative(
       spaceship.blueprint.identity,
       direction,
     )
-
-    addMarkForPlant(tr, planet, 'type', 'pargraph')
 
     next()
     return true

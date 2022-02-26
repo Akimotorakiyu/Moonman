@@ -1,10 +1,7 @@
 import { ISpaceship, IPlanet, TDirection } from '@moonman/blueprint'
 import { createSpaceshipByPlanet } from '@moonman/nebula'
-import {
-  addChildSpaceshipStep,
-  addMarkForPlant,
-  defineCommand,
-} from '@moonman/transform'
+import { addChildSpaceshipStep } from '@moonman/transform'
+import { defineCommand } from '../commandRing'
 
 export function addChild(
   main: ISpaceship,
@@ -20,8 +17,6 @@ export function addChild(
       spaceship.blueprint.identity,
       direction,
     )
-
-    addMarkForPlant(tr, planet, 'type', 'pargraph')
 
     next()
     return true
