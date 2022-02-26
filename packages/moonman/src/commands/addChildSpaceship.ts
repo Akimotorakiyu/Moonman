@@ -6,8 +6,12 @@ import {
   defineCommand,
 } from '@moonman/transform'
 
-export const addChild = defineCommand(
-  (main: ISpaceship, planet: IPlanet, direction: TDirection) => (next, tr) => {
+export function addChild(
+  main: ISpaceship,
+  planet: IPlanet,
+  direction: TDirection,
+) {
+  defineCommand((next, tr) => {
     const spaceship = createSpaceshipByPlanet(planet)
 
     addChildSpaceshipStep(
@@ -21,5 +25,5 @@ export const addChild = defineCommand(
 
     next()
     return true
-  },
-)
+  })
+}

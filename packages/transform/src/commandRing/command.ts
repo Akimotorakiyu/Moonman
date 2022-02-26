@@ -5,9 +5,7 @@ import { TMiddleWare } from './ring'
 
 type TCommand = TMiddleWare<[ITransaction], boolean>
 
-export function defineCommand<Args extends unknown[]>(
-  command: (...args: Args) => TCommand,
-) {
+export function defineCommand(command: TCommand) {
   return command
 }
 

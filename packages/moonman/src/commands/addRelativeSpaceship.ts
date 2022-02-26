@@ -3,8 +3,12 @@ import { createSpaceshipByPlanet } from '@moonman/nebula'
 import { addBrotherSpaceshipStep, addMarkForPlant } from '@moonman/transform'
 import { defineCommand } from '@moonman/transform'
 
-export const addRelative = defineCommand(
-  (main: ISpaceship, planet: IPlanet, direction: TDirection) => (next, tr) => {
+export function addRelative(
+  main: ISpaceship,
+  planet: IPlanet,
+  direction: TDirection,
+) {
+  return defineCommand((next, tr) => {
     const spaceship = createSpaceshipByPlanet(planet)
 
     addBrotherSpaceshipStep(
@@ -18,5 +22,5 @@ export const addRelative = defineCommand(
 
     next()
     return true
-  },
-)
+  })
+}
