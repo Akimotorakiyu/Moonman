@@ -11,7 +11,7 @@ import {
 } from '@moonman/registration'
 
 export function createSpaceship(blueprint: ISpaceshipBlueprint): ISpaceship {
-  const planet: IPlanet = queryPlanet(blueprint.identity)
+  const planet: IPlanet = queryPlanet(blueprint.planetId)
 
   const spaceship: ISpaceship = {
     type: 'spaceship',

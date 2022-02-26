@@ -1,5 +1,5 @@
 import { IPlanet } from '@moonman/blueprint/src/blueprint'
-import { createPlanet } from '@moonman/nebula'
+import { createPlanet, createSpaceshipByPlanet } from '@moonman/nebula'
 import { addMarkToPlanet } from '@moonman/command'
 import { runCommandsWithTransation } from '@moonman/command'
 export function createDocumentByPlanet(planet: IPlanet) {
@@ -7,9 +7,12 @@ export function createDocumentByPlanet(planet: IPlanet) {
 }
 
 export function createDocument() {
+  console.log('createDocument')
   const nodePlanet = createPlanet()
+  const spaceship = createSpaceshipByPlanet(nodePlanet)
   runCommandsWithTransation([addMarkToPlanet(nodePlanet, 'type', 'document')])
-  return nodePlanet
+
+  return spaceship
 }
 
 export function createParagraph() {

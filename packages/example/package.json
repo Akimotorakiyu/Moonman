@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@moonman/moonman": "workspace:*",
+    "@moonman/nebula": "workspace:*",
+    "@moonman/registration": "workspace:*",
     "vue": "^3.2.29"
   }
 }

@@ -2,13 +2,14 @@ import { ISpaceship } from '@moonman/moonman'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
+import { isTheSameIdentity } from '@moonman/nebula'
 
 export const ImageComponent = defineFunctionComponent(
   (props: {
     spaceship: ISpaceship
     attrs: { src: string; deleted?: boolean }
   }) => {
-    const editorState = ediotrStateFactory.inject()
+    const editorState = ediotrStateFactory.inject()!
     console.log('props.attrs.src', props.attrs)
     return {
       render() {
@@ -20,15 +21,17 @@ export const ImageComponent = defineFunctionComponent(
           >
             <button
               onClick={() => {
-                editorState?.addMark(props.spaceship.planet, 'deleted', true)
+                // editorState?.addMark(props.spaceship.planet, 'deleted', true)
               }}
             >
               del {props.attrs.deleted}
             </button>
             <img
               class={` w-64 m-2 inline-block ${
-                editorState?.status.currentSpaceship.blueprint.id ===
-                props.spaceship.blueprint.id
+                isTheSameIdentity(
+                  editorState.status.current.spaceship!.blueprint.identity,
+                  props.spaceship.blueprint.identity,
+                )
                   ? 'shadow-green-800 shadow-lg'
                   : ''
               }`}

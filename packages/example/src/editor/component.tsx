@@ -1,12 +1,17 @@
-import { ISpaceship, mergeMark } from '@moonman/moonman'
+import { IIdentity, mergeMark } from '@moonman/moonman'
 import { reactive, watchEffect } from 'vue'
 import { defineFactoryComponent } from '../func'
 import { componentMap } from './innerComponent'
-
+import {
+  getTimestampAndIdCombineKey,
+  querySpaceship,
+} from '@moonman/registration'
 export const CSpaceVision = defineFactoryComponent(
-  (props: { spaceship: ISpaceship }) => {
+  (props: { spaceshipIdentity: IIdentity }) => {
+    const spaceship = querySpaceship(props.spaceshipIdentity)
+
     return {
-      spaceship: props.spaceship,
+      spaceship,
     }
   },
   ({ spaceship }) => {
@@ -29,7 +34,10 @@ export const CSpaceVision = defineFactoryComponent(
       <>
         {spaceship.slots.backward?.map((sp) => {
           return (
-            <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+            <CSpaceVision
+              spaceshipIdentity={sp}
+              key={getTimestampAndIdCombineKey(sp)}
+            ></CSpaceVision>
           )
         })}
 
@@ -37,7 +45,10 @@ export const CSpaceVision = defineFactoryComponent(
 
         {spaceship.slots.forward?.map((sp) => {
           return (
-            <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+            <CSpaceVision
+              spaceshipIdentity={sp}
+              key={getTimestampAndIdCombineKey(sp)}
+            ></CSpaceVision>
           )
         })}
       </>

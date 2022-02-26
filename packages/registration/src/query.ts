@@ -10,6 +10,8 @@ export function queryPlanet(identity: IIdentity) {
     getTimestampAndIdCombineKey(identity),
   )
   if (!planet) {
+    console.log(planetRegistrationCenter, getTimestampAndIdCombineKey(identity))
+
     throw 'unregistrator planet'
   }
   return planet

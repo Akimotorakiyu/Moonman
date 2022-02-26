@@ -3,9 +3,12 @@ import { defineFactoryComponent } from '../../func'
 import { ediotrStateFactory } from '../editorState'
 import { CSpaceVision } from '../component'
 import { registerComponent } from './map'
+import { isTheSameIdentity } from '@moonman/nebula'
+import { getTimestampAndIdCombineKey } from '@moonman/registration'
+
 export const CContainer = defineFactoryComponent(
   (props: { spaceship: ISpaceship }) => {
-    const editorState = ediotrStateFactory.inject()
+    const editorState = ediotrStateFactory.inject()!
 
     return {
       editorState: editorState,
@@ -13,18 +16,13 @@ export const CContainer = defineFactoryComponent(
     }
   },
   ({ editorState, spaceship }) => {
-    if (
-      editorState?.status.currentSpaceship.blueprint.id ===
-      spaceship.blueprint.id
-    ) {
-      console.log(spaceship)
-    }
-
     return (
       <div
         class={`${' m-3 p-3 shadow-gray-400 shadow-sm bg-light-100'} ${
-          editorState?.status.currentSpaceship.blueprint.id ===
-          spaceship.blueprint.id
+          isTheSameIdentity(
+            editorState.status.current.spaceship!.blueprint.identity,
+            spaceship.blueprint.identity,
+          )
             ? 'shadow-green-400'
             : ''
         }`}
@@ -36,7 +34,10 @@ export const CContainer = defineFactoryComponent(
         {spaceship.planet.children.length ? (
           spaceship.planet.children.map((sp) => {
             return (
-              <CSpaceVision spaceship={sp} key={sp.blueprint.id}></CSpaceVision>
+              <CSpaceVision
+                spaceshipIdentity={sp}
+                key={getTimestampAndIdCombineKey(sp)}
+              ></CSpaceVision>
             )
           })
         ) : (

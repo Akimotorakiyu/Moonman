@@ -1,3 +1,3 @@
 export * from '@moonman/blueprint'
-export * from './command'
+export * from './doc'
 export * from './mark'
