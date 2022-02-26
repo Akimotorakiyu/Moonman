@@ -17,7 +17,11 @@ function dealPlanetOperationTransform(
   planet.blueprint.operations.push(operationTransform)
 
   if (operationTransform.type === 'addChildSpaceship') {
-    planet.children.push(operationTransform.spaceshipId)
+    if (operationTransform.direction === 'forward') {
+      planet.children.unshift(operationTransform.spaceshipId)
+    } else {
+      planet.children.push(operationTransform.spaceshipId)
+    }
   } else if (operationTransform.type === 'addMark') {
     // todo: 自定义合并支持
     planet.attributes[operationTransform.name] = operationTransform.value
@@ -35,10 +39,10 @@ function dealSpaceshipOperationTransform(
   spaceship.blueprint.operations.push(operationTransform)
 
   if (operationTransform.type === 'addRelativeSpaceship') {
-    if (operationTransform.direction === 'backward') {
-      spaceship.slots.backward.push(operationTransform.spaceshipId)
-    } else {
+    if (operationTransform.direction === 'forward') {
       spaceship.slots.forward.unshift(operationTransform.spaceshipId)
+    } else {
+      spaceship.slots.backward.push(operationTransform.spaceshipId)
     }
   } else if (operationTransform.type === 'addMark') {
     // todo: 自定义合并支持

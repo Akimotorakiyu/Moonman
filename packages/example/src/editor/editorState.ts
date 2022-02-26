@@ -1,6 +1,8 @@
 import {
   createChildParagraph,
+  createChildText,
   createRelativeParagraph,
+  createRelativeText,
   ISpaceship,
 } from '@moonman/moonman'
 import { createDocument } from '@moonman/moonman'
@@ -29,6 +31,13 @@ export const ediotrStateFactory = defineStateSuite(() => {
     createRelativeParagraph(status.current.spaceship, 'forward')
   }
 
+  const addChildText = (text: string) => {
+    createChildText(status.current.planet, text)
+  }
+  const addBrotherText = (text: string) => {
+    createRelativeText(status.current.spaceship, text)
+  }
+
   const inputingValyue = ref('')
 
   return reactive({
@@ -38,5 +47,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     inputingValyue,
     addChild,
     addBrother,
+    addChildText,
+    addBrotherText,
   })
 })

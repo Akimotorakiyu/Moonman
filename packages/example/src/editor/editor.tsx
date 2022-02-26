@@ -12,7 +12,7 @@ export const CEditor = () => {
             state.addChild()
           }}
         >
-          创建并添加子节点
+          添加子节点
         </button>
         <button
           class="bg-green-400 text-white p-2 rounded-md mx-2"
@@ -20,23 +20,23 @@ export const CEditor = () => {
             state.addBrother()
           }}
         >
-          创建并添加兄弟节点
+          并添加兄弟节点
         </button>
         <button
           class="bg-green-400 text-white p-2 rounded-md mx-2"
           onClick={() => {
-            // doc?.addBrother('backward', 'hello')
+            state.addChildText('hello')
           }}
         >
-          在节点前插入文字
+          内部插入文字
         </button>
         <button
           class="bg-green-400 text-white p-2 rounded-md mx-2"
           onClick={() => {
-            // doc?.addBrother('forward', 'world')
+            state.addBrotherText('world')
           }}
         >
-          在节点后插入文字
+          之后插入文字
         </button>
       </div>
       <div class="m-2">

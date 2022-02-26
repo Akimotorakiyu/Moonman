@@ -46,14 +46,35 @@ export function createImage(src: string) {
   return nodePlanet
 }
 
-export function createText(text: string) {
+export function createChildText(main: IPlanet, text: string) {
   const commands = text
     .split('')
+    .reverse()
     .map((char, index) => {
       const nodePlanet = createPlanet()
       return [
-        addMarkToPlanet(nodePlanet, 'type', 'text'),
+        addMarkToPlanet(nodePlanet, 'type', 'CTextComponent'),
         addMarkToPlanet(nodePlanet, 'content', char),
+        addChildSpaceship(main, nodePlanet, 'forward'),
+      ]
+    })
+    .flat()
+  runCommandsWithTransation(commands)
+}
+
+export function createRelativeText(
+  relativeSpaceship: ISpaceship,
+  text: string,
+) {
+  const commands = text
+    .split('')
+    .reverse()
+    .map((char, index) => {
+      const nodePlanet = createPlanet()
+      return [
+        addMarkToPlanet(nodePlanet, 'type', 'CTextComponent'),
+        addMarkToPlanet(nodePlanet, 'content', char),
+        addRelativeSpaceship(relativeSpaceship, nodePlanet, 'forward'),
       ]
     })
     .flat()
