@@ -1,4 +1,5 @@
 export * from './container'
+export * from './document'
 export * from './text'
 export * from './map'
 export * from './image'

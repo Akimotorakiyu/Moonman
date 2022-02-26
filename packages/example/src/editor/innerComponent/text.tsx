@@ -1,20 +1,23 @@
 import { ISpaceship } from '@moonman/moonman'
+import { isTheSameIdentity } from '@moonman/nebula'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
 
-export const TextComponent = defineFunctionComponent(
+export const CTextComponent = defineFunctionComponent(
   (props: { spaceship: ISpaceship; attrs: { content: string } }) => {
-    const editorState = ediotrStateFactory.inject()
+    const editorState = ediotrStateFactory.inject()!
 
     return {
       render() {
         return (
           <span
             class={`${
-              editorState?.status.currentSpaceship.blueprint.id ===
-              props.spaceship.blueprint.id
-                ? 'shadow-green-400 shadow-sm'
+              isTheSameIdentity(
+                editorState.status.current.spaceship!.blueprint.identity,
+                props.spaceship.blueprint.identity,
+              )
+                ? 'shadow-green-800 shadow-lg'
                 : ''
             }`}
             onClick={(event) => {
@@ -29,9 +32,9 @@ export const TextComponent = defineFunctionComponent(
     }
   },
   {
-    name: 'TextComponent',
+    name: 'CTextComponent',
     inheritAttrs: false,
   },
 )
 
-registerComponent('TextComponent', TextComponent)
+registerComponent('CTextComponent', CTextComponent)

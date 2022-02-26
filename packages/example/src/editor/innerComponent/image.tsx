@@ -4,7 +4,7 @@ import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
 import { isTheSameIdentity } from '@moonman/nebula'
 
-export const ImageComponent = defineFunctionComponent(
+export const CImageComponent = defineFunctionComponent(
   (props: {
     spaceship: ISpaceship
     attrs: { src: string; deleted?: boolean }
@@ -48,9 +48,9 @@ export const ImageComponent = defineFunctionComponent(
     }
   },
   {
-    name: 'ImageComponent',
+    name: 'CImageComponent',
     inheritAttrs: false,
   },
 )
 
-registerComponent('image', ImageComponent)
+registerComponent('CImageComponent', CImageComponent)

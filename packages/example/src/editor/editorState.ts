@@ -7,8 +7,8 @@ export const ediotrStateFactory = defineStateSuite(() => {
   const doc = createDocument()
   const status = reactive({
     current: {
-      spaceship: undefined as ISpaceship | undefined,
-      planet: doc,
+      spaceship: doc,
+      planet: doc.planet,
     },
   })
 
