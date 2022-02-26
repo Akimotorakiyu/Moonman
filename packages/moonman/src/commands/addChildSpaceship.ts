@@ -1,8 +1,10 @@
 import { ISpaceship, IPlanet, TDirection } from '@moonman/blueprint'
 import { createSpaceshipByPlanet } from '@moonman/nebula'
-import { addChildSpaceshipStep, addMarkForPlant } from '@moonman/transform'
-
-import { defineCommand } from '../command'
+import {
+  addChildSpaceshipStep,
+  addMarkForPlant,
+  defineCommand,
+} from '@moonman/transform'
 
 export const addChild = defineCommand(
   (main: ISpaceship, planet: IPlanet, direction: TDirection) => (next, tr) => {

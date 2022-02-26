@@ -1,7 +1,7 @@
 import { IPlanet, ISpaceship, TDirection } from '@moonman/blueprint'
 import { createSpaceshipByPlanet } from '@moonman/nebula'
 import { addBrotherSpaceshipStep, addMarkForPlant } from '@moonman/transform'
-import { defineCommand } from '../command'
+import { defineCommand } from '@moonman/transform'
 
 export const addRelative = defineCommand(
   (main: ISpaceship, planet: IPlanet, direction: TDirection) => (next, tr) => {

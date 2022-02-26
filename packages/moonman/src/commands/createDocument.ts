@@ -1,7 +1,6 @@
 import { IPlanet } from './../../../blueprint/src/blueprint'
 import { addMarkForPlant } from '@moonman/transform'
-
-import { defineCommand } from '../command'
+import { defineCommand } from '@moonman/transform'
 
 export const createDocumentCommand = defineCommand(
   (planet: IPlanet) => (next, tr) => {
