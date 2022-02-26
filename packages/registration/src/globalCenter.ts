@@ -3,12 +3,11 @@ import {
   ISpaceship,
   TTimestampAndIdCombineKey,
 } from '@moonman/blueprint'
+import { reactive } from '@vue/reactivity'
 
-export const planetRegistrationCenter = new Map<
-  TTimestampAndIdCombineKey,
-  IPlanet
->()
-export const spaceshipRegistrationCenter = new Map<
-  TTimestampAndIdCombineKey,
-  ISpaceship
->()
+export const planetRegistrationCenter = reactive(
+  new Map<TTimestampAndIdCombineKey, IPlanet>(),
+)
+export const spaceshipRegistrationCenter = reactive(
+  new Map<TTimestampAndIdCombineKey, ISpaceship>(),
+)

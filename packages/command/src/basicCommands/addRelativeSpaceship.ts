@@ -3,8 +3,8 @@ import { createSpaceshipByPlanet } from '@moonman/nebula'
 import { addBrotherSpaceshipStep } from '@moonman/transform'
 import { defineCommand } from '../commandRing'
 
-export function addRelative(
-  main: ISpaceship,
+export function addRelativeSpaceship(
+  relativeSpaceship: ISpaceship,
   planet: IPlanet,
   direction: TDirection,
 ) {
@@ -13,7 +13,7 @@ export function addRelative(
 
     addBrotherSpaceshipStep(
       tr,
-      main.blueprint.identity,
+      relativeSpaceship.blueprint.identity,
       spaceship.blueprint.identity,
       direction,
     )

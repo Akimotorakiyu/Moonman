@@ -1,6 +1,11 @@
 import { createPlanet, createSpaceshipByPlanet } from '@moonman/nebula'
-import { addMarkToPlanet } from '@moonman/command'
+import {
+  addMarkToPlanet,
+  addChildSpaceship,
+  addRelativeSpaceship,
+} from '@moonman/command'
 import { runCommandsWithTransation } from '@moonman/command'
+import { IPlanet, ISpaceship, TDirection } from '@moonman/blueprint'
 
 export function createDocument() {
   console.log('createDocument')
@@ -11,9 +16,24 @@ export function createDocument() {
   return spaceship
 }
 
-export function createParagraph() {
+export function createChildParagraph(main: IPlanet, direction: TDirection) {
   const nodePlanet = createPlanet()
-  runCommandsWithTransation([addMarkToPlanet(nodePlanet, 'type', 'pargraph')])
+  runCommandsWithTransation([
+    addMarkToPlanet(nodePlanet, 'type', 'CContainer'),
+    addChildSpaceship(main, nodePlanet, direction),
+  ])
+  return nodePlanet
+}
+
+export function createRelativeParagraph(
+  relativeSpaceship: ISpaceship,
+  direction: TDirection,
+) {
+  const nodePlanet = createPlanet()
+  runCommandsWithTransation([
+    addMarkToPlanet(nodePlanet, 'type', 'CContainer'),
+    addRelativeSpaceship(relativeSpaceship, nodePlanet, direction),
+  ])
   return nodePlanet
 }
 

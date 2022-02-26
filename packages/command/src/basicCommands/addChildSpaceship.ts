@@ -1,14 +1,14 @@
-import { ISpaceship, IPlanet, TDirection } from '@moonman/blueprint'
+import { IPlanet, TDirection } from '@moonman/blueprint'
 import { createSpaceshipByPlanet } from '@moonman/nebula'
 import { addChildSpaceshipStep } from '@moonman/transform'
 import { defineCommand } from '../commandRing'
 
-export function addChild(
-  main: ISpaceship,
+export function addChildSpaceship(
+  main: IPlanet,
   planet: IPlanet,
   direction: TDirection,
 ) {
-  defineCommand((next, tr) => {
+  return defineCommand((next, tr) => {
     const spaceship = createSpaceshipByPlanet(planet)
 
     addChildSpaceshipStep(

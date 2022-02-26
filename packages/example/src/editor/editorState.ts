@@ -1,4 +1,8 @@
-import { ISpaceship } from '@moonman/moonman'
+import {
+  createChildParagraph,
+  createRelativeParagraph,
+  ISpaceship,
+} from '@moonman/moonman'
 import { createDocument } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
 import { defineStateSuite } from '../func/defineState'
@@ -16,6 +20,14 @@ export const ediotrStateFactory = defineStateSuite(() => {
     status.current.spaceship = spaceship
   }
 
+  const addChild = () => {
+    createChildParagraph(status.current.planet, 'forward')
+  }
+
+  const addBrother = () => {
+    createRelativeParagraph(status.current.spaceship, 'forward')
+  }
+
   const inputingValyue = ref('')
 
   return reactive({
@@ -23,5 +35,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
     doc,
     setCurrentSpaceship,
     inputingValyue,
+    addChild,
+    addBrother,
   })
 })
