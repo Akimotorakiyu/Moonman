@@ -36,7 +36,7 @@ export const CImageComponent = defineFunctionComponent(
                   : ''
               }`}
               onClick={(event) => {
-                editorState?.setCurrentSpaceship(props.spaceship)
+                editorState.setCurrentSpaceship(props.spaceship)
                 event.stopPropagation()
               }}
               src={props.attrs.src}

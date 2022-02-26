@@ -18,6 +18,7 @@ export const ediotrStateFactory = defineStateSuite(() => {
 
   const setCurrentSpaceship = (spaceship: ISpaceship) => {
     status.current.spaceship = spaceship
+    status.current.planet = spaceship.planet
   }
 
   const addChild = () => {

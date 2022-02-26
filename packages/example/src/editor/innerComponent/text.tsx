@@ -21,7 +21,7 @@ export const CTextComponent = defineFunctionComponent(
                 : ''
             }`}
             onClick={(event) => {
-              editorState?.setCurrentSpaceship(props.spaceship)
+              editorState.setCurrentSpaceship(props.spaceship)
               event.stopPropagation()
             }}
           >

@@ -17,7 +17,7 @@ export const CEditor = () => {
         <button
           class="bg-green-400 text-white p-2 rounded-md mx-2"
           onClick={() => {
-            // doc?.addBrother('forward')
+            state.addBrother()
           }}
         >
           创建并添加兄弟节点
