@@ -23,6 +23,7 @@ export const CDocument = defineFunctionComponent(
     const planetBlueprint = queryPlanetBlueprint(
       props.spaceshipBlueprint.planetId,
     )
+
     const planet = createPlanetByBlueprint(planetBlueprint)
 
     return {

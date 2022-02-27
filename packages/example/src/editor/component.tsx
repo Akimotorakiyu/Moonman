@@ -15,18 +15,27 @@ import {
 export const CSpaceVision = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
     // todo: 需要先创建一次 planet，防止在 创建 spaceship 时  planet 不存在
+    createPlanetByBlueprint(
+      queryPlanetBlueprint(props.spaceshipBlueprint.planetId),
+    )
+    createSpaceshipByBlueprint(props.spaceshipBlueprint)
+
     const planet = createPlanetByBlueprint(
       queryPlanetBlueprint(props.spaceshipBlueprint.planetId),
     )
+
     const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
-    const attrs = reactive<Record<string, unknown> & { type?: string }>({})
 
     watchEffect(() => {
-      mergeMark(planet.blueprint, attrs)
+      mergeMark(planet.blueprint, planet.attributes)
+    })
+
+    watchEffect(() => {
+      mergeMark(spaceship.blueprint, spaceship.attributes)
     })
 
     const RealComName = computed(() => {
-      return attrs.type ?? 'CContainer'
+      return (planet.attributes.type as string) ?? 'CContainer'
     })
 
     const RealCom = componentMap.get(RealComName.value)!
@@ -48,7 +57,7 @@ export const CSpaceVision = defineFunctionComponent(
 
             <RealCom
               spaceshipBlueprint={spaceship.blueprint}
-              attrs={attrs}
+              attrs={planet.attributes}
             ></RealCom>
 
             {spaceship.slots.forward?.map((sp) => {
