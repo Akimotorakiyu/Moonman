@@ -19,6 +19,7 @@ export function queryPlanetBlueprint(identity: IIdentity): IPlanetBlueprint {
   )
   if (!planet) {
     console.log(
+      'queryPlanetBlueprint',
       planetBlueprintRegistrationCenter,
       getTimestampAndIdCombineKey(identity),
     )
@@ -36,6 +37,11 @@ export function querySpaceshipBlueprint(
   )
 
   if (!spaceship) {
+    console.log(
+      'querySpaceshipBlueprint',
+      planetBlueprintRegistrationCenter,
+      getTimestampAndIdCombineKey(identity),
+    )
     throw 'unregistrator spaceship blueprint'
   }
   return spaceship
@@ -55,6 +61,7 @@ export function queryPlanet(identity: IIdentity): IPlanet {
   )
   if (!planet) {
     console.log(
+      'queryPlanet',
       planetBlueprintRegistrationCenter,
       getTimestampAndIdCombineKey(identity),
     )
@@ -78,7 +85,13 @@ export function querySpaceship(identity: IIdentity): ISpaceship {
   )
 
   if (!spaceship) {
-    throw 'unregistrator spaceship'
+    console.log(
+      'querySpaceship',
+      planetBlueprintRegistrationCenter,
+      getTimestampAndIdCombineKey(identity),
+    )
+
+    throw `unregistrator spaceship ${getTimestampAndIdCombineKey(identity)}`
   }
   return spaceship
 }

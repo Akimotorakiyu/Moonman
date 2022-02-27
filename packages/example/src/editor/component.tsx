@@ -1,35 +1,39 @@
-import { IIdentity, ISpaceshipBlueprint, mergeMark } from '@moonman/moonman'
-import { reactive, watchEffect } from 'vue'
+import { ISpaceshipBlueprint, mergeMark } from '@moonman/moonman'
+import { computed, reactive, watchEffect } from 'vue'
 import { componentMap } from './innerComponent'
 import {
   getTimestampAndIdCombineKey,
-  querySpaceship,
+  queryPlanetBlueprint,
   querySpaceshipBlueprint,
 } from '@moonman/registration'
 import { defineFunctionComponent } from '../func/defineFunctionComponent'
+import {
+  createPlanetByBlueprint,
+  createSpaceshipByBlueprint,
+} from '@moonman/nebula'
 
 export const CSpaceVision = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
-    const spaceship = querySpaceship(props.spaceshipBlueprint.identity)
+    // todo: 需要先创建一次 planet，防止在 创建 spaceship 时  planet 不存在
+    const planet = createPlanetByBlueprint(
+      queryPlanetBlueprint(props.spaceshipBlueprint.planetId),
+    )
+    const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
+    const attrs = reactive<Record<string, unknown> & { type?: string }>({})
+
+    watchEffect(() => {
+      mergeMark(planet.blueprint, attrs)
+    })
+
+    const RealComName = computed(() => {
+      return attrs.type ?? 'CContainer'
+    })
+
+    const RealCom = componentMap.get(RealComName.value)!
 
     return {
       spaceship,
       render: () => {
-        const attrs = reactive<Record<string, unknown> & { type?: string }>({})
-
-        watchEffect(() => {
-          mergeMark(spaceship.blueprint, attrs)
-
-          console.log('calc attr', attrs)
-        })
-
-        console.log('attrs.value.type', attrs.type)
-
-        const RealComName = attrs.type ?? 'CContainer'
-
-        const RealCom = componentMap.get(RealComName)!
-
-        // console.log('RealCom', RealCom, componentMap)
         return (
           <>
             {spaceship.slots.backward?.map((sp) => {
@@ -42,7 +46,10 @@ export const CSpaceVision = defineFunctionComponent(
               )
             })}
 
-            <RealCom spaceship={spaceship} attrs={attrs}></RealCom>
+            <RealCom
+              spaceshipBlueprint={spaceship.blueprint}
+              attrs={attrs}
+            ></RealCom>
 
             {spaceship.slots.forward?.map((sp) => {
               const spaceshipBlueprint = querySpaceshipBlueprint(sp)

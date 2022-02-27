@@ -17,7 +17,6 @@ import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 export const CContainer = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
     const editorState = ediotrStateFactory.inject()!
-
     const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
     const planetBlueprint = queryPlanetBlueprint(
       props.spaceshipBlueprint.planetId,
