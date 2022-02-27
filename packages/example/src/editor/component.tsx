@@ -1,5 +1,9 @@
-import { ISpaceshipBlueprint, mergeMark } from '@moonman/moonman'
-import { computed, reactive, watchEffect } from 'vue'
+import {
+  ISpaceshipBlueprint,
+  applyOperationToSpaceship,
+  applyOperationToPlanet,
+} from '@moonman/moonman'
+import { computed, watchEffect } from 'vue'
 import { componentMap } from './innerComponent'
 import {
   getTimestampAndIdCombineKey,
@@ -27,11 +31,11 @@ export const CSpaceVision = defineFunctionComponent(
     const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
 
     watchEffect(() => {
-      mergeMark(planet.blueprint, planet.attributes)
+      applyOperationToPlanet(planet)
     })
 
     watchEffect(() => {
-      mergeMark(spaceship.blueprint, spaceship.attributes)
+      applyOperationToSpaceship(spaceship)
     })
 
     const RealComName = computed(() => {

@@ -5,9 +5,9 @@ import {
   querySpaceshipBlueprint,
 } from '@moonman/registration'
 import {
-  applyPlanetBlueprintOperationTransform,
-  applySpaceshipBlueprintOperationTransform,
-} from './deal'
+  appendPlanetBlueprintOperation,
+  appendSpaceshipBlueprintOperation,
+} from './applyStepToBlueprint'
 
 export function createTransaction(): ITransaction {
   return {
@@ -32,18 +32,14 @@ export function dispatchTransation(tr: ITransaction) {
       case 'planetStep':
         const planetBlueprint = queryPlanetBlueprint(step.aimId)
         if (planetBlueprint) {
-          applyPlanetBlueprintOperationTransform(planetBlueprint, step, tr)
+          appendPlanetBlueprintOperation(planetBlueprint, step)
         }
 
         break
       case 'spaceshipStep':
         const spaceshipBlueprint = querySpaceshipBlueprint(step.aimId)
         if (spaceshipBlueprint) {
-          applySpaceshipBlueprintOperationTransform(
-            spaceshipBlueprint,
-            step,
-            tr,
-          )
+          appendSpaceshipBlueprintOperation(spaceshipBlueprint, step)
         }
         break
 
