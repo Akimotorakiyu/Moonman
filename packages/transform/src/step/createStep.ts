@@ -1,28 +1,29 @@
 import {
   IPlanetStep,
   ISpaceshipStep,
-  IIdentity,
   TPlanetOperation,
   TSpaceshipOperation,
+  IPlanetBlueprint,
+  ISpaceshipBlueprint,
 } from '@moonman/blueprint'
 
 export function createPlanetStep(
-  aimId: IIdentity,
+  aimPlanetBlueprint: IPlanetBlueprint,
   operation: TPlanetOperation,
 ): IPlanetStep {
   return {
     type: 'planetStep',
     operation,
-    aimId,
+    aimId: aimPlanetBlueprint.identity,
   }
 }
 export function createSpaceshipStep(
-  aimId: IIdentity,
+  aimSpaceshipBlueprint: ISpaceshipBlueprint,
   operation: TSpaceshipOperation,
 ): ISpaceshipStep {
   return {
     type: 'spaceshipStep',
     operation,
-    aimId,
+    aimId: aimSpaceshipBlueprint.identity,
   }
 }

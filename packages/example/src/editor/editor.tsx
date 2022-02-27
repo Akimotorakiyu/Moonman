@@ -41,7 +41,7 @@ export const CEditor = () => {
       </div>
       <div class="m-2">
         <CSpaceVision
-          spaceshipIdentity={state!.doc.blueprint.identity}
+          spaceshipBlueprint={state!.doc.spaceshipBlueprint}
         ></CSpaceVision>
       </div>
       <input

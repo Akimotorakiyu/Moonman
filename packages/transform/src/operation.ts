@@ -3,65 +3,66 @@ import {
   IAddRelativeSpaceship,
   TDirection,
   IAddMark,
-  IIdentity,
   ITransferSpaceship,
+  ISpaceshipBlueprint,
+  ITransaction,
 } from '@moonman/blueprint'
 import { getIdentity } from '@moonman/nebula'
 
-export function createAddRelativeSpaceship(
-  transactionId: IIdentity,
-  spaceshipId: IIdentity,
+export function createAddRelativeSpaceshipBlueprint(
+  transaction: ITransaction,
+  relativeSpaceshipBlueprint: ISpaceshipBlueprint,
   direction: TDirection,
 ): IAddRelativeSpaceship {
   return {
     identity: getIdentity(),
     direction,
-    transactionId,
-    spaceshipId,
+    transactionId: transaction.identity,
+    spaceshipId: relativeSpaceshipBlueprint.identity,
     type: 'addRelativeSpaceship',
   }
 }
 
-export function createAddChildSpaceship(
-  transactionId: IIdentity,
-  spaceshipId: IIdentity,
+export function createAddChildSpaceshipBlueprint(
+  transaction: ITransaction,
+  childSpaceshipBlueprint: ISpaceshipBlueprint,
   direction: TDirection,
 ): IAddChildSpaceship {
   return {
     identity: getIdentity(),
     direction,
-    transactionId,
-    spaceshipId,
+    transactionId: transaction.identity,
+    spaceshipId: childSpaceshipBlueprint.identity,
     type: 'addChildSpaceship',
   }
 }
 
 export function createAddMark<T>(
-  transactionId: IIdentity,
+  transaction: ITransaction,
   name: string,
   value: T,
 ): IAddMark {
   return {
     identity: getIdentity(),
     type: 'addMark',
-    transactionId,
+    transactionId: transaction.identity,
     name,
     value,
   }
 }
 
 export function createTransferSpaceship<T>(
-  transactionId: IIdentity,
-  fromSpaceshipId: IIdentity,
-  toSpaceshipId: IIdentity,
-  srcSpaceshipId: IIdentity,
+  transaction: ITransaction,
+  fromSpaceship: ISpaceshipBlueprint,
+  toSpaceship: ISpaceshipBlueprint,
+  srcSpaceship: ISpaceshipBlueprint,
 ): ITransferSpaceship {
   return {
     identity: getIdentity(),
     type: 'transferSpaceship',
-    transactionId,
-    srcSpaceshipId,
-    fromSpaceshipId,
-    toSpaceshipId,
+    transactionId: transaction.identity,
+    srcSpaceshipId: srcSpaceship.identity,
+    fromSpaceshipId: fromSpaceship.identity,
+    toSpaceshipId: toSpaceship.identity,
   }
 }

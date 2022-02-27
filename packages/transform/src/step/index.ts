@@ -1,5 +1,5 @@
 export * from './createStep'
-export * from './addChildSpaceShip'
-export * from './addBrotherSpaceShip'
+export * from './addChildSpaceshipBlueprintStep'
+export * from './addRelativeSpaceshipBlueprintStep'
 export * from './addMarkForPlantAndSpaceShip'
 export * from './transferSpaceShip'

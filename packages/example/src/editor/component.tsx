@@ -1,15 +1,16 @@
-import { IIdentity, mergeMark } from '@moonman/moonman'
+import { IIdentity, ISpaceshipBlueprint, mergeMark } from '@moonman/moonman'
 import { reactive, watchEffect } from 'vue'
 import { componentMap } from './innerComponent'
 import {
   getTimestampAndIdCombineKey,
   querySpaceship,
+  querySpaceshipBlueprint,
 } from '@moonman/registration'
 import { defineFunctionComponent } from '../func/defineFunctionComponent'
 
 export const CSpaceVision = defineFunctionComponent(
-  (props: { spaceshipIdentity: IIdentity }) => {
-    const spaceship = querySpaceship(props.spaceshipIdentity)
+  (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
+    const spaceship = querySpaceship(props.spaceshipBlueprint.identity)
 
     return {
       spaceship,
@@ -17,7 +18,7 @@ export const CSpaceVision = defineFunctionComponent(
         const attrs = reactive<Record<string, unknown> & { type?: string }>({})
 
         watchEffect(() => {
-          mergeMark(spaceship.planet, attrs)
+          mergeMark(spaceship.blueprint, attrs)
 
           console.log('calc attr', attrs)
         })
@@ -32,9 +33,10 @@ export const CSpaceVision = defineFunctionComponent(
         return (
           <>
             {spaceship.slots.backward?.map((sp) => {
+              const spaceshipBlueprint = querySpaceshipBlueprint(sp)
               return (
                 <CSpaceVision
-                  spaceshipIdentity={sp}
+                  spaceshipBlueprint={spaceshipBlueprint}
                   key={getTimestampAndIdCombineKey(sp)}
                 ></CSpaceVision>
               )
@@ -43,9 +45,11 @@ export const CSpaceVision = defineFunctionComponent(
             <RealCom spaceship={spaceship} attrs={attrs}></RealCom>
 
             {spaceship.slots.forward?.map((sp) => {
+              const spaceshipBlueprint = querySpaceshipBlueprint(sp)
+
               return (
                 <CSpaceVision
-                  spaceshipIdentity={sp}
+                  spaceshipBlueprint={spaceshipBlueprint}
                   key={getTimestampAndIdCombineKey(sp)}
                 ></CSpaceVision>
               )

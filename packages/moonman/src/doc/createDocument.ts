@@ -1,82 +1,144 @@
-import { createPlanet, createSpaceshipByPlanet } from '@moonman/nebula'
 import {
-  addMarkToPlanet,
-  addChildSpaceship,
-  addRelativeSpaceship,
+  addMarkToPlanetBlueprint,
+  addChildSpaceshipBlueprint,
+  addRelativeSpaceshipBlueprint,
 } from '@moonman/command'
 import { runCommandsWithTransation } from '@moonman/command'
-import { IPlanet, ISpaceship, TDirection } from '@moonman/blueprint'
+import {
+  IPlanetBlueprint,
+  ISpaceshipBlueprint,
+  TDirection,
+} from '@moonman/blueprint'
+import {
+  createPlanetBlueprint,
+  createSpaceshipBlueprint,
+  getIdentity,
+} from '@moonman/nebula'
 
 export function createDocument() {
   console.log('createDocument')
-  const nodePlanet = createPlanet()
-  const spaceship = createSpaceshipByPlanet(nodePlanet)
-  runCommandsWithTransation([addMarkToPlanet(nodePlanet, 'type', 'CDocument')])
+  const nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
+  const nodeSpaceshipBlueprint = createSpaceshipBlueprint(
+    nodePlanetBlueprint,
+    getIdentity(),
+  )
 
-  return spaceship
+  runCommandsWithTransation([
+    addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CDocument'),
+  ])
+
+  return {
+    spaceshipBlueprint: nodeSpaceshipBlueprint,
+    planetBlueprint: nodePlanetBlueprint,
+  }
 }
 
-export function createChildParagraph(main: IPlanet, direction: TDirection) {
-  const nodePlanet = createPlanet()
+export function createChildParagraph(
+  main: IPlanetBlueprint,
+  direction: TDirection,
+) {
+  const nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
+  const nodeSpaceshipBlueprint = createSpaceshipBlueprint(
+    nodePlanetBlueprint,
+    getIdentity(),
+  )
+
   runCommandsWithTransation([
-    addMarkToPlanet(nodePlanet, 'type', 'CContainer'),
-    addChildSpaceship(main, nodePlanet, direction),
+    addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CContainer'),
+    addChildSpaceshipBlueprint(main, nodeSpaceshipBlueprint, direction),
   ])
-  return nodePlanet
+
+  return {
+    spaceshipBlueprint: nodeSpaceshipBlueprint,
+    planetBlueprint: nodePlanetBlueprint,
+  }
 }
 
 export function createRelativeParagraph(
-  relativeSpaceship: ISpaceship,
+  relativeSpaceship: ISpaceshipBlueprint,
   direction: TDirection,
 ) {
-  const nodePlanet = createPlanet()
+  const nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
+  const nodeSpaceshipBlueprint = createSpaceshipBlueprint(
+    nodePlanetBlueprint,
+    getIdentity(),
+  )
+
   runCommandsWithTransation([
-    addMarkToPlanet(nodePlanet, 'type', 'CContainer'),
-    addRelativeSpaceship(relativeSpaceship, nodePlanet, direction),
+    addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CContainer'),
+    addRelativeSpaceshipBlueprint(
+      relativeSpaceship,
+      nodeSpaceshipBlueprint,
+      direction,
+    ),
   ])
-  return nodePlanet
+  return {
+    spaceshipBlueprint: nodeSpaceshipBlueprint,
+    planetBlueprint: nodePlanetBlueprint,
+  }
 }
 
-export function createImage(src: string) {
-  const nodePlanet = createPlanet()
-  runCommandsWithTransation([
-    addMarkToPlanet(nodePlanet, 'type', 'image'),
-    addMarkToPlanet(nodePlanet, 'src', 'image'),
-  ])
-  return nodePlanet
-}
+export function createChildText(main: IPlanetBlueprint, text: string) {
+  let nodePlanetBlueprint: IPlanetBlueprint
+  let nodeSpaceshipBlueprint: ISpaceshipBlueprint
 
-export function createChildText(main: IPlanet, text: string) {
   const commands = text
     .split('')
     .reverse()
-    .map((char, index) => {
-      const nodePlanet = createPlanet()
+    .map((char) => {
+      nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
+      nodeSpaceshipBlueprint = createSpaceshipBlueprint(
+        nodePlanetBlueprint,
+        getIdentity(),
+      )
+
       return [
-        addMarkToPlanet(nodePlanet, 'type', 'CTextComponent'),
-        addMarkToPlanet(nodePlanet, 'content', char),
-        addChildSpaceship(main, nodePlanet, 'forward'),
+        addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CTextComponent'),
+        addMarkToPlanetBlueprint(nodePlanetBlueprint, 'content', char),
+        addChildSpaceshipBlueprint(main, nodeSpaceshipBlueprint, 'forward'),
       ]
     })
     .flat()
   runCommandsWithTransation(commands)
+
+  return {
+    spaceshipBlueprint: nodeSpaceshipBlueprint!,
+    planetBlueprint: nodePlanetBlueprint!,
+  }
 }
 
 export function createRelativeText(
-  relativeSpaceship: ISpaceship,
+  relativeSpaceship: ISpaceshipBlueprint,
   text: string,
 ) {
+  let nodePlanetBlueprint: IPlanetBlueprint
+  let nodeSpaceshipBlueprint: ISpaceshipBlueprint
+
   const commands = text
     .split('')
     .reverse()
     .map((char, index) => {
-      const nodePlanet = createPlanet()
+      nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
+      nodeSpaceshipBlueprint = createSpaceshipBlueprint(
+        nodePlanetBlueprint,
+        getIdentity(),
+      )
+
       return [
-        addMarkToPlanet(nodePlanet, 'type', 'CTextComponent'),
-        addMarkToPlanet(nodePlanet, 'content', char),
-        addRelativeSpaceship(relativeSpaceship, nodePlanet, 'forward'),
+        addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CTextComponent'),
+        addMarkToPlanetBlueprint(nodePlanetBlueprint, 'content', char),
+        addRelativeSpaceshipBlueprint(
+          relativeSpaceship,
+          nodeSpaceshipBlueprint,
+          'forward',
+        ),
       ]
     })
     .flat()
   runCommandsWithTransation(commands)
+
+  return {
+    spaceshipBlueprint: nodeSpaceshipBlueprint!,
+    planetBlueprint: nodePlanetBlueprint!,
+  }
 }

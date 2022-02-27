@@ -3,7 +3,8 @@ import {
   createChildText,
   createRelativeParagraph,
   createRelativeText,
-  ISpaceship,
+  IPlanetBlueprint,
+  ISpaceshipBlueprint,
 } from '@moonman/moonman'
 import { createDocument } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
@@ -13,29 +14,32 @@ export const ediotrStateFactory = defineStateSuite(() => {
   const doc = createDocument()
   const status = reactive({
     current: {
-      spaceship: doc,
-      planet: doc.planet,
+      spaceshipBlueprint: doc.spaceshipBlueprint,
+      planetBlueprint: doc.planetBlueprint,
     },
   })
 
-  const setCurrentSpaceship = (spaceship: ISpaceship) => {
-    status.current.spaceship = spaceship
-    status.current.planet = spaceship.planet
+  const setCurrentSpaceship = (
+    spaceshipBlueprint: ISpaceshipBlueprint,
+    planetBlueprint: IPlanetBlueprint,
+  ) => {
+    status.current.spaceshipBlueprint = spaceshipBlueprint
+    status.current.planetBlueprint = planetBlueprint
   }
 
   const addChild = () => {
-    createChildParagraph(status.current.planet, 'forward')
+    createChildParagraph(status.current.planetBlueprint, 'forward')
   }
 
   const addBrother = () => {
-    createRelativeParagraph(status.current.spaceship, 'forward')
+    createRelativeParagraph(status.current.spaceshipBlueprint, 'forward')
   }
 
   const addChildText = (text: string) => {
-    createChildText(status.current.planet, text)
+    createChildText(status.current.planetBlueprint, text)
   }
   const addBrotherText = (text: string) => {
-    createRelativeText(status.current.spaceship, text)
+    createRelativeText(status.current.spaceshipBlueprint, text)
   }
 
   const inputingValyue = ref('')

@@ -8,11 +8,37 @@ import {
   queryPlanet,
   registerPlanet,
   registerSpaceship,
+  tryQueryPlanet,
+  tryQuerySpaceship,
 } from '@moonman/registration'
 
-export function createSpaceship(blueprint: ISpaceshipBlueprint): ISpaceship {
-  const planet: IPlanet = queryPlanet(blueprint.planetId)
+export function createPlanetByBlueprint(blueprint: IPlanetBlueprint): IPlanet {
+  const _ = tryQueryPlanet(blueprint.identity)
+  if (_) {
+    return _
+  }
 
+  const planet: IPlanet = {
+    type: 'planet',
+    blueprint,
+    children: [],
+    attributes: {},
+  }
+
+  registerPlanet(planet)
+
+  return planet
+}
+
+export function createSpaceshipByBlueprint(
+  blueprint: ISpaceshipBlueprint,
+): ISpaceship {
+  const _ = tryQuerySpaceship(blueprint.identity)
+  if (_) {
+    return _
+  }
+
+  const planet = queryPlanet(blueprint.planetId)
   const spaceship: ISpaceship = {
     type: 'spaceship',
     blueprint,
@@ -27,17 +53,4 @@ export function createSpaceship(blueprint: ISpaceshipBlueprint): ISpaceship {
   registerSpaceship(spaceship)
 
   return spaceship
-}
-
-export function createPlanetByBlueprint(blueprint: IPlanetBlueprint): IPlanet {
-  const planet: IPlanet = {
-    type: 'planet',
-    blueprint,
-    children: [],
-    attributes: {},
-  }
-
-  registerPlanet(planet)
-
-  return planet
 }

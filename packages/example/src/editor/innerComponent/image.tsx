@@ -1,16 +1,28 @@
-import { ISpaceship } from '@moonman/moonman'
+import { ISpaceshipBlueprint } from '@moonman/moonman'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
-import { isTheSameIdentity } from '@moonman/nebula'
+import {
+  createSpaceshipByBlueprint,
+  createPlanetByBlueprint,
+  isTheSameIdentity,
+} from '@moonman/nebula'
+
+import { queryPlanetBlueprint } from '@moonman/registration'
 
 export const CImageComponent = defineFunctionComponent(
   (props: {
-    spaceship: ISpaceship
+    spaceshipBlueprint: ISpaceshipBlueprint
     attrs: { src: string; deleted?: boolean }
   }) => {
     const editorState = ediotrStateFactory.inject()!
-    console.log('props.attrs.src', props.attrs)
+
+    const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
+    const planetBlueprint = queryPlanetBlueprint(
+      props.spaceshipBlueprint.planetId,
+    )
+    const planet = createPlanetByBlueprint(planetBlueprint)
+
     return {
       render() {
         return (
@@ -29,14 +41,17 @@ export const CImageComponent = defineFunctionComponent(
             <img
               class={` w-64 m-2 inline-block ${
                 isTheSameIdentity(
-                  editorState.status.current.spaceship!.blueprint.identity,
-                  props.spaceship.blueprint.identity,
+                  editorState.status.current.spaceshipBlueprint.identity,
+                  props.spaceshipBlueprint.identity,
                 )
                   ? 'shadow-green-800 shadow-lg'
                   : ''
               }`}
               onClick={(event) => {
-                editorState.setCurrentSpaceship(props.spaceship)
+                editorState.setCurrentSpaceship(
+                  spaceship.blueprint,
+                  planet.blueprint,
+                )
                 event.stopPropagation()
               }}
               src={props.attrs.src}

@@ -3,23 +3,35 @@ import {
   IPlanetBlueprint,
   IIdentity,
 } from '@moonman/blueprint'
+import {
+  registerPlanetBlueprint,
+  registerSpaceshipBlueprint,
+} from '@moonman/registration'
 
 export function createPlanetBlueprint(identity: IIdentity): IPlanetBlueprint {
-  return {
+  const blueprint: IPlanetBlueprint = {
     type: 'planetBlueprint',
     identity,
     operations: [],
   }
+
+  registerPlanetBlueprint(blueprint)
+
+  return blueprint
 }
 
 export function createSpaceshipBlueprint(
-  planetId: IIdentity,
+  planetBlueprint: IPlanetBlueprint,
   identity: IIdentity,
 ): ISpaceshipBlueprint {
-  return {
+  const blueprint: ISpaceshipBlueprint = {
     type: 'spaceshipBlueprint',
     identity,
     operations: [],
-    planetId,
+    planetId: planetBlueprint.identity,
   }
+
+  registerSpaceshipBlueprint(blueprint)
+
+  return blueprint
 }

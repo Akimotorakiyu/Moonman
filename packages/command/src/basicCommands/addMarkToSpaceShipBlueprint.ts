@@ -1,8 +1,8 @@
-import { ISpaceship } from '@moonman/blueprint'
+import { ISpaceshipBlueprint } from '@moonman/blueprint'
 import { addMarkForSpaceship } from '@moonman/transform'
 import { defineCommand } from '../commandRing'
 
-export function addMarkToSpaceShip(spaceship: ISpaceship) {
+export function addMarkToSpaceShipBlueprint(spaceship: ISpaceshipBlueprint) {
   return defineCommand((next, tr) => {
     addMarkForSpaceship(tr, spaceship, 'type', 'pargraph')
     next()
