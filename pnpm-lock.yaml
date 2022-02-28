@@ -45,6 +45,7 @@ importers:
 
   packages/example:
     specifiers:
+      '@moonman/blueprint': workspace:*
       '@moonman/moonman': workspace:*
       '@moonman/nebula': workspace:*
       '@moonman/registration': workspace:*
@@ -56,6 +57,7 @@ importers:
       vue: ^3.2.29
       windicss: ^3.4.3
     dependencies:
+      '@moonman/blueprint': link:../blueprint
       '@moonman/moonman': link:../moonman
       '@moonman/nebula': link:../nebula
       '@moonman/registration': link:../registration

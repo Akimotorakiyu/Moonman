@@ -1,4 +1,4 @@
-import { ISpaceshipBlueprint } from '@moonman/moonman'
+import { ISpaceshipBlueprint } from '@moonman/blueprint'
 import {
   createSpaceshipByBlueprint,
   createPlanetByBlueprint,
@@ -32,7 +32,7 @@ export const CTextComponent = defineFunctionComponent(
                 editorState.status.current.spaceshipBlueprint.identity,
                 props.spaceshipBlueprint.identity,
               )
-                ? 'shadow-green-800 shadow-lg'
+                ? 'shadow-green-800 shadow-lg  animate-pulse bg-green-200 '
                 : ''
             }`}
             onClick={(event) => {

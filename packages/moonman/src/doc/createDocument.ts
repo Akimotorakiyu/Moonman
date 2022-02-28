@@ -78,7 +78,11 @@ export function createRelativeParagraph(
   }
 }
 
-export function createChildText(main: IPlanetBlueprint, text: string) {
+export function createChildText(
+  main: IPlanetBlueprint,
+  text: string,
+  direction: TDirection,
+) {
   let nodePlanetBlueprint: IPlanetBlueprint
   let nodeSpaceshipBlueprint: ISpaceshipBlueprint
 
@@ -95,7 +99,7 @@ export function createChildText(main: IPlanetBlueprint, text: string) {
       return [
         addMarkToPlanetBlueprint(nodePlanetBlueprint, 'type', 'CTextComponent'),
         addMarkToPlanetBlueprint(nodePlanetBlueprint, 'content', char),
-        addChildSpaceshipBlueprint(main, nodeSpaceshipBlueprint, 'forward'),
+        addChildSpaceshipBlueprint(main, nodeSpaceshipBlueprint, direction),
       ]
     })
     .flat()
@@ -108,16 +112,20 @@ export function createChildText(main: IPlanetBlueprint, text: string) {
 }
 
 export function createRelativeText(
-  relativeSpaceship: ISpaceshipBlueprint,
+  _relativeSpaceship: ISpaceshipBlueprint,
   text: string,
+  direction: TDirection,
 ) {
+  let relativeSpaceship = _relativeSpaceship
+
   let nodePlanetBlueprint: IPlanetBlueprint
-  let nodeSpaceshipBlueprint: ISpaceshipBlueprint
+  let nodeSpaceshipBlueprint: ISpaceshipBlueprint = _relativeSpaceship
 
   const commands = text
     .split('')
-    .reverse()
     .map((char, index) => {
+      relativeSpaceship = nodeSpaceshipBlueprint
+
       nodePlanetBlueprint = createPlanetBlueprint(getIdentity())
       nodeSpaceshipBlueprint = createSpaceshipBlueprint(
         nodePlanetBlueprint,
@@ -130,7 +138,7 @@ export function createRelativeText(
         addRelativeSpaceshipBlueprint(
           relativeSpaceship,
           nodeSpaceshipBlueprint,
-          'forward',
+          direction,
         ),
       ]
     })

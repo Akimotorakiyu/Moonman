@@ -1,4 +1,3 @@
-import { ISpaceshipBlueprint } from '@moonman/moonman'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
 import { ediotrStateFactory } from '../editorState'
 import { registerComponent } from './map'
@@ -9,6 +8,7 @@ import {
 } from '@moonman/nebula'
 
 import { queryPlanetBlueprint } from '@moonman/registration'
+import { ISpaceshipBlueprint } from '@moonman/blueprint'
 
 export const CImageComponent = defineFunctionComponent(
   (props: {
@@ -44,7 +44,7 @@ export const CImageComponent = defineFunctionComponent(
                   editorState.status.current.spaceshipBlueprint.identity,
                   props.spaceshipBlueprint.identity,
                 )
-                  ? 'shadow-green-800 shadow-lg'
+                  ? 'shadow-green-800 shadow-lg  animate-pulse bg-green-200 '
                   : ''
               }`}
               onClick={(event) => {

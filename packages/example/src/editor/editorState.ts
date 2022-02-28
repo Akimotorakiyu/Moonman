@@ -1,10 +1,13 @@
 import {
+  TDirection,
+  IPlanetBlueprint,
+  ISpaceshipBlueprint,
+} from '@moonman/blueprint'
+import {
   createChildParagraph,
   createChildText,
   createRelativeParagraph,
   createRelativeText,
-  IPlanetBlueprint,
-  ISpaceshipBlueprint,
 } from '@moonman/moonman'
 import { createDocument } from '@moonman/moonman'
 import { reactive, ref } from 'vue'
@@ -27,28 +30,32 @@ export const ediotrStateFactory = defineStateSuite(() => {
     status.current.planetBlueprint = planetBlueprint
   }
 
-  const addChild = () => {
-    createChildParagraph(status.current.planetBlueprint, 'forward')
+  const addChild = (type: string, direction: TDirection) => {
+    return createChildParagraph(status.current.planetBlueprint, direction)
   }
 
-  const addBrother = () => {
-    createRelativeParagraph(status.current.spaceshipBlueprint, 'forward')
+  const addBrother = (type: string, direction: TDirection) => {
+    return createRelativeParagraph(status.current.spaceshipBlueprint, direction)
   }
 
-  const addChildText = (text: string) => {
-    createChildText(status.current.planetBlueprint, text)
+  const addChildText = (text: string, direction: TDirection) => {
+    return createChildText(status.current.planetBlueprint, text, direction)
   }
-  const addBrotherText = (text: string) => {
-    createRelativeText(status.current.spaceshipBlueprint, text)
+  const addBrotherText = (text: string, direction: TDirection) => {
+    return createRelativeText(
+      status.current.spaceshipBlueprint,
+      text,
+      direction,
+    )
   }
 
-  const inputingValyue = ref('')
+  const inputingValue = ref('')
 
   return reactive({
     status,
     doc,
     setCurrentSpaceship,
-    inputingValyue,
+    inputingValue,
     addChild,
     addBrother,
     addChildText,

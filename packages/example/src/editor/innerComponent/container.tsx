@@ -1,4 +1,3 @@
-import { ISpaceshipBlueprint } from '@moonman/moonman'
 import { ediotrStateFactory } from '../editorState'
 import { CSpaceVision } from '../component'
 import { registerComponent } from './map'
@@ -13,6 +12,7 @@ import {
   querySpaceshipBlueprint,
 } from '@moonman/registration'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
+import { ISpaceshipBlueprint } from '@moonman/blueprint'
 
 export const CContainer = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
@@ -34,7 +34,7 @@ export const CContainer = defineFunctionComponent(
                 editorState.status.current.spaceshipBlueprint.identity,
                 props.spaceshipBlueprint.identity,
               )
-                ? 'shadow-green-400'
+                ? 'shadow-green-800 shadow-lg  animate-pulse bg-green-200 '
                 : ''
             }`}
             onClick={(event) => {

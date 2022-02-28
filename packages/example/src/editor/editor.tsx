@@ -5,38 +5,71 @@ export const CEditor = () => {
   console.log(state)
   return (
     <div>
-      <div class="m-2 ">
+      <div class="m-2 flex grid grid-cols-24 gap-2">
         <button
-          class="bg-green-400 text-white p-2 rounded-md mx-2"
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
           onClick={() => {
-            state.addChild()
+            state.addChild('CContainer', 'forward')
           }}
         >
-          添加子节点
+          👉🏻添加子节点
         </button>
         <button
-          class="bg-green-400 text-white p-2 rounded-md mx-2"
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
           onClick={() => {
-            state.addBrother()
+            state.addChild('CContainer', 'backward')
           }}
         >
-          并添加兄弟节点
+          👈🏻添加子节点
         </button>
         <button
-          class="bg-green-400 text-white p-2 rounded-md mx-2"
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
           onClick={() => {
-            state.addChildText('hello')
+            state.addBrother('CContainer', 'forward')
           }}
         >
-          内部插入文字
+          👉🏻并添加兄弟节点
         </button>
         <button
-          class="bg-green-400 text-white p-2 rounded-md mx-2"
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
           onClick={() => {
-            state.addBrotherText('world')
+            state.addBrother('CContainer', 'backward')
           }}
         >
-          之后插入文字
+          👈🏻并添加兄弟节点
+        </button>
+
+        <button
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
+          onClick={() => {
+            state.addChildText('hello', 'forward')
+          }}
+        >
+          👈🏻内部插入文字
+        </button>
+        <button
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
+          onClick={() => {
+            state.addChildText('hello', 'backward')
+          }}
+        >
+          👉🏻内部插入文字
+        </button>
+        <button
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
+          onClick={() => {
+            state.addBrotherText('world', 'forward')
+          }}
+        >
+          👉🏻插入文字
+        </button>
+        <button
+          class="bg-green-400 text-white p-2 rounded-md mx-2 col-span-6"
+          onClick={() => {
+            state.addBrotherText('world', 'backward')
+          }}
+        >
+          👈🏻插入兄弟文字
         </button>
       </div>
       <div class="m-2">
@@ -45,36 +78,39 @@ export const CEditor = () => {
         ></CSpaceVision>
       </div>
       <input
-        value={state?.inputingValyue}
+        value={state?.inputingValue}
         placeholder="请输入文字"
         onChange={(e) => {
-          // if (doc && e.currentTarget) {
-          //   const target = e.currentTarget as HTMLInputElement
-          //   doc.inputingValyue = target.value
-          //   const start = performance.now()
-          //   doc.addBrother('forward', doc.inputingValyue)
-          //   console.log(`use ${performance.now() - start}ms`)
-          //   doc.inputingValyue = ''
-          //   target.scrollIntoView()
-          // }
+          if (state && e.currentTarget) {
+            const target = e.currentTarget as HTMLInputElement
+            state.inputingValue = target.value
+            const start = performance.now()
+            const { spaceshipBlueprint, planetBlueprint } =
+              state.addBrotherText(state.inputingValue, 'forward')
+            state.setCurrentSpaceship(spaceshipBlueprint, planetBlueprint)
+            console.log(`use ${performance.now() - start}ms`)
+            state.inputingValue = ''
+            target.scrollIntoView()
+            target.focus()
+          }
         }}
       ></input>
 
-      <input
-        value={state?.inputingValyue}
+      {/* <input
+        value={state?.inputingValue}
         placeholder="请输入图片链接"
         onChange={(e) => {
-          // if (doc && e.currentTarget) {
-          //   const target = e.currentTarget as HTMLInputElement
-          //   doc.inputingValyue = target.value.trim() || 'image.jpg'
-          //   const start = performance.now()
-          //   doc.addImageBrother('forward', doc.inputingValyue)
-          //   console.log(`use ${performance.now() - start}ms`)
-          //   doc.inputingValyue = ''
-          //   target.scrollIntoView()
-          // }
+          if (state && e.currentTarget) {
+            const target = e.currentTarget as HTMLInputElement
+            state.inputingValue = target.value.trim() || 'image.jpg'
+            const start = performance.now()
+            state.addBrother('image','forward',)
+            console.log(`use ${performance.now() - start}ms`)
+            state.inputingValue = ''
+            target.scrollIntoView()
+          }
         }}
-      ></input>
+      ></input> */}
     </div>
   )
 }
