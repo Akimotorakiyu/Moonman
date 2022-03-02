@@ -1,6 +1,8 @@
+import { IHistory } from './history'
 import { IIdentity } from './identity'
 
 export type TDirection = 'forward' | 'backward'
+
 /**
  * for spaceship
  */
@@ -11,6 +13,7 @@ export interface IAddRelativeSpaceship {
   transactionId: IIdentity
   spaceshipId: IIdentity
   direction: TDirection
+  history?: IHistory[]
 }
 
 export interface ITransferSpaceship {
@@ -24,6 +27,7 @@ export interface ITransferSpaceship {
   toSpaceshipId: IIdentity
 
   transactionId: IIdentity
+  history?: IHistory[]
 }
 
 /**
@@ -36,6 +40,7 @@ export interface IAddChildSpaceship {
   transactionId: IIdentity
   spaceshipId: IIdentity
   direction: TDirection
+  history?: IHistory[]
 }
 
 /**
@@ -48,6 +53,7 @@ export interface IAddMark {
   transactionId: IIdentity
   name: string
   value: unknown
+  history?: IHistory[]
 }
 
 export type TSpaceshipOperation =
