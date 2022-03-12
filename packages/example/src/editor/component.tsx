@@ -1,5 +1,4 @@
 import {
-  ISpaceshipBlueprint,
   applyOperationToSpaceship,
   applyOperationToPlanet,
 } from '@moonman/moonman'
@@ -15,6 +14,7 @@ import {
   createPlanetByBlueprint,
   createSpaceshipByBlueprint,
 } from '@moonman/nebula'
+import { ISpaceshipBlueprint } from '@moonman/blueprint'
 
 export const CSpaceVision = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
