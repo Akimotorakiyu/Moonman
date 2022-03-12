@@ -25,7 +25,7 @@ export interface ISpaceship {
   attributes: Record<string, unknown>
 }
 
-interface ISlots extends Record<string, IIdentity[]> {
+interface ISlots {
   forward: IIdentity[]
   backward: IIdentity[]
 }
@@ -35,4 +35,17 @@ export interface IPlanet {
   blueprint: IPlanetBlueprint
   children: IIdentity[]
   attributes: Record<string, unknown>
+}
+
+export interface IGalaxy {
+  spaceship: ISpaceship
+  planet: IPlanet
+  orbit: {
+    forward: IGalaxy[]
+    backward: IGalaxy[]
+  }
+  arm: {
+    forward: IGalaxy[]
+    backward: IGalaxy[]
+  }
 }
