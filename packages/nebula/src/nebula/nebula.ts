@@ -38,7 +38,6 @@ export function createSpaceshipByBlueprint(
     return _
   }
 
-  const planet = queryPlanet(blueprint.planetId)
   const spaceship: ISpaceship = {
     type: 'spaceship',
     blueprint,
@@ -46,7 +45,6 @@ export function createSpaceshipByBlueprint(
       forward: [],
       backward: [],
     },
-    planet,
     attributes: {},
   }
 

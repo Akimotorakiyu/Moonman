@@ -48,8 +48,8 @@ export const CDocument = defineFunctionComponent(
               event.stopPropagation()
             }}
           >
-            {spaceship.planet.children.length ? (
-              spaceship.planet.children.map((sp) => {
+            {planet.children.length ? (
+              planet.children.map((sp) => {
                 const spaceshipBlueprint = querySpaceshipBlueprint(sp)
 
                 return (

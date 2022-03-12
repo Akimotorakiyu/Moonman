@@ -22,7 +22,6 @@ export interface ISpaceship {
   type: 'spaceship'
   blueprint: ISpaceshipBlueprint
   slots: ISlots
-  planet: IPlanet
   attributes: Record<string, unknown>
 }
 
