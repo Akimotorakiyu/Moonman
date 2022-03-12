@@ -1,14 +1,11 @@
 import { ediotrStateFactory } from '../editorState'
 import { CSpaceVision } from '../component'
 import { registerComponent } from './map'
-import {
-  createSpaceshipByBlueprint,
-  createPlanetByBlueprint,
-  isTheSameIdentity,
-} from '@moonman/nebula'
+import { isTheSameIdentity } from '@moonman/nebula'
 import {
   getTimestampAndIdCombineKey,
-  queryPlanetBlueprint,
+  queryPlanet,
+  querySpaceship,
   querySpaceshipBlueprint,
 } from '@moonman/registration'
 import { defineFunctionComponent } from '../../func/defineFunctionComponent'
@@ -17,11 +14,8 @@ import { ISpaceshipBlueprint } from '@moonman/blueprint'
 export const CContainer = defineFunctionComponent(
   (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
     const editorState = ediotrStateFactory.inject()!
-    const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
-    const planetBlueprint = queryPlanetBlueprint(
-      props.spaceshipBlueprint.planetId,
-    )
-    const planet = createPlanetByBlueprint(planetBlueprint)
+    const spaceship = querySpaceship(props.spaceshipBlueprint.identity)
+    const planet = queryPlanet(props.spaceshipBlueprint.planetId)
 
     return {
       editorState: editorState,
@@ -31,27 +25,26 @@ export const CContainer = defineFunctionComponent(
           <div
             class={`${' m-3 p-3 shadow-gray-400 shadow-sm bg-light-100'} ${
               isTheSameIdentity(
-                editorState.status.current.spaceshipBlueprint.identity,
+                editorState.status.current.spaceship.blueprint.identity,
                 props.spaceshipBlueprint.identity,
               )
                 ? 'shadow-green-800 shadow-lg  animate-pulse bg-green-200 '
                 : ''
             }`}
             onClick={(event) => {
-              editorState.setCurrentSpaceship(
-                spaceship.blueprint,
-                planet.blueprint,
-              )
+              editorState.setCurrentSpaceship(spaceship, planet)
               event.stopPropagation()
             }}
           >
-            {spaceship.planet.children.length ? (
-              spaceship.planet.children.map((sp) => {
-                const spaceshipBlueprint = querySpaceshipBlueprint(sp)
+            {planet.children.length ? (
+              planet.children.map((sp) => {
+                const spaceship = querySpaceship(sp)
+                const planet = queryPlanet(spaceship.blueprint.planetId)
 
                 return (
                   <CSpaceVision
-                    spaceshipBlueprint={spaceshipBlueprint}
+                    spaceship={spaceship}
+                    planet={planet}
                     key={getTimestampAndIdCombineKey(sp)}
                   ></CSpaceVision>
                 )

@@ -1,42 +1,18 @@
-import {
-  applyOperationToSpaceship,
-  applyOperationToPlanet,
-} from '@moonman/moonman'
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { componentMap } from './innerComponent'
 import {
   getTimestampAndIdCombineKey,
-  queryPlanetBlueprint,
-  querySpaceshipBlueprint,
+  queryPlanet,
+  querySpaceship,
 } from '@moonman/registration'
 import { defineFunctionComponent } from '../func/defineFunctionComponent'
-import {
-  createPlanetByBlueprint,
-  createSpaceshipByBlueprint,
-} from '@moonman/nebula'
-import { ISpaceshipBlueprint } from '@moonman/blueprint'
+
+import { IPlanet, ISpaceship } from '@moonman/blueprint'
 
 export const CSpaceVision = defineFunctionComponent(
-  (props: { spaceshipBlueprint: ISpaceshipBlueprint }) => {
-    // todo: 需要先创建一次 planet，防止在 创建 spaceship 时  planet 不存在
-    createPlanetByBlueprint(
-      queryPlanetBlueprint(props.spaceshipBlueprint.planetId),
-    )
-    createSpaceshipByBlueprint(props.spaceshipBlueprint)
-
-    const planet = createPlanetByBlueprint(
-      queryPlanetBlueprint(props.spaceshipBlueprint.planetId),
-    )
-
-    const spaceship = createSpaceshipByBlueprint(props.spaceshipBlueprint)
-
-    watchEffect(() => {
-      applyOperationToPlanet(planet)
-    })
-
-    watchEffect(() => {
-      applyOperationToSpaceship(spaceship)
-    })
+  (props: { spaceship: ISpaceship; planet: IPlanet }) => {
+    const spaceship = props.spaceship
+    const planet = props.planet
 
     const RealComName = computed(() => {
       return (planet.attributes.type as string) ?? 'CContainer'
@@ -50,10 +26,12 @@ export const CSpaceVision = defineFunctionComponent(
         return (
           <>
             {spaceship.slots.backward?.map((sp) => {
-              const spaceshipBlueprint = querySpaceshipBlueprint(sp)
+              const spaceship = querySpaceship(sp)
+              const planet = queryPlanet(spaceship.blueprint.planetId)
               return (
                 <CSpaceVision
-                  spaceshipBlueprint={spaceshipBlueprint}
+                  spaceship={spaceship}
+                  planet={planet}
                   key={getTimestampAndIdCombineKey(sp)}
                 ></CSpaceVision>
               )
@@ -65,11 +43,13 @@ export const CSpaceVision = defineFunctionComponent(
             ></RealCom>
 
             {spaceship.slots.forward?.map((sp) => {
-              const spaceshipBlueprint = querySpaceshipBlueprint(sp)
+              const spaceship = querySpaceship(sp)
+              const planet = queryPlanet(spaceship.blueprint.planetId)
 
               return (
                 <CSpaceVision
-                  spaceshipBlueprint={spaceshipBlueprint}
+                  spaceship={spaceship}
+                  planet={planet}
                   key={getTimestampAndIdCombineKey(sp)}
                 ></CSpaceVision>
               )

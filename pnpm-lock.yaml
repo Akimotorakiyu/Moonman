@@ -49,6 +49,7 @@ importers:
       '@moonman/moonman': workspace:*
       '@moonman/nebula': workspace:*
       '@moonman/registration': workspace:*
+      '@moonman/state': workspace:*
       '@vitejs/plugin-vue': ^2.1.0
       '@vitejs/plugin-vue-jsx': ^1.3.3
       '@vue/compiler-sfc': ^3.2.29
@@ -61,6 +62,7 @@ importers:
       '@moonman/moonman': link:../moonman
       '@moonman/nebula': link:../nebula
       '@moonman/registration': link:../registration
+      '@moonman/state': link:../state
       vue: 3.2.30
     devDependencies:
       '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.30
@@ -89,19 +91,35 @@ importers:
   packages/nebula:
     specifiers:
       '@moonman/blueprint': workspace:*
+      '@moonman/nebula': workspace:*
       '@moonman/registration': workspace:*
       '@vue/reactivity': ^3.2.29
     dependencies:
       '@moonman/blueprint': link:../blueprint
+      '@moonman/nebula': 'link:'
       '@moonman/registration': link:../registration
       '@vue/reactivity': 3.2.30
 
   packages/registration:
     specifiers:
       '@moonman/blueprint': workspace:*
+      '@moonman/nebula': workspace:^1.0.0
       '@vue/reactivity': ^3.2.29
     dependencies:
       '@moonman/blueprint': link:../blueprint
+      '@moonman/nebula': link:../nebula
+      '@vue/reactivity': 3.2.30
+
+  packages/state:
+    specifiers:
+      '@moonman/blueprint': workspace:*
+      '@moonman/nebula': workspace:*
+      '@moonman/registration': workspace:*
+      '@vue/reactivity': ^3.2.29
+    dependencies:
+      '@moonman/blueprint': link:../blueprint
+      '@moonman/nebula': link:../nebula
+      '@moonman/registration': link:../registration
       '@vue/reactivity': 3.2.30
 
   packages/transform:

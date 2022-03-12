@@ -20,6 +20,7 @@
     "@moonman/nebula": "workspace:*",
     "@moonman/registration": "workspace:*",
     "@moonman/blueprint": "workspace:*",
+    "@moonman/state": "workspace:*",
     "vue": "^3.2.29"
   }
 }

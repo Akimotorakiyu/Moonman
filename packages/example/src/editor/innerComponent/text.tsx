@@ -29,17 +29,14 @@ export const CTextComponent = defineFunctionComponent(
           <span
             class={`${
               isTheSameIdentity(
-                editorState.status.current.spaceshipBlueprint.identity,
+                editorState.status.current.spaceship.blueprint.identity,
                 props.spaceshipBlueprint.identity,
               )
                 ? 'shadow-green-800 shadow-lg  animate-pulse bg-green-200 '
                 : ''
             }`}
             onClick={(event) => {
-              editorState.setCurrentSpaceship(
-                spaceship.blueprint,
-                planet.blueprint,
-              )
+              editorState.setCurrentSpaceship(spaceship, planet)
               event.stopPropagation()
             }}
           >

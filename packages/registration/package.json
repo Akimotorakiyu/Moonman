@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@vue/reactivity": "^3.2.29",
-    "@moonman/blueprint": "workspace:*"
+    "@moonman/blueprint": "workspace:*",
+    "@moonman/nebula": "workspace:^1.0.0",
+    "@vue/reactivity": "^3.2.29"
   }
 }

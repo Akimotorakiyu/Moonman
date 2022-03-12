@@ -74,7 +74,8 @@ export const CEditor = () => {
       </div>
       <div class="m-2">
         <CSpaceVision
-          spaceshipBlueprint={state!.doc.spaceshipBlueprint}
+          spaceship={state!.doc.spaceship}
+          planet={state!.doc.planet}
         ></CSpaceVision>
       </div>
       <input
@@ -85,9 +86,11 @@ export const CEditor = () => {
             const target = e.currentTarget as HTMLInputElement
             state.inputingValue = target.value
             const start = performance.now()
-            const { spaceshipBlueprint, planetBlueprint } =
-              state.addBrotherText(state.inputingValue, 'forward')
-            state.setCurrentSpaceship(spaceshipBlueprint, planetBlueprint)
+            const { spaceship, planet } = state.addBrotherText(
+              state.inputingValue,
+              'forward',
+            )
+            state.setCurrentSpaceship(spaceship, planet)
             console.log(`use ${performance.now() - start}ms`)
             state.inputingValue = ''
             target.scrollIntoView()
