@@ -1,4 +1,5 @@
 import { IIdentity } from './identity'
+import { IVerify } from './verify'
 
 type THistoryType =
   //
@@ -13,4 +14,6 @@ type THistoryType =
 export interface IHistory {
   identity: IIdentity
   type: THistoryType
+
+  verify?: IVerify
 }
