@@ -76,3 +76,6 @@ typings/
 .fusebox/
 
 .DS_Store
+
+# build
+dist/

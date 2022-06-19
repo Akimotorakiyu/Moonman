@@ -1,4 +1,15 @@
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
 [build.environment]
   NPM_FLAGS = "--version"
+
 [build]
-  command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
+  command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm docs:build"
+  publish = "proposal/docs/dist"
+
+# The following redirect is intended for use with most SPAs 
+# that handle routing internally.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

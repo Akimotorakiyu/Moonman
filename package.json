@@ -9,6 +9,7 @@
     "prepare": "husky install",
     "serve": "pnpm --filter=./packages/example run serve",
     "build": "pnpm --filter=./packages/example run build",
+    "docs:build": "pnpm --filter=./proposal run docs:build",
     "test": "vitest --root"
   },
   "devDependencies": {
