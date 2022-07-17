@@ -1,0 +1,1 @@
+export { Moonman } from './slots'
