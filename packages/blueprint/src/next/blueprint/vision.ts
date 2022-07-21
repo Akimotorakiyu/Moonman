@@ -1,19 +1,15 @@
 import { TSourceBPID, TVisionBPID } from '../identity'
-import { TSpaceshipOperation } from '../operation'
-import { ISlots } from './slots'
+import { TVisionOperation } from '../operation'
 
 export interface IVisionBP {
-  type: 'spaceshipBlueprint'
-
+  type: 'IVisionBP'
   identity: TVisionBPID
-
-  operations: TSpaceshipOperation[]
+  operations: TVisionOperation[]
   sourceId: TSourceBPID
 }
 
 export interface IVision {
-  type: 'spaceship'
+  type: 'IVision'
   blueprint: IVisionBP
-  slots: ISlots<TVisionBPID>
   attributes: Record<string, unknown>
 }

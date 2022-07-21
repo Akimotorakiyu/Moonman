@@ -1,15 +1,17 @@
 import { IIdentity } from './identity'
-import { TSourceOperation, TSpaceshipOperation } from './operation'
+import {
+  TSourceOperation,
+  TVisionOperation,
+  TPlaceholderOperation,
+  IOperation,
+} from './operation'
 
-export interface IPlanetStep {
-  type: 'planetStep'
+export interface IStep<T extends IOperation> {
   aimId: IIdentity
-  operation: TSourceOperation
-}
-export interface ISpaceshipStep {
-  type: 'spaceshipStep'
-  aimId: IIdentity
-  operation: TSpaceshipOperation
+  operation: T
 }
 
-export type TStep = IPlanetStep | ISpaceshipStep
+export type TStep =
+  | IStep<TSourceOperation>
+  | IStep<TVisionOperation>
+  | IStep<TPlaceholderOperation>

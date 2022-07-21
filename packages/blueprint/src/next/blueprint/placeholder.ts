@@ -1,4 +1,4 @@
-import { TVisionBPID, TPlaceholderBPID } from '../identity'
+import { TPlaceholderBPID } from '../identity'
 import { TPlaceholderOperation } from '../operation'
 import { ISlots } from './slots'
 
@@ -13,6 +13,6 @@ export interface IPlaceholderBP {
 export interface IPlaceholder {
   type: 'placeholder'
   blueprint: IPlaceholderBP
-  slots: ISlots<TVisionBPID>
+  slots: ISlots<TPlaceholderBPID>
   attributes: Record<string, unknown>
 }

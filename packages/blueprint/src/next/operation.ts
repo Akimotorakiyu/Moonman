@@ -1,76 +1,62 @@
 import { TDirection } from './direction'
 import { IHistory } from './history'
-import { IIdentity } from './identity'
+import { IIdentity, TTransactionID } from './identity'
 import { IVerify } from './verify'
 
 /**
- * for spaceship
+ * base
  */
-export interface IAddRelativeSpaceship {
+export interface IOperation {
   identity: IIdentity
-
-  type: 'addRelativeSpaceship'
-  transactionId: IIdentity
-  spaceshipId: IIdentity
-  direction: TDirection
-  history?: IHistory[]
-
+  transactionId: TTransactionID
   verify?: IVerify
-}
-
-export interface ITransferSpaceship {
-  identity: IIdentity
-
-  type: 'transferSpaceship'
-
-  srcSpaceshipId: IIdentity
-
-  fromSpaceshipId: IIdentity
-  toSpaceshipId: IIdentity
-
-  transactionId: IIdentity
   history?: IHistory[]
-
-  verify?: IVerify
 }
 
 /**
- * for planet
+ * common
  */
-export interface IAddChildSpaceship {
-  identity: IIdentity
-
-  type: 'addChildSpaceship'
-  transactionId: IIdentity
-  spaceshipId: IIdentity
-  direction: TDirection
-  history?: IHistory[]
-
-  verify?: IVerify
-}
-
-/**
- * for planet and spaceship
- */
-export interface IAddMark {
-  identity: IIdentity
-
-  type: 'addMark'
-  transactionId: IIdentity
+export interface IAddMark extends IOperation {
+  type: 'IAddMark'
   name: string
   value: unknown
-  history?: IHistory[]
-
-  verify?: IVerify
 }
 
-export type TSpaceshipOperation = IAddMark
+/**
+ * for placeholder
+ */
+export interface IAddRelativePlaceholder extends IOperation {
+  type: 'IAddRelativePlaceholder'
+  spaceshipId: IIdentity
+  direction: TDirection
+}
 
-export type TPlaceholderOperation =
-  | IAddRelativeSpaceship
-  | ITransferSpaceship
-  | IAddMark
+/**
+ * for vision
+ */
+export interface ITransfer extends IOperation {
+  type: 'ITransfer'
+  srcSpaceshipId: IIdentity
+  fromSpaceshipId: IIdentity
+  toSpaceshipId: IIdentity
+}
 
-export type TSourceOperation = IAddChildSpaceship | IAddMark
+/**
+ * for Source
+ */
+export interface IAddChildPlaceholder extends IOperation {
+  type: 'IAddChildPlaceholder'
+  spaceshipId: IIdentity
+  direction: TDirection
+}
 
-export type TOperation = TSpaceshipOperation | TSourceOperation
+export type TVisionOperation = IAddMark | ITransfer
+
+export type TPlaceholderOperation = IAddMark | IAddRelativePlaceholder
+
+export type TSourceOperation = IAddMark | IAddChildPlaceholder
+
+export type TOperation =
+  | TVisionOperation
+  | TSourceOperation
+  | TPlaceholderOperation

@@ -1,9 +1,9 @@
-import { IIdentity } from './identity'
+import { TTransactionID } from './identity'
 import { TStep } from './step'
 
 export interface ITransaction {
-  identity: IIdentity
+  identity: TTransactionID
 
-  type: 'transaction'
+  type: 'ITransaction'
   steps: TStep[]
 }
